@@ -2,10 +2,10 @@
     <!-- Base application theme. -->
     <style name="Theme.Trial2" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="android:windowBackground">@color/DarkSlate</item>
+        <item name="android:windowBackground">@color/LightDarkSlate</item>
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/DarkSlate</item>
+        <item name="colorOnPrimary">@color/LightDarkSlate</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>

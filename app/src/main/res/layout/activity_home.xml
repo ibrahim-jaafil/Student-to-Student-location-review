@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/DarkSlate"
+    android:background="@color/LightDarkSlate"
     tools:context=".HomeActivity">
 
     <!-- The Scrollable Area -->
@@ -94,13 +94,13 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_home"
-                app:tint="@color/DarkSlate" />
+                app:tint="@color/LightDarkSlate" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nav_home"
                 android:textSize="11sp"
-                android:textColor="@color/DarkSlate" />
+                android:textColor="@color/LightDarkSlate" />
         </LinearLayout>
 
         <LinearLayout
@@ -117,13 +117,13 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_search"
-                app:tint="@color/DarkSlate" />
+                app:tint="@color/LightDarkSlate" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nav_search"
                 android:textSize="11sp"
-                android:textColor="@color/DarkSlate" />
+                android:textColor="@color/LightDarkSlate" />
         </LinearLayout>
 
         <LinearLayout
@@ -139,13 +139,13 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_person"
-                app:tint="@color/DarkSlate" />
+                app:tint="@color/LightDarkSlate" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nav_profile"
                 android:textSize="11sp"
-                android:textColor="@color/DarkSlate" />
+                android:textColor="@color/LightDarkSlate" />
         </LinearLayout>
 
     </LinearLayout>

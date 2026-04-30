@@ -59,7 +59,7 @@
             android:layout_height="60dp"
             android:text="@string/btn_login"
             android:textAllCaps="false"
-            android:textColor="@color/DarkSlate"
+            android:textColor="@color/LightDarkSlate"
             android:backgroundTint="@color/white"
             app:cornerRadius="30dp"
             android:textStyle="bold"
