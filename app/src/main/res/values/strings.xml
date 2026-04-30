@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name"> </string>
+    <string name="login_title">ENTER UR NAME AND ID</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_id_number">id number</string>
+    <string name="btn_login">Log in</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_food">Food</string>
+    <string name="nav_cafes">cafes</string>
+    <string name="nav_parks">Parks</string>
+    <string name="nav_search">Search</string>
+    <string name="nav_profile">Profile</string>
+</resources>
