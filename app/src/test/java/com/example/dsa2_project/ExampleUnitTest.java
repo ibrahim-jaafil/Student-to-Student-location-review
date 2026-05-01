@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.example.dsa2_project.Location.Campus;
 import com.example.dsa2_project.Location.Place;
+import com.example.dsa2_project.Location.Reviews;
+import com.example.dsa2_project.data_structures.LinkedList;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -36,5 +38,12 @@ public class ExampleUnitTest {
         c2.addLocation(p5);
         System.out.println(c.getPlaces().toString());
         System.out.println(c2.getPlaces().toString());
+
+        Reviews r4 = new Reviews("nigga" , 1);
+        Reviews r5 = new Reviews("So shit" , 0);
+        p4.addReview(r4);
+        p4.addReview(r5);
+
+
     }
 }

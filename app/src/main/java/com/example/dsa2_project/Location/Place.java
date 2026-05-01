@@ -2,6 +2,8 @@ package com.example.dsa2_project.Location;
 
 import androidx.annotation.NonNull;
 
+import com.example.dsa2_project.data_structures.LinkedList;
+
 public class Place {
     private String name;
     private Campus campus;
@@ -11,9 +13,12 @@ public class Place {
 
     private String location_type;
 
+    private LinkedList reviewList;
+
     public Place(String name,Campus campus){
         this.campus=campus;
         this.name=name;
+        reviewList= new LinkedList();
 
     }
     public String getName() {
@@ -41,9 +46,18 @@ public class Place {
         this.price_range = price_range;
     }
 
+
+
+    public void addReview(Reviews reviews) {
+        reviewList.insertAtFront(reviews);
+        reviewList.outputList();
+
+    }
+
     @NonNull
     @Override
     public String toString() {
         return name;
     }
+
 }
