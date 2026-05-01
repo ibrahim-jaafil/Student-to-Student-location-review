@@ -4,6 +4,11 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import android.util.Log;
+
+import com.example.dsa2_project.Location.Campus;
+import com.example.dsa2_project.Location.Place;
+
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
@@ -11,7 +16,25 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
     @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+    public void test(){
+        Campus c = new Campus("south");
+        Place p1 = new Place("the Best" ,c);
+        Place p2 = new Place("nitz",c);
+        Place p3 = new Place("upperdeck",c);
+
+        c.addLocation(p1);
+        c.addLocation(p2);
+        c.addLocation(p3);
+
+        Campus c2 = new Campus("north");
+        Place p4 = new Place("idk" ,c2);
+        Place p5 = new Place("smth",c2);
+
+
+
+        c2.addLocation(p4);
+        c2.addLocation(p5);
+        System.out.println(c.getPlaces().toString());
+        System.out.println(c2.getPlaces().toString());
     }
 }

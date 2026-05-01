@@ -1,15 +1,19 @@
-package com.example.dsa2_project.Logic;
+package com.example.dsa2_project.Location;
+
+import androidx.annotation.NonNull;
 
 public class Place {
     private String name;
-    private int stars;
     private Campus campus;
+    private Reviews review;
+
     private String price_range;
 
     private String location_type;
 
-    public Place(){
-        this.stars=0;
+    public Place(String name,Campus campus){
+        this.campus=campus;
+        this.name=name;
 
     }
     public String getName() {
@@ -28,15 +32,6 @@ public class Place {
         this.location_type = location_type;
     }
 
-    public int getStars() {
-        return stars;
-    }
-
-    public void setStars(int stars) {
-        this.stars = stars;
-    }
-
-
 
     public String getPrice_range() {
         return price_range;
@@ -46,5 +41,9 @@ public class Place {
         this.price_range = price_range;
     }
 
-
+    @NonNull
+    @Override
+    public String toString() {
+        return name;
+    }
 }

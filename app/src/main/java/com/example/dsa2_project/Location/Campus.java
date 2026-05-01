@@ -1,4 +1,4 @@
-package com.example.dsa2_project.Logic;
+package com.example.dsa2_project.Location;
 
 import java.util.ArrayList;
 
@@ -7,6 +7,11 @@ public class Campus {
     private String name;
     private String Location;
     private ArrayList<Place> places;
+
+    public Campus(String name){
+        this.name=name;
+        this.places= new ArrayList<>();
+    }
 
     public String getName() {
         return name;
@@ -28,12 +33,9 @@ public class Campus {
         return places;
     }
 
-    public void setPlaces(ArrayList<Place> places) {
-        this.places = places;
-    }
 
-    public boolean addLocation(Place place){
+    public void addLocation(Place place){
         places.add(place);
-        return true;
+
     }
 }

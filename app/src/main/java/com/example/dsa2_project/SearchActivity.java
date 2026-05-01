@@ -54,7 +54,6 @@ public class SearchActivity extends AppCompatActivity {
             startActivity(i);
         });
     }
-
     private void performSearch() {
         String query = etSearch.getText().toString().trim();
         if (!query.isEmpty()) {
@@ -73,7 +72,6 @@ public class SearchActivity extends AppCompatActivity {
         // Add at the top of the list
         recentSearchesContainer.addView(textView, 0);
     }
-
     public void HomeButton(View view){
         Intent i = new Intent(SearchActivity.this, HomeActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
