@@ -9,6 +9,8 @@ import android.util.Log;
 import com.example.dsa2_project.Location.Campus;
 import com.example.dsa2_project.Location.Place;
 import com.example.dsa2_project.Location.Reviews;
+import com.example.dsa2_project.data_structures.AvlNode;
+import com.example.dsa2_project.data_structures.AvlTree;
 import com.example.dsa2_project.data_structures.LinkedList;
 
 /**
@@ -20,29 +22,54 @@ public class ExampleUnitTest {
     @Test
     public void test(){
         Campus c = new Campus("south");
-        Place p1 = new Place("the Best" ,c);
-        Place p2 = new Place("nitz",c);
-        Place p3 = new Place("upperdeck",c);
-
+        Place p1 = new Place("the Best" ,c,500);
+        Place p2 = new Place("nitz",c,400);
+        Place p3 = new Place("upperdeck",c,600);
+        Place p6 = new Place("atara",c,600);
+        Place p7 = new Place("Green Salad",c,550);
+        Place p8 = new Place("cajun",c,300);
+        Place p9 = new Place("idk",c,200);
         c.addLocation(p1);
         c.addLocation(p2);
         c.addLocation(p3);
+        c.addLocation(p6);
 
-        Campus c2 = new Campus("north");
-        Place p4 = new Place("idk" ,c2);
-        Place p5 = new Place("smth",c2);
+        //Campus c2 = new Campus("north");
+       // Place p4 = new Place("idk" ,c2);
+      //  Place p5 = new Place("smth",c2);
 
 
 
-        c2.addLocation(p4);
-        c2.addLocation(p5);
-        System.out.println(c.getPlaces().toString());
-        System.out.println(c2.getPlaces().toString());
+       // c2.addLocation(p4);
+//c2.addLocation(p5);
+        //System.out.println(c.getPlaces().toString());
+        //System.out.println(c2.getPlaces().toString());
 
-        Reviews r4 = new Reviews("nigga" , 1);
-        Reviews r5 = new Reviews("So shit" , 0);
-        p4.addReview(r4);
-        p4.addReview(r5);
+      //  Reviews r4 = new Reviews("nigga" , 1);
+      //  Reviews r5 = new Reviews("So shit" , 0);
+      //  p4.addReview(r4);
+      //  p4.addReview(r5);
+
+        AvlTree t = new AvlTree();
+
+        t.insert(p1);
+        t.insert(p2);
+        t.insert(p3);
+        t.insert(p6);
+        t.insert(p7);
+        t.insert(p8);
+        t.insert(p9);
+
+
+
+        t.inorder(t.getRoot());
+        System.out.println();
+        System.out.println(t.getRoot().getHeight());
+
+       t.CalculateBalance(t.getRoot());
+
+        System.out.println(t.getRoot().getRight().getHeight());
+        System.out.println(t.getRoot().getLeft().getHeight());
 
 
     }

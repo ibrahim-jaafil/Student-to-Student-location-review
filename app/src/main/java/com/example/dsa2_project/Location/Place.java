@@ -9,15 +9,16 @@ public class Place {
     private Campus campus;
     private Reviews review;
 
-    private String price_range;
+    private int price_range;
 
     private String location_type;
 
     private LinkedList reviewList;
 
-    public Place(String name,Campus campus){
+    public Place(String name,Campus campus, int price_range){
         this.campus=campus;
         this.name=name;
+        this.price_range=price_range;
         reviewList= new LinkedList();
 
     }
@@ -38,11 +39,11 @@ public class Place {
     }
 
 
-    public String getPrice_range() {
+    public int getPrice_range() {
         return price_range;
     }
 
-    public void setPrice_range(String price_range) {
+    public void setPrice_range(int price_range) {
         this.price_range = price_range;
     }
 
