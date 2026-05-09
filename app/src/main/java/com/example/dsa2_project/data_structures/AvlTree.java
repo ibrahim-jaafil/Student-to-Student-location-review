@@ -16,7 +16,10 @@ public class AvlTree {
     public AvlNode getRoot(){
         return root;
     }
-    public boolean insert(Place place) {
+
+    // NEED TO MAKE THE INSERT A RECURSIVE METHOD
+
+   /* public boolean insert(Place place) {
         AvlNode n = new AvlNode(place);
         if (root == null) {
             root = n;
@@ -45,8 +48,88 @@ public class AvlTree {
 
         }
         NodeHeight(root);
+        CalculateBalance(root);
+        return true;
+    }*/
+
+    public boolean insert(Place p) {
+        root = insertRecursive(root, p);
         return true;
     }
+
+
+    //need to also add in when it is duplicate
+    public AvlNode insertRecursive(AvlNode n,Place p){
+        if(n==null){
+            return n = new AvlNode(p);
+        }
+        if(p.getPrice_range()>n.getPrice()){
+            n.setRight(insertRecursive(n.getRight(),p));
+            NodeHeight(n);
+
+           int balance = CalculateBalance(n);
+            if(balance>=2){
+                if (CalculateBalance(n.getLeft())==-1){
+                    // there a problem in the double rotation
+                   n= rotateLeft(n.getLeft());
+                   n= rotateRight(n);
+                    return n ;
+
+                }
+
+                   n= rotateRight(n);
+                    return n ;
+
+            }
+            else if(balance<=-2){
+                if (CalculateBalance(n.getRight())==1){
+                  n=  rotateRight(n.getRight());
+                   n= rotateLeft(n);
+                    return n ;
+                }
+                else {
+                   n= rotateLeft(n);
+                    return n ;
+
+                }            }
+        }
+        else if(p.getPrice_range()<n.getPrice()){
+            n.setLeft(insertRecursive(n.getLeft(),p));
+            NodeHeight(n);
+
+            int balance = CalculateBalance(n);
+            if(balance>=2){
+                //smth wrong in double about what we are checking balance facor
+
+                if (CalculateBalance(n.getLeft())==-1){
+                   n = rotateLeft(n.getLeft());
+                    n =rotateRight(n);
+                    return n ;
+                }
+                else {
+                    n=rotateRight(n);
+                    return n ;
+                }
+            }
+            else if(balance<=-2){
+                if (CalculateBalance(n.getRight())==1){
+                   n=rotateRight(n.getRight());
+                   n=rotateLeft(n);
+                   return n ;
+                }
+                else {
+                   n = rotateLeft(n);
+                    return n ;
+
+                }            }
+
+        }
+
+
+        return n;
+    }
+
+
 
     public int NodeHeight(AvlNode root){
             if(root==null){
@@ -59,13 +142,28 @@ public class AvlTree {
 
         return root.getHeight();
     }
-    public void CalculateBalance(AvlNode node){
+    public int CalculateBalance(AvlNode node){
        node.setBalanceFactor(NodeHeight(node.getLeft())-NodeHeight(node.getRight()));
-       System.out.println(node.getBalanceFactor());
+       return node.getBalanceFactor();
+       //System.out.println(node.getBalanceFactor());
     }
+    
 
-    public void rotations(){
+    //gotta change the rotations method there problems(fixed)
+    public AvlNode rotateRight(AvlNode n){
 
+        AvlNode t =n.getLeft();
+        n.getLeft().setRight(n);
+        n.setLeft(null);//fixed it FINALLY (works for simple cases gotta work it more)
+
+
+return t;
+    }
+    public AvlNode rotateLeft(AvlNode n) {
+        AvlNode t = n.getRight();
+        n.getRight().setLeft(n);
+        n.setRight(null);
+        return t;
     }
 
 

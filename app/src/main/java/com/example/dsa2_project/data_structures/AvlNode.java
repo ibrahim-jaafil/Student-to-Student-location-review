@@ -44,6 +44,7 @@ public class AvlNode {
 
     public void setPlaces_for_price(ArrayList<Place> places_for_price) {
         this.places_for_price = places_for_price;
+
     }
 
     public AvlNode getLeft() {

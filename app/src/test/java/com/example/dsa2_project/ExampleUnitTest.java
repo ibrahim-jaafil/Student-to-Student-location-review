@@ -25,8 +25,8 @@ public class ExampleUnitTest {
         Place p1 = new Place("the Best" ,c,500);
         Place p2 = new Place("nitz",c,400);
         Place p3 = new Place("upperdeck",c,600);
-        Place p6 = new Place("atara",c,600);
-        Place p7 = new Place("Green Salad",c,550);
+        Place p6 = new Place("atara",c,700);
+        Place p7 = new Place("Green Salad",c,850);
         Place p8 = new Place("cajun",c,300);
         Place p9 = new Place("idk",c,200);
         c.addLocation(p1);
@@ -52,24 +52,29 @@ public class ExampleUnitTest {
 
         AvlTree t = new AvlTree();
 
+        //t.insert(p1);
+       // t.insert(p2);
+       // t.insert(p3);
+       // t.insert(p6);
+       // t.insert(p7);
+       // t.insert(p8);
+       // t.insert(p9);
+
         t.insert(p1);
-        t.insert(p2);
         t.insert(p3);
         t.insert(p6);
-        t.insert(p7);
-        t.insert(p8);
-        t.insert(p9);
 
-
+        System.out.println(t.getRoot());
 
         t.inorder(t.getRoot());
         System.out.println();
-        System.out.println(t.getRoot().getHeight());
+       // System.out.println(t.getRoot().getHeight());
+      //  System.out.println(t.getRoot().getLeft().getBalanceFactor());
 
-       t.CalculateBalance(t.getRoot());
+       //t.CalculateBalance(t.getRoot());
 
-        System.out.println(t.getRoot().getRight().getHeight());
-        System.out.println(t.getRoot().getLeft().getHeight());
+       // System.out.println(t.getRoot().getRight().getHeight());
+       // System.out.println(t.getRoot().getLeft().getHeight());
 
 
     }
