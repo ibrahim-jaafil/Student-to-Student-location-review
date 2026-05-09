@@ -126,6 +126,11 @@ public class AvlTree {
             }
 
         }
+        else{
+            n.getPlaces_for_price().add(p);
+            return n;
+
+        }
 
 
         return n;
@@ -176,7 +181,7 @@ public void inorder(AvlNode root){
             return;
         }
             inorder(root.getLeft());
-            System.out.print(root.getPrice()+" ");
+            System.out.print(root.getPrice()+" "+root.getPlaces_for_price()+" ");
             inorder(root.getRight());
         }
 }
