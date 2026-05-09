@@ -71,7 +71,7 @@ public class AvlTree {
             if(balance>=2){
                 if (CalculateBalance(n.getLeft())==-1){
                     // there a problem in the double rotation
-                   n= rotateLeft(n.getLeft());
+                   n.setLeft(rotateLeft(n.getLeft()));
                    n= rotateRight(n);
                     return n ;
 
@@ -83,7 +83,7 @@ public class AvlTree {
             }
             else if(balance<=-2){
                 if (CalculateBalance(n.getRight())==1){
-                  n=  rotateRight(n.getRight());
+                  n.setRight(rotateRight(n.getRight()));
                    n= rotateLeft(n);
                     return n ;
                 }
@@ -91,7 +91,8 @@ public class AvlTree {
                    n= rotateLeft(n);
                     return n ;
 
-                }            }
+                }
+            }
         }
         else if(p.getPrice_range()<n.getPrice()){
             n.setLeft(insertRecursive(n.getLeft(),p));
@@ -99,10 +100,10 @@ public class AvlTree {
 
             int balance = CalculateBalance(n);
             if(balance>=2){
-                //smth wrong in double about what we are checking balance facor
+                //smth wrong in double about what we are checking balance factor(fixed i think)
 
                 if (CalculateBalance(n.getLeft())==-1){
-                   n = rotateLeft(n.getLeft());
+                   n.setLeft(rotateLeft(n.getLeft()));
                     n =rotateRight(n);
                     return n ;
                 }
@@ -113,7 +114,7 @@ public class AvlTree {
             }
             else if(balance<=-2){
                 if (CalculateBalance(n.getRight())==1){
-                   n=rotateRight(n.getRight());
+                   n.setRight(rotateRight(n.getRight()));
                    n=rotateLeft(n);
                    return n ;
                 }
@@ -121,7 +122,8 @@ public class AvlTree {
                    n = rotateLeft(n);
                     return n ;
 
-                }            }
+                }
+            }
 
         }
 
@@ -153,16 +155,18 @@ public class AvlTree {
     public AvlNode rotateRight(AvlNode n){
 
         AvlNode t =n.getLeft();
-        n.getLeft().setRight(n);
-        n.setLeft(null);//fixed it FINALLY (works for simple cases gotta work it more)
+        n.setLeft(t.getRight());// works now
+        t.setRight(n);
 
 
 return t;
     }
     public AvlNode rotateLeft(AvlNode n) {
         AvlNode t = n.getRight();
-        n.getRight().setLeft(n);
-        n.setRight(null);
+        n.setRight(t.getLeft());// okk this should be here before the rotation
+       t.setLeft(n);
+        //n.setRight(null);
+
         return t;
     }
 
