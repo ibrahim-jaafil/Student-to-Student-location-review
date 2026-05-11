@@ -29,6 +29,8 @@ public class ExampleUnitTest {
         Place p7 = new Place("Green Salad",c,500);
         Place p8 = new Place("cajun",c,300);
         Place p9 = new Place("idk",c,200);
+        Place p10 = new Place("idkk",c,100);
+
         c.addLocation(p1);
         c.addLocation(p2);
         c.addLocation(p3);
@@ -52,31 +54,22 @@ public class ExampleUnitTest {
 
         AvlTree t = new AvlTree();
 
-        //t.insert(p1);
-       // t.insert(p2);
-       // t.insert(p3);
-       // t.insert(p6);
-       // t.insert(p7);
-       // t.insert(p8);
-       // t.insert(p9);
-
-        /*t.insert(p9);
-        t.insert(p7);
-        t.insert(p8);
-        t.insert(p6);
-        t.insert(p3);
-        t.insert(p2);*/
-
         t.insert(p1);
         t.insert(p2);
         t.insert(p3);
+        t.insert(p6);
         t.insert(p7);
+        t.insert(p8);
+        t.insert(p9);
 
 
+        //t.insert(p1);
+       // t.insert(p2);
+      /*  t.insert(p10);
+        t.insert(p9);
+        t.insert(p8);*/
 
-
-
-        System.out.println(t.getRoot());
+        System.out.println(t.getRoot().getPrice());
 
         t.inorder(t.getRoot());
 

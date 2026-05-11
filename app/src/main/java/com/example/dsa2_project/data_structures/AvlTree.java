@@ -1,7 +1,5 @@
 package com.example.dsa2_project.data_structures;
 
-import androidx.annotation.NonNull;
-
 import com.example.dsa2_project.Location.Place;
 
 public class AvlTree {
@@ -79,7 +77,6 @@ public class AvlTree {
 
                    n= rotateRight(n);
                     return n ;
-
             }
             else if(balance<=-2){
                 if (CalculateBalance(n.getRight())==1){
@@ -90,7 +87,6 @@ public class AvlTree {
                 else {
                    n= rotateLeft(n);
                     return n ;
-
                 }
             }
         }
@@ -121,18 +117,13 @@ public class AvlTree {
                 else {
                    n = rotateLeft(n);
                     return n ;
-
                 }
             }
-
         }
         else{
             n.getPlaces_for_price().add(p);
             return n;
-
         }
-
-
         return n;
     }
 
@@ -185,10 +176,3 @@ public void inorder(AvlNode root){
             inorder(root.getRight());
         }
 }
-
-
-
-
-
-
-
