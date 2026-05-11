@@ -21,6 +21,7 @@ public class AvlNode {
     public AvlNode(Place place){
         price=place.getPrice_range();
         places_for_price= new ArrayList<Place>();
+        places_for_price.add(place);
         right=null;
         left=null;
     }
@@ -44,6 +45,7 @@ public class AvlNode {
 
     public void setPlaces_for_price(ArrayList<Place> places_for_price) {
         this.places_for_price = places_for_price;
+
     }
 
     public AvlNode getLeft() {
