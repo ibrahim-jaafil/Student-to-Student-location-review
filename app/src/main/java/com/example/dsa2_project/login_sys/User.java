@@ -37,7 +37,7 @@ public User(String username, int STUid){
         this.STUid = STUid;
     }
 
-
+// want to limit 1 review per place
     public void addReviewToStack(Reviews r){
     reviews.add(r);
 

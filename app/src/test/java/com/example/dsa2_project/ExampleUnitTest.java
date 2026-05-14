@@ -12,6 +12,7 @@ import com.example.dsa2_project.Location.Reviews;
 import com.example.dsa2_project.data_structures.AvlNode;
 import com.example.dsa2_project.data_structures.AvlTree;
 import com.example.dsa2_project.data_structures.LinkedList;
+import com.example.dsa2_project.login_sys.User;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -47,8 +48,8 @@ public class ExampleUnitTest {
         //System.out.println(c.getPlaces().toString());
         //System.out.println(c2.getPlaces().toString());
 
-      //  Reviews r4 = new Reviews("nigga" , 1);
-      //  Reviews r5 = new Reviews("So shit" , 0);
+        Reviews r4 = new Reviews("wow" , 1);
+        Reviews r5 = new Reviews("So shit" , 0);
       //  p4.addReview(r4);
       //  p4.addReview(r5);
 
@@ -82,6 +83,11 @@ public class ExampleUnitTest {
 
        // System.out.println(t.getRoot().getRight().getHeight());
        // System.out.println(t.getRoot().getLeft().getHeight());
+
+        User u2 = new User("ameen",247);
+        User u1 = new User("bob",2471459);
+        u1.addReviewToStack(r5);
+        u2.addReviewToStack(r4);
 
 
     }
