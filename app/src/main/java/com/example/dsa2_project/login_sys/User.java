@@ -3,7 +3,7 @@ package com.example.dsa2_project.login_sys;
 import com.example.dsa2_project.Location.Reviews;
 import com.example.dsa2_project.data_structures.Stack;
 
-import java.util.ArrayList;
+
 
 public class User {
 

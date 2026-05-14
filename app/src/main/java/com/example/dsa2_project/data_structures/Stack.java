@@ -29,7 +29,7 @@ public class Stack {
     }
 
     public void outputStack(){
-        StackNode curr=new StackNode();
+        StackNode curr=front;
         while(curr!=null){
             System.out.println(curr.getReviewInStack().getReview());
             curr=curr.getNext();
