@@ -11,10 +11,15 @@ public class User {
 
     private int STUid;
 
+    private String email;
+
+    private String password;
+
     private Stack reviews;
 
-public User(String username, int STUid){
-
+public User(String username,String email, String password, int STUid){
+    this.email=email;
+    this.password=password;
     this.username=username;
     this.STUid=STUid;
     reviews= new Stack();

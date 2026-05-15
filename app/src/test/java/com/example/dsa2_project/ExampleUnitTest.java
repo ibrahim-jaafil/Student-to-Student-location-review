@@ -1,5 +1,7 @@
 package com.example.dsa2_project;
 
+import static com.example.dsa2_project.MainActivity.users;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -84,11 +86,19 @@ public class ExampleUnitTest {
        // System.out.println(t.getRoot().getRight().getHeight());
        // System.out.println(t.getRoot().getLeft().getHeight());
 
-        User u2 = new User("ameen",247);
-        User u1 = new User("bob",2471459);
+        /*User u2 = new User("ameen","ameen@gmail.com","ameensalem",247);
+        User u1 = new User("bob","bob@gmail.com","bob",2471459);
         u1.addReviewToStack(r5);
-        u2.addReviewToStack(r4);
+        u2.addReviewToStack(r4);*/
 
+
+        System.out.println(users);
+        User user = new User("john", "1234", "john@email.com",222);
+        MainActivity.users.put(222, user);
+        System.out.println(MainActivity.users);
+
+        //have to add password to the login page
+        //need to put safeguards for the email and password at both register and login
 
     }
 }

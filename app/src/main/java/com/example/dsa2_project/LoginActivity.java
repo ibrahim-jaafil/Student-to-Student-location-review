@@ -1,10 +1,14 @@
 package com.example.dsa2_project;
 
+import static com.example.dsa2_project.MainActivity.users;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,10 +34,16 @@ public class LoginActivity extends AppCompatActivity {
         Button btn = (Button) view;
 
         EditText nameInput = findViewById(R.id.etName);
-        String name = nameInput.getText().toString();
+        String name = nameInput.getText().toString().trim();
 
         EditText idInput = findViewById(R.id.etIdNumber);
-        String id = idInput.getText().toString();
+        String id = idInput.getText().toString().trim();
+
+        TextView tvError = findViewById(R.id.tvError);
+        tvError.setVisibility(View.GONE);
+
+        nameInput.setError(null);
+        idInput.setError(null);
 
         if(name.isEmpty()){
             nameInput.setError("Please enter your name");
@@ -42,9 +52,39 @@ public class LoginActivity extends AppCompatActivity {
             idInput.setError("Please enter your id number");
         }
         else{
-            Intent i = new Intent(this, HomeActivity.class);
-            startActivity(i);
+            try {
+                int idnb = Integer.parseInt(id);
 
+                if (users.containsKey(idnb) && name.equalsIgnoreCase(users.get(idnb).getUsername())) {
+
+                    Intent i = new Intent(this, HomeActivity.class);
+                    startActivity(i);
+                    finish(); // Finish LoginActivity so user can't "go back" to a login screen with errors
+                } else {
+                    nameInput.setError("Username or id is wrong");
+                    idInput.setError("Username or id is wrong");
+
+
+                    tvError.setVisibility(View.VISIBLE);
+                }
+            }
+            catch(NumberFormatException e){
+                idInput.setError("Please enter a valid number", null);
+            }
         }
+    }
+
+    public void OpenRegister(View view) {
+        // Clear errors before leaving the screen
+        EditText nameInput = findViewById(R.id.etName);
+        EditText idInput = findViewById(R.id.etIdNumber);
+        TextView tvError = findViewById(R.id.tvError);
+        
+        nameInput.setError(null);
+        idInput.setError(null);
+        tvError.setVisibility(View.GONE);
+
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
     }
 }
