@@ -8,7 +8,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.dsa2_project.login_sys.User;
+
+import java.util.HashMap;
+
 public class MainActivity extends AppCompatActivity {
+    public static HashMap<Integer, User> users = new HashMap<>();
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

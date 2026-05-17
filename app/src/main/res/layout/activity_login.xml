@@ -64,9 +64,28 @@
             app:cornerRadius="30dp"
             android:textStyle="bold"
             android:onClick="GetInfo"
+            android:layout_marginBottom="20dp" />
 
+        <TextView
+            android:id="@+id/tvError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't have an account?"
+            android:textColor="#FF0000"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone" />
 
-            />
+        <TextView
+            android:id="@+id/tvCreateAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create Account"
+            android:textColor="#673AB7"
+            android:textSize="16sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="OpenRegister" />
 
     </LinearLayout>
 
