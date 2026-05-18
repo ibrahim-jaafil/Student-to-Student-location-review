@@ -1,15 +1,22 @@
 package com.example.dsa2_project.Location;
 
-public class Reviews {
+import com.example.dsa2_project.login_sys.User;
+
+import java.io.Serializable;
+
+public class Reviews implements Serializable {
 
      private String review;
      private int stars;
      private String date;
 
+     private User user;
 
-     public Reviews(String review,int stars){
+
+     public Reviews(String review,int stars,User user){
          this.review=review;
          this.stars=stars;
+         this.user=user;
      }
      public String getReview() {
          return review;
@@ -25,4 +32,13 @@ public class Reviews {
     public void setStars(int stars) {
         this.stars = stars;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
+

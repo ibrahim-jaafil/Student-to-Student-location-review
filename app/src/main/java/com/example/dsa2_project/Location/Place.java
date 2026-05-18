@@ -4,10 +4,14 @@ import androidx.annotation.NonNull;
 
 import com.example.dsa2_project.data_structures.LinkedList;
 
-public class Place {
+import java.io.Serializable;
+
+public class Place implements Serializable {
     private String name;
     private Campus campus;
     private Reviews review;
+//make a method to calc stars from reviews
+    private int stars;
 
     private int price_range;
 
@@ -15,7 +19,8 @@ public class Place {
 
     private LinkedList reviewList;
 
-    public Place(String name,Campus campus, int price_range){
+    public Place(String name,Campus campus, int price_range,int stars){
+        this.stars=stars;
         this.campus=campus;
         this.name=name;
         this.price_range=price_range;
@@ -48,11 +53,26 @@ public class Place {
     }
 
 
+    public int getStars() {
+        return stars;
+    }
+
+    public void setStars(int stars) {
+        this.stars = stars;
+    }
 
     public void addReview(Reviews reviews) {
         reviewList.insertAtFront(reviews);
         reviewList.outputList();
 
+    }
+
+    public LinkedList getReviewList() {
+        return reviewList;
+    }
+
+    public void setReviewList(LinkedList reviewList) {
+        this.reviewList = reviewList;
     }
 
     @NonNull

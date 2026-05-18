@@ -3,9 +3,10 @@ package com.example.dsa2_project.login_sys;
 import com.example.dsa2_project.Location.Reviews;
 import com.example.dsa2_project.data_structures.Stack;
 
+import java.io.Serializable;
 
 
-public class User {
+public class User implements Serializable {
 
     private String username;
 

@@ -1,14 +1,16 @@
 package com.example.dsa2_project.Location;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Campus {
+public class Campus implements Serializable {
 
     private String name;
     private String Location;
     private ArrayList<Place> places;
 
-    public Campus(String name){
+    public Campus(String name, String Location){
+        this.Location=Location;
         this.name=name;
         this.places= new ArrayList<>();
     }

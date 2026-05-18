@@ -18,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/itemsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -27,29 +28,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="320dp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/home_item_bg" />
+            <TextView
+                android:id="@+id/sectionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_recommended"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp" />
 
-            <View
+            <TextView
+                android:id="@+id/emptyStateText"
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/home_item_bg" />
+                android:layout_height="wrap_content"
+                android:text="@string/text_no_places"
+                android:textColor="#BDBDBD"
+                android:gravity="center"
+                android:visibility="gone"
+                android:padding="20dp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/home_item_bg" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/home_item_bg" />
+            <!-- Dynamic items will be added here -->
 
             <View
                 android:layout_width="match_parent"

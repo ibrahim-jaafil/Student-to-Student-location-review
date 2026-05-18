@@ -2,7 +2,9 @@ package com.example.dsa2_project.data_structures;
 
 import com.example.dsa2_project.Location.Reviews;
 
-public class Stack {
+import java.io.Serializable;
+
+public class Stack implements Serializable {
 
     private StackNode front;
 
