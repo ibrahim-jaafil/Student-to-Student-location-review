@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 
 import com.example.dsa2_project.Location.Reviews;
 
-public class StackNode {
+import java.io.Serializable;
+
+public class StackNode implements Serializable {
 
     private Reviews reviewInStack;
     private StackNode next;

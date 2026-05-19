@@ -2,7 +2,9 @@ package com.example.dsa2_project.data_structures;
 
 import com.example.dsa2_project.Location.Reviews;
 
-public class Node {
+import java.io.Serializable;
+
+public class Node implements Serializable {
 
     private Reviews reviews;
     private Node next;

@@ -2,4 +2,5 @@
 <resources>
     <!-- In Night mode, LightDarkSlate will look like the original DarkSlate -->
     <color name="LightDarkSlate">#071E22</color>
+    <color name="back_button_tint">@color/white</color>
 </resources>

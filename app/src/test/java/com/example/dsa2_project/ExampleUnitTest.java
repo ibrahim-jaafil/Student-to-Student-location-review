@@ -24,7 +24,7 @@ import com.example.dsa2_project.login_sys.User;
 public class ExampleUnitTest {
     @Test
     public void test(){
-        Campus c = new Campus("south");
+      /*  Campus c = new Campus("south","besiktas");
         Place p1 = new Place("the Best" ,c,500);
         Place p2 = new Place("nitz",c,400);
         Place p3 = new Place("upperdeck",c,600);
@@ -68,15 +68,15 @@ public class ExampleUnitTest {
 
         //t.insert(p1);
        // t.insert(p2);
-      /*  t.insert(p10);
+      *//*  t.insert(p10);
         t.insert(p9);
-        t.insert(p8);*/
+        t.insert(p8);*//*
 
         System.out.println(t.getRoot().getPrice());
 
         t.inorder(t.getRoot());
 
-        System.out.println(t.getRoot().getPrice());
+        System.out.println(t.getRoot().getPrice());*/
 
        // System.out.println(t.getRoot().getHeight());
       //  System.out.println(t.getRoot().getLeft().getBalanceFactor());
@@ -92,11 +92,11 @@ public class ExampleUnitTest {
         u2.addReviewToStack(r4);*/
 
 
-        System.out.println(users);
+      /*  System.out.println(users);
         User user = new User("john", "1234", "john@email.com",222);
         MainActivity.users.put(222, user);
         System.out.println(MainActivity.users);
-
+*/
         //have to add password to the login page
         //need to put safeguards for the email and password at both register and login
 

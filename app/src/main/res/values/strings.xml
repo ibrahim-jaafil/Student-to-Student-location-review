@@ -10,4 +10,8 @@
     <string name="nav_parks">Parks</string>
     <string name="nav_search">Search</string>
     <string name="nav_profile">Profile</string>
+    <string name="title_recommended">Recommended</string>
+    <string name="text_no_places">No places available right now</string>
+    <string name="label_stars">Stars: %1$d</string>
+    <string name="content_description_back">Back</string>
 </resources>

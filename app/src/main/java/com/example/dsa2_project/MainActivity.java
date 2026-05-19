@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.dsa2_project.Location.Campus;
 import com.example.dsa2_project.login_sys.User;
 
 import java.util.HashMap;
@@ -28,13 +29,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    public static String campus;
     public void PickCampus(View view){
         Button b = (Button) view;
-        String campus= b.getText().toString();
+         campus= b.getText().toString();
+
         Intent i = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(i);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
     }
+
 }
