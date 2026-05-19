@@ -1,5 +1,7 @@
 package com.example.dsa2_project.Location;
 
+import androidx.annotation.NonNull;
+
 import com.example.dsa2_project.login_sys.User;
 
 import java.io.Serializable;
@@ -12,11 +14,15 @@ public class Reviews implements Serializable {
 
      private User user;
 
+     private Place place;
 
-     public Reviews(String review,int stars,User user){
+
+     public Reviews(String review,int stars,User user , Place place){
+         this.place=place;
          this.review=review;
          this.stars=stars;
          this.user=user;
+         user.addReviewToStack(this);
      }
      public String getReview() {
          return review;
@@ -39,6 +45,17 @@ public class Reviews implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Place getPlace() {
+        return place;
+    }
+
+
+    @NonNull
+    @Override
+    public String toString() {
+        return review;
     }
 }
 

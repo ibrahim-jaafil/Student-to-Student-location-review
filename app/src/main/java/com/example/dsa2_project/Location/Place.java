@@ -9,15 +9,14 @@ import java.io.Serializable;
 public class Place implements Serializable {
     private String name;
     private Campus campus;
-    private Reviews review;
-//make a method to calc stars from reviews
+
     private int stars;
 
     private int price_range;
 
     private String location_type;
 
-    private LinkedList reviewList;
+    private LinkedList reviewList; //make a method to calc stars from reviews
 
     public Place(String name,Campus campus, int price_range,int stars){
         this.stars=stars;

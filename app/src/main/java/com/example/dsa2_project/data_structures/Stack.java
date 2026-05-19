@@ -3,6 +3,7 @@ package com.example.dsa2_project.data_structures;
 import com.example.dsa2_project.Location.Reviews;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Stack implements Serializable {
 
@@ -30,12 +31,15 @@ public class Stack implements Serializable {
 
     }
 
-    public void outputStack(){
+    public ArrayList<Reviews> outputStack(){
         StackNode curr=front;
+        ArrayList<Reviews> r =new ArrayList<>();
         while(curr!=null){
-            System.out.println(curr.getReviewInStack().getReview());
+            r.add(curr.getReviewInStack());
             curr=curr.getNext();
         }
+
+        return r;
     }
 
 }

@@ -43,7 +43,15 @@ public User(String username,String email, String password, int STUid){
         this.STUid = STUid;
     }
 
-// want to limit 1 review per place
+    public Stack getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Stack reviews) {
+        this.reviews = reviews;
+    }
+
+    // want to limit 1 review per place
     public void addReviewToStack(Reviews r){
     reviews.add(r);
 

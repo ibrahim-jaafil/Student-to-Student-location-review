@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                 int idnb = Integer.parseInt(id);
 
                 if (users.containsKey(idnb) && name.equalsIgnoreCase(users.get(idnb).getUsername())) {
-
+                    MainActivity.currentUser = users.get(idnb);
                     Intent i = new Intent(this, HomeActivity.class);
                     startActivity(i);
                     finish(); // Finish LoginActivity so user can't "go back" to a login screen with errors
