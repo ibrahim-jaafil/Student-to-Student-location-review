@@ -2,6 +2,8 @@ package com.example.dsa2_project.data_structures;
 
 import com.example.dsa2_project.Location.Place;
 
+import java.util.ArrayList;
+
 public class AvlTree {
 
     private AvlNode root;
@@ -174,5 +176,23 @@ public void inorder(AvlNode root){
             inorder(root.getLeft());
             System.out.print(root.getPrice()+" "+root.getPlaces_for_price()+" ");
             inorder(root.getRight());
+        }
+
+        public ArrayList<Place> search(int price){
+
+        AvlNode n = root;
+        while(n!=null){
+            if(n.getPrice()>price){
+                n=n.getLeft();
+            }
+            else if(n.getPrice()<price){
+                n=n.getRight();
+            }
+            else{
+                return n.getPlaces_for_price();
+            }
+
+        }
+        return null;
         }
 }
