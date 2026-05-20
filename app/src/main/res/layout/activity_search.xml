@@ -112,7 +112,8 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:gravity="center"
             android:orientation="vertical"
-            android:onClick="HomeButton">
+            android:id="@+id/navHome"
+           >
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -156,7 +157,9 @@
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/navProfile"
+            >
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"

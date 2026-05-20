@@ -45,15 +45,33 @@ public class HomeActivity extends AppCompatActivity {
 
         // To add items manually, call a method like this.
         // If there are no places, simply don't call it or pass an empty list.
+        User bob = MainActivity.users.get(123);
       South = new Campus("south",campus);
         South.addLocation(new Place("the Best" ,South,500,4));
         South.addLocation( new Place("nitz",South,400,3));
         Place p1 = new Place("upperdeck",South,600,5);
-        p1.addReview(new Reviews("so good",5,new User("bob","bob","123",123)));
-       South.addLocation(p1);
-        South.addLocation( new Place("atara",South,700,2));
+        p1.addReview(new Reviews("so good",5,bob,p1));
+        South.addLocation(p1);
+        Place p2 = new Place("atara",South,700,2);
+        p2.addReview(new Reviews("so bad",1,bob,p2 ));
+        South.addLocation(p2);
 
         loadPlaces();
+
+        findViewById(R.id.navSearch).setOnClickListener(v -> {
+            Intent i = new Intent(HomeActivity.this, SearchActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(i);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        });
+
+        findViewById(R.id.navProfile).setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        });
+
 
     }
 
@@ -64,12 +82,9 @@ public class HomeActivity extends AppCompatActivity {
         for (Place p: South.getPlaces()) {
             addPlaceItem(p);
         }
-
-
         // Here you would typically loop through your data
         // For example:
         // for (Place place : myPlacesList) { addPlaceItem(place.getName(), place.getLocation()); }
-
         // Manually adding some items as an example:
        /* addPlaceItem("Central Park", "New York, NY");
         addPlaceItem("Times Square", "Manhattan, NY");
@@ -123,10 +138,5 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    public void SearchButton(View view){
-        Intent i = new Intent(HomeActivity.this, SearchActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(i);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-    }
+
 }

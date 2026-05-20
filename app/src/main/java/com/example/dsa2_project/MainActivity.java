@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     public static HashMap<Integer, User> users = new HashMap<>();
+    public static User currentUser;
 
 
 

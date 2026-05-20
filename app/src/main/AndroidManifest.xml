@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Trial2">
         <activity
+            android:name=".ReviewsHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity

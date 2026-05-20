@@ -32,6 +32,7 @@ public class SearchActivity extends AppCompatActivity {
             return insets;
         });
 
+
         etSearch = findViewById(R.id.etSearch);
         recentSearchesContainer = findViewById(R.id.recentSearchesContainer);
 
@@ -53,7 +54,23 @@ public class SearchActivity extends AppCompatActivity {
             Intent i = new Intent(SearchActivity.this, FiltersActivity.class);
             startActivity(i);
         });
+
+        findViewById(R.id.navHome).setOnClickListener(v -> {
+            Intent i = new Intent(SearchActivity.this, HomeActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(i);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        });
+
+        findViewById(R.id.navProfile).setOnClickListener(v-> {
+            Intent i = new Intent(this, ProfileActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(i);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+        });
     }
+
     private void performSearch() {
         String query = etSearch.getText().toString().trim();
         if (!query.isEmpty()) {
@@ -62,6 +79,8 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
+
+    // need to work on this its non functional yet
     private void addRecentSearch(String text) {
         TextView textView = new TextView(this);
         textView.setText(text);
@@ -72,10 +91,5 @@ public class SearchActivity extends AppCompatActivity {
         // Add at the top of the list
         recentSearchesContainer.addView(textView, 0);
     }
-    public void HomeButton(View view){
-        Intent i = new Intent(SearchActivity.this, HomeActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(i);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-    }
+
 }

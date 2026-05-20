@@ -27,6 +27,7 @@ public class FiltersActivity extends AppCompatActivity {
         Intent i = new Intent(this, SearchActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(i);
+        finish();
     }
 
 
