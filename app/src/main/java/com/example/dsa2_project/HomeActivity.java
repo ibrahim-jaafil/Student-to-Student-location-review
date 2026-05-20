@@ -58,12 +58,21 @@ public class HomeActivity extends AppCompatActivity {
 
         loadPlaces();
 
+        findViewById(R.id.navSearch).setOnClickListener(v -> {
+            Intent i = new Intent(HomeActivity.this, SearchActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(i);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        });
+
         findViewById(R.id.navProfile).setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         });
+
+
     }
 
 
@@ -73,12 +82,9 @@ public class HomeActivity extends AppCompatActivity {
         for (Place p: South.getPlaces()) {
             addPlaceItem(p);
         }
-
-
         // Here you would typically loop through your data
         // For example:
         // for (Place place : myPlacesList) { addPlaceItem(place.getName(), place.getLocation()); }
-
         // Manually adding some items as an example:
        /* addPlaceItem("Central Park", "New York, NY");
         addPlaceItem("Times Square", "Manhattan, NY");
@@ -132,10 +138,5 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    public void SearchButton(View view){
-        Intent i = new Intent(HomeActivity.this, SearchActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(i);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-    }
+
 }

@@ -113,7 +113,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:gravity="center"
             android:orientation="vertical"
-            android:onClick="SearchButton">
+            >
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
