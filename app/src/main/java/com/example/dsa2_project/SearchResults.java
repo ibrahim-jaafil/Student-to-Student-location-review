@@ -1,5 +1,6 @@
 package com.example.dsa2_project;
 
+import static com.example.dsa2_project.MainActivity.lookupByName;
 import static com.example.dsa2_project.MainActivity.places;
 
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.dsa2_project.Location.Place;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class SearchResults extends AppCompatActivity {
 
@@ -27,6 +29,7 @@ public class SearchResults extends AppCompatActivity {
 
     private LinearLayout filterChipsContainer;
 
+    private String query;
     int priceRange ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,7 @@ public class SearchResults extends AppCompatActivity {
         backButton.setOnClickListener(v -> finish());
 
         // Get the search query from the Intent
-        //String query = getIntent().getStringExtra("QUERY");
+         query = getIntent().getStringExtra("QUERY");
      /*   if (query != null && !query.isEmpty()) {
             tvSearchHint.setText(query);
         }*/
@@ -63,15 +66,46 @@ if(priceRange != 0 ) {
     }
 
     private void loadResults() {
+        ResultsContainer.removeAllViews();
 
         ArrayList<Place> list = places.search(priceRange);
 
-        for (Place item:list) {
-            additems(item);
+          if (priceRange!=0 && query!=null &&!query.isEmpty() ) {
+            Collections.sort(list, (a, b) -> Double.compare(b.getPrice_range(), a.getPrice_range()));
+
+            if(list.contains(lookupByName.get((query).toLowerCase()))){
+                additems(lookupByName.get((query).toLowerCase()));
+            }
+            else{
+                ResultsContainer.removeAllViews();
+                TextView NoResults = findViewById(R.id.NoResults);
+                NoResults.setVisibility(View.VISIBLE);
+            }
 
         }
-        // This method would be used to dynamically populate the resultsContainer
-        // based on the search query. For now, the layout uses placeholder Views.
+
+        else if(priceRange!=0) {
+
+            Collections.sort(list, (a, b) -> Double.compare(b.getPrice_range(), a.getPrice_range()));
+
+
+// if the filter is applied but no value for it in the tree put no ressults
+            for (Place item : list) {
+                additems(item);
+            }
+        }
+       else if(query!=null &&!query.isEmpty() ) {
+                additems(lookupByName.get(query.toLowerCase()));
+
+            }
+
+       else {
+            ResultsContainer.removeAllViews();
+            TextView NoResults = findViewById(R.id.NoResults);
+            NoResults.setVisibility(View.VISIBLE);
+
+
+        }
     }
 
     private void additems(Place p){

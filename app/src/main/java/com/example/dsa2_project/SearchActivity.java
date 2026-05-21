@@ -53,7 +53,14 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         // Listen for search icon click
-        findViewById(R.id.ivSearchIcon).setOnClickListener(v -> performSearch());
+        findViewById(R.id.ivSearchIcon).setOnClickListener(v ->
+        {
+            if(!etSearch.getText().toString().isEmpty() || selectedPrice!=0){
+            performSearch();
+        }
+
+
+        });
 
         // Listen for filter icon click
         findViewById(R.id.ivFilterIcon).setOnClickListener(v -> {
@@ -95,16 +102,15 @@ public class SearchActivity extends AppCompatActivity {
         String priceRange = getIntent().getStringExtra("price");
 
 
-       // String query = etSearch.getText().toString().trim();
-      //  if (!query.isEmpty()) {
-         //   addRecentSearch(query);
-          //  etSearch.setText("");
+       String query = etSearch.getText().toString().trim();
+           addRecentSearch(query);
+           etSearch.setText("");
             Intent i = new Intent(this, SearchResults.class);
             i.putExtra("price",selectedPrice);
-         //   i.putExtra("QUERY", query);
+            i.putExtra("QUERY", query);
             startActivity(i);
 
-       // }
+
     }
 
 

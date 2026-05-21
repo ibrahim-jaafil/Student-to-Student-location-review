@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static AvlTree places = new AvlTree();
 
-
+    public static HashMap<String, Place> lookupByName = new HashMap<>();
 
 
 
@@ -47,6 +47,14 @@ public class MainActivity extends AppCompatActivity {
         places.insert(p7);
         places.insert(p8);
         places.insert(p9);
+        lookupByName.put(p1.getName().toLowerCase(),p1);
+        lookupByName.put(p2.getName().toLowerCase(),p2);
+        lookupByName.put(p3.getName().toLowerCase(),p3);
+        lookupByName.put(p6.getName().toLowerCase(),p6);
+        lookupByName.put(p7.getName().toLowerCase(),p7);
+        lookupByName.put(p8.getName().toLowerCase(),p8);
+        lookupByName.put(p9.getName().toLowerCase(),p9);
+
 
 
     }

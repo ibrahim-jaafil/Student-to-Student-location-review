@@ -178,7 +178,7 @@ public void inorder(AvlNode root){
             inorder(root.getRight());
         }
 
-        public ArrayList<Place> search(int price){
+        /*public ArrayList<Place> search(int price){
 
         AvlNode n = root;
         while(n!=null){
@@ -189,10 +189,41 @@ public void inorder(AvlNode root){
                 n=n.getRight();
             }
             else{
-                return n.getPlaces_for_price();
-            }
+                ArrayList<Place> lessThan= new ArrayList<>();
+                lessThan.addAll(n.getPlaces_for_price());
+
+                while(n.getLeft()!=null) {
+                   // return n.getPlaces_for_price();
+                    n=n.getLeft();
+
+                }
+                return lessThan;
+                }
 
         }
         return null;
+        }*/
+
+    public ArrayList<Place> search(int price){
+        ArrayList<Place> results = new ArrayList<>();
+        RecursiveSearch(root,price,results);
+
+        return results;
+    }
+    public void RecursiveSearch(AvlNode root,int price, ArrayList<Place> results){
+        if(root==null) {
+            return ;
         }
+        if(root.getPrice()<=price){
+            results.addAll(root.getPlaces_for_price());
+            RecursiveSearch(root.getLeft(),price,results);
+            RecursiveSearch(root.getRight(),price,results);
+
+        }
+        else{
+            RecursiveSearch(root.getLeft(),price,results);
+        }
+    }
+
+
 }

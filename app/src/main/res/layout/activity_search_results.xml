@@ -76,6 +76,20 @@
             android:orientation="horizontal" />
     </HorizontalScrollView>
 
+
+    <TextView
+        android:id="@+id/NoResults"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Results Found"
+        android:textColor="#49454F"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <!-- Scrollable Results -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -84,13 +98,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filterChipsScroll">
 
-        <LinearLayout
-            android:id="@+id/resultsContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="24dp"
-            android:paddingBottom="24dp">
+
 
             <!-- Placeholder items to match the design image -->
 
@@ -105,7 +113,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="120dp" />
 
-        </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
