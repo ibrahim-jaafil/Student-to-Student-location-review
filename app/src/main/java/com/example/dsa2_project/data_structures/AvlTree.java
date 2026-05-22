@@ -2,9 +2,10 @@ package com.example.dsa2_project.data_structures;
 
 import com.example.dsa2_project.Location.Place;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class AvlTree {
+public class AvlTree implements Serializable {
 
     private AvlNode root;
 
@@ -178,7 +179,7 @@ public void inorder(AvlNode root){
             inorder(root.getRight());
         }
 
-        /*public ArrayList<Place> search(int price){
+        public ArrayList<Place> SimpleSearch(int price){
 
         AvlNode n = root;
         while(n!=null){
@@ -202,7 +203,7 @@ public void inorder(AvlNode root){
 
         }
         return null;
-        }*/
+        }
 
     public ArrayList<Place> search(int price){
         ArrayList<Place> results = new ArrayList<>();

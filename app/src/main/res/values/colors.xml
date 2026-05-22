@@ -10,4 +10,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="DarkSlate">#071E22</color>
     <color name="back_button_tint">@color/black</color>
+    <color name="stars_color">#FFD700</color>
 </resources>

@@ -86,12 +86,21 @@ if(priceRange != 0 ) {
 
         else if(priceRange!=0) {
 
-            Collections.sort(list, (a, b) -> Double.compare(b.getPrice_range(), a.getPrice_range()));
 
+            if(places.SimpleSearch(priceRange)!=null) {
+                Collections.sort(list, (a, b) -> Double.compare(b.getPrice_range(), a.getPrice_range()));
 
 // if the filter is applied but no value for it in the tree put no ressults
-            for (Place item : list) {
-                additems(item);
+                for (Place item : list) {
+                    additems(item);
+                }
+            }
+            else{
+                ResultsContainer.removeAllViews();
+                TextView NoResults = findViewById(R.id.NoResults);
+                NoResults.setVisibility(View.VISIBLE);
+
+
             }
         }
        else if(query!=null &&!query.isEmpty() ) {

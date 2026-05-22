@@ -14,7 +14,7 @@ public class Reviews implements Serializable {
 
      private User user;
 
-     private Place place;
+     private   Place place;
 
 
      public Reviews(String review,int stars,User user , Place place){
