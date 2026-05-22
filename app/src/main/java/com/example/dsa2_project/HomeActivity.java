@@ -136,7 +136,9 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             itemsContainer.addView(itemView);
         }
+
     }
+
 
 
 }

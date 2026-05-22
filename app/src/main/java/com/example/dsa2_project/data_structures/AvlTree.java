@@ -2,6 +2,8 @@ package com.example.dsa2_project.data_structures;
 
 import com.example.dsa2_project.Location.Place;
 
+import java.util.ArrayList;
+
 public class AvlTree {
 
     private AvlNode root;
@@ -175,4 +177,53 @@ public void inorder(AvlNode root){
             System.out.print(root.getPrice()+" "+root.getPlaces_for_price()+" ");
             inorder(root.getRight());
         }
+
+        /*public ArrayList<Place> search(int price){
+
+        AvlNode n = root;
+        while(n!=null){
+            if(n.getPrice()>price){
+                n=n.getLeft();
+            }
+            else if(n.getPrice()<price){
+                n=n.getRight();
+            }
+            else{
+                ArrayList<Place> lessThan= new ArrayList<>();
+                lessThan.addAll(n.getPlaces_for_price());
+
+                while(n.getLeft()!=null) {
+                   // return n.getPlaces_for_price();
+                    n=n.getLeft();
+
+                }
+                return lessThan;
+                }
+
+        }
+        return null;
+        }*/
+
+    public ArrayList<Place> search(int price){
+        ArrayList<Place> results = new ArrayList<>();
+        RecursiveSearch(root,price,results);
+
+        return results;
+    }
+    public void RecursiveSearch(AvlNode root,int price, ArrayList<Place> results){
+        if(root==null) {
+            return ;
+        }
+        if(root.getPrice()<=price){
+            results.addAll(root.getPlaces_for_price());
+            RecursiveSearch(root.getLeft(),price,results);
+            RecursiveSearch(root.getRight(),price,results);
+
+        }
+        else{
+            RecursiveSearch(root.getLeft(),price,results);
+        }
+    }
+
+
 }
