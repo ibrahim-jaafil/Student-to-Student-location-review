@@ -2,9 +2,10 @@ package com.example.dsa2_project.data_structures;
 
 import com.example.dsa2_project.Location.Place;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class AvlNode {
+public class AvlNode implements Serializable {
 
     private int price;
     private ArrayList<Place> places_for_price;

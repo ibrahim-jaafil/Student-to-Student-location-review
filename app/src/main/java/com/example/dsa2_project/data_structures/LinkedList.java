@@ -1,6 +1,7 @@
 package com.example.dsa2_project.data_structures;
 
 import com.example.dsa2_project.Location.Reviews;
+import com.example.dsa2_project.login_sys.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -59,9 +60,20 @@ public class LinkedList implements Serializable {
             a.add(curr.getReviews().getReview());
             String stars = String.valueOf(curr.getReviews().getStars());
             a.add(stars);
+            a.add(curr.getReviews().getDate());
             curr=curr.getNext();
         }
         return a;
+        }
+
+        public ArrayList<User> outputUsers(){
+            ArrayList<User> a = new ArrayList<>();
+            Node curr =root;
+            while(curr!=null){
+               a.add(curr.getReviews().getUser());
+                curr=curr.getNext();
+            }
+            return a;
         }
 
 

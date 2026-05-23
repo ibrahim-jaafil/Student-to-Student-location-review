@@ -15,6 +15,19 @@
         app:layout_constraintBottom_toTopOf="@+id/detailContentCard"
         app:layout_constraintTop_toTopOf="parent">
 
+      <!--  <TextView
+            android:id="@+id/NoReviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Reviews Found"
+            android:textColor="#49454F"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />-->
+
         <LinearLayout
             android:id="@+id/detailItemsContainer"
             android:layout_width="match_parent"
@@ -75,7 +88,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/content_description_back"
         android:elevation="10dp"
@@ -83,5 +96,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/back_button_tint" />
+
+    <!-- Add Review Button -->
+    <ImageButton
+        android:id="@+id/addReviewButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/white_pill_bg"
+        android:foreground="?attr/selectableItemBackground"
+        android:contentDescription="Add Review"
+        android:elevation="10dp"
+        android:padding="12dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/back_button_tint"
+        android:onClick="addReviewButton"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
