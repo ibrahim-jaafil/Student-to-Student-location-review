@@ -15,34 +15,37 @@
         app:layout_constraintBottom_toTopOf="@+id/detailContentCard"
         app:layout_constraintTop_toTopOf="parent">
 
-      <!--  <TextView
-            android:id="@+id/NoReviews"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No Reviews Found"
-            android:textColor="#49454F"
-            android:textSize="18sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />-->
-
-        <LinearLayout
-            android:id="@+id/detailItemsContainer"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="24dp">
+            android:layout_height="wrap_content">
 
-            <!-- Initial spacer for the back button area -->
-            <View
+            <TextView
+                android:id="@+id/NoReviews"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="150dp"
+                android:text="No Reviews Found"
+                android:textColor="#49454F"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/detailItemsContainer"
                 android:layout_width="match_parent"
-                android:layout_height="80dp" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="24dp">
 
-            <!-- Dynamic items will be added here by Activity -->
+                <!-- Initial spacer for the back button area -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp" />
 
-        </LinearLayout>
+                <!-- Dynamic items will be added here by Activity -->
+
+            </LinearLayout>
+        </FrameLayout>
     </androidx.core.widget.NestedScrollView>
 
     <!-- The Content Card (Bottom Square) -->

@@ -18,7 +18,8 @@ public class Place implements Serializable {
 
     private LinkedList reviewList; //make a method to calc stars from reviews
 
-    public Place(String name,Campus campus, int price_range,int stars){
+    public Place(String name,Campus campus,String location_type, int price_range,int stars){
+       this.location_type=location_type;
         this.stars=stars;
         this.campus=campus;
         this.name=name;
@@ -73,6 +74,8 @@ public class Place implements Serializable {
     public void setReviewList(LinkedList reviewList) {
         this.reviewList = reviewList;
     }
+
+
 
     @NonNull
     @Override

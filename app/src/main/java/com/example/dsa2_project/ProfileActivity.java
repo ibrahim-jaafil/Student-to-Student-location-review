@@ -65,5 +65,9 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(i);
        //need to add animation
     }
+    public void FavoritesButton(View view){
+        Intent i = new Intent(this, FavoritesActivity.class);
+        startActivity(i);
+    }
 
 }

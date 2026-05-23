@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,12 +23,14 @@ import com.example.dsa2_project.Location.Place;
 import com.example.dsa2_project.Location.Reviews;
 import com.example.dsa2_project.login_sys.User;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 public class HomeActivity extends AppCompatActivity {
 
     private LinearLayout itemsContainer;
 
+    public static ArrayList<Place> favoriteList = new ArrayList<>();
     Campus South;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,16 +50,16 @@ public class HomeActivity extends AppCompatActivity {
         // If there are no places, simply don't call it or pass an empty list.
         User bob = MainActivity.users.get(123);
       South = new Campus("south",campus);
-        South.addLocation(new Place("the Best" ,South,500,4));
-        South.addLocation( new Place("nitz",South,400,3));
-        Place p1 = new Place("upperdeck",South,600,5);
+        South.addLocation(new Place("the Best" ,South,"Food",500,4));
+        South.addLocation( new Place("nitz",South,"Food",400,3));
+        Place p1 = new Place("upperdeck",South,"Cafes",600,5);
         p1.addReview(new Reviews("so good",5,bob,p1));
         South.addLocation(p1);
-        Place p2 = new Place("atara",South,700,2);
+        Place p2 = new Place("atara",South,"Food",700,2);
         p2.addReview(new Reviews("so bad",1,bob,p2 ));
         South.addLocation(p2);
 
-        loadPlaces();
+        loadPlaces("All");
 
         findViewById(R.id.navSearch).setOnClickListener(v -> {
             Intent i = new Intent(HomeActivity.this, SearchActivity.class);
@@ -72,16 +75,68 @@ public class HomeActivity extends AppCompatActivity {
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         });
 
+        TextView tvUserName = findViewById(R.id.tvUserName);
+        tvUserName.setText(MainActivity.currentUser.getUsername());
+
+        findViewById(R.id.btnFood).setOnClickListener(v->{
+            itemsContainer.removeAllViews();
+
+            loadPlaces("Food");
+
+        });
+        findViewById(R.id.btnCafes).setOnClickListener(v->{
+            itemsContainer.removeAllViews();
+
+            loadPlaces("Cafes");
+        });
+        findViewById(R.id.btnAll).setOnClickListener(v->{
+            itemsContainer.removeAllViews();
+
+            loadPlaces("All");
+        });
+
 
     }
 
 
-    private void loadPlaces() {
-       Collections.sort(South.getPlaces(), (a, b) -> Double.compare(b.getStars(), a.getStars()));
+    private void loadPlaces(String orderByType) {
 
-        for (Place p: South.getPlaces()) {
-            addPlaceItem(p);
+        Collections.sort(South.getPlaces(), (a, b) -> Double.compare(b.getStars(), a.getStars()));
+
+        View topSpacer = new View(this);
+        int topHeight = (int) (320 * getResources().getDisplayMetrics().density);
+        topSpacer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, topHeight));
+        itemsContainer.addView(topSpacer);
+
+        if(orderByType.equalsIgnoreCase("Food")){
+
+            for (Place p: South.getPlaces()) {
+                if (p.getLocation_type().equalsIgnoreCase("Food")){
+                addPlaceItem(p);
+                }
+            }
+
         }
+        else if(orderByType.equalsIgnoreCase("Cafes")){
+
+            for (Place p: South.getPlaces()) {
+                if(p.getLocation_type().equalsIgnoreCase("Cafes")) {
+                    addPlaceItem(p);
+                }
+            }
+        }
+        else if(orderByType.equalsIgnoreCase("All")){
+
+            for (Place p: South.getPlaces()) {
+                addPlaceItem(p);
+            }
+        }
+        View bottomSpacer = new View(this);
+        int bottomHeight = (int) (120 * getResources().getDisplayMetrics().density);
+        bottomSpacer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, bottomHeight));
+        itemsContainer.addView(bottomSpacer);
+
+
         // Here you would typically loop through your data
         // For example:
         // for (Place place : myPlacesList) { addPlaceItem(place.getName(), place.getLocation()); }
@@ -97,12 +152,23 @@ public class HomeActivity extends AppCompatActivity {
         // Inflate the item layout
         View itemView = LayoutInflater.from(this).inflate(R.layout.item_place, itemsContainer, false);
         
-        // Find the TextViews and set the content
         TextView placeName = itemView.findViewById(R.id.placeName);
         TextView placeLocation = itemView.findViewById(R.id.placeLocation);
         LinearLayout starsContainer = itemView.findViewById(R.id.itemStarsContainer);
+        ImageButton btnFavorite = itemView.findViewById(R.id.btnFavorite);
         
         placeName.setText(p.getName());
+
+        btnFavorite.setOnClickListener(v -> {
+            v.setSelected(!v.isSelected());
+            if(v.isSelected()){
+                favoriteList.add(p);
+            }
+            else if(!v.isSelected()){
+             favoriteList.remove(p);
+            }
+        });
+
         for (int i = 0; i < p.getStars(); i++) {
             ImageView star = new ImageView(this);
             star.setImageResource(R.drawable.ic_star);
@@ -130,12 +196,15 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         // We add the item before the last view (the bottom spacer)
-        int count = itemsContainer.getChildCount();
+      /*  int count = itemsContainer.getChildCount();
         if (count > 0) {
+            // count - 1 is the index of the bottom spacer
             itemsContainer.addView(itemView, count - 1);
         } else {
             itemsContainer.addView(itemView);
-        }
+        }*/
+
+        itemsContainer.addView(itemView);
 
     }
 
