@@ -60,6 +60,7 @@ public class LinkedList implements Serializable {
             a.add(curr.getReviews().getReview());
             String stars = String.valueOf(curr.getReviews().getStars());
             a.add(stars);
+            a.add(curr.getReviews().getDate());
             curr=curr.getNext();
         }
         return a;

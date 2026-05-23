@@ -11,17 +11,34 @@
 
 
     <!-- User Name "Field" -->
-    <TextView
-        android:id="@+id/reviewerName"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="#FFFFFF"
-        android:padding="10dp"
-        android:text="User Name"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:layout_marginBottom="8dp"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/reviewerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:text="User Name"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/reviewDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="23 May 2026"
+            android:textColor="#888888"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/reviewStarsContainer"
@@ -41,5 +58,7 @@
         android:text="This is where the review comment goes. It provides space for the user's feedback."
         android:textColor="#333333"
         android:textSize="14sp" />
+
+
 
 </LinearLayout>

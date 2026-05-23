@@ -5,12 +5,15 @@ import androidx.annotation.NonNull;
 import com.example.dsa2_project.login_sys.User;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 
 public class Reviews implements Serializable {
 
      private String review;
      private int stars;
-     private String date;
+     private LocalDate date;
 
      private User user;
 
@@ -23,6 +26,7 @@ public class Reviews implements Serializable {
          this.stars=stars;
          this.user=user;
          user.addReviewToStack(this);
+         date=LocalDate.now();
      }
      public String getReview() {
          return review;
@@ -50,6 +54,12 @@ public class Reviews implements Serializable {
     public Place getPlace() {
         return place;
     }
+
+    public String getDate() {
+        DateTimeFormatter format =  DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return date.format(format);
+    }
+
 
 
     @NonNull

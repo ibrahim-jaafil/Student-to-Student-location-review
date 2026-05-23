@@ -93,10 +93,12 @@ public class PlaceDetailsActivity extends AppCompatActivity {
 
         TextView reviewerName = reviewItem.findViewById(R.id.reviewerName);
         TextView reviewComment = reviewItem.findViewById(R.id.reviewComment);
+        TextView reviewDate = reviewItem.findViewById(R.id.reviewDate);
         LinearLayout reviewStarsContainer = reviewItem.findViewById(R.id.reviewStarsContainer);
 
         reviewerName.setText(a.get(0));
         reviewComment.setText(a.get(1));
+        reviewDate.setText(a.get(3));
 
         // Add stars to the review item
         for (int i = 0; i < Integer.parseInt(a.get(2)); i++) {
