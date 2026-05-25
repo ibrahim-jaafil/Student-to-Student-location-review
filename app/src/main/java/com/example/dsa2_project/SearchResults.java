@@ -122,11 +122,13 @@ if(priceRange != 0 ) {
         View resultItem = LayoutInflater.from(this).inflate(R.layout.item_review, ResultsContainer, false);
         TextView placeName = resultItem.findViewById(R.id.reviewerName);
         TextView price = resultItem.findViewById(R.id.reviewComment);
+        TextView reviewDate = resultItem.findViewById(R.id.reviewDate);
        // LinearLayout reviewStarsContainer = resultItem.findViewById(R.id.reviewStarsContainer);
 
 
         placeName.setText(p.getName());
         price.setText(String.valueOf(p.getPrice_range()));
+        reviewDate.setText("");
 
         ResultsContainer.addView(resultItem);
     }

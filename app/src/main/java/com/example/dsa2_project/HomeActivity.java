@@ -46,8 +46,7 @@ public class HomeActivity extends AppCompatActivity {
             return insets;
         });
 
-        // To add items manually, call a method like this.
-        // If there are no places, simply don't call it or pass an empty list.
+
         User bob = MainActivity.users.get(123);
       South = new Campus("south",campus);
         South.addLocation(new Place("the Best" ,South,"Food",500,4));
@@ -78,21 +77,12 @@ public class HomeActivity extends AppCompatActivity {
         TextView tvUserName = findViewById(R.id.tvUserName);
         tvUserName.setText(MainActivity.currentUser.getUsername());
 
-        findViewById(R.id.btnFood).setOnClickListener(v->{
-            itemsContainer.removeAllViews();
 
-            loadPlaces("Food");
-
+        findViewById(R.id.btnFood).setOnClickListener(v->{ loadPlaces("Food");
         });
-        findViewById(R.id.btnCafes).setOnClickListener(v->{
-            itemsContainer.removeAllViews();
-
-            loadPlaces("Cafes");
+        findViewById(R.id.btnCafes).setOnClickListener(v->{ loadPlaces("Cafes");
         });
-        findViewById(R.id.btnAll).setOnClickListener(v->{
-            itemsContainer.removeAllViews();
-
-            loadPlaces("All");
+        findViewById(R.id.btnAll).setOnClickListener(v->{ loadPlaces("All");
         });
 
 
@@ -100,6 +90,8 @@ public class HomeActivity extends AppCompatActivity {
 
 
     private void loadPlaces(String orderByType) {
+
+        itemsContainer.removeAllViews();
 
         Collections.sort(South.getPlaces(), (a, b) -> Double.compare(b.getStars(), a.getStars()));
 
@@ -136,14 +128,6 @@ public class HomeActivity extends AppCompatActivity {
         bottomSpacer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, bottomHeight));
         itemsContainer.addView(bottomSpacer);
 
-
-        // Here you would typically loop through your data
-        // For example:
-        // for (Place place : myPlacesList) { addPlaceItem(place.getName(), place.getLocation()); }
-        // Manually adding some items as an example:
-       /* addPlaceItem("Central Park", "New York, NY");
-        addPlaceItem("Times Square", "Manhattan, NY");
-        addPlaceItem("Empire State Building", "Midtown Manhattan, NY");*/
     }
 
 
@@ -161,8 +145,10 @@ public class HomeActivity extends AppCompatActivity {
 
         btnFavorite.setOnClickListener(v -> {
             v.setSelected(!v.isSelected());
-            if(v.isSelected()){
-                favoriteList.add(p);
+            if(v.isSelected()) {
+                if (!favoriteList.contains(p)) {
+                    favoriteList.add(p);
+                }
             }
             else if(!v.isSelected()){
              favoriteList.remove(p);
@@ -207,7 +193,5 @@ public class HomeActivity extends AppCompatActivity {
         itemsContainer.addView(itemView);
 
     }
-
-
 
 }

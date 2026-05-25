@@ -27,7 +27,6 @@
 
 
 
-
             <TextView
                 android:id="@+id/emptyStateText"
                 android:layout_width="match_parent"
