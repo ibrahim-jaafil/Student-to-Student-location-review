@@ -13,11 +13,13 @@ import com.example.dsa2_project.Location.Place;
 import com.example.dsa2_project.data_structures.AvlTree;
 import com.example.dsa2_project.login_sys.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     public static HashMap<Integer, User> users = new HashMap<>();
     public static User currentUser;
+    public static ArrayList<Place> favoriteList = new ArrayList<>();
 
     public static AvlTree places = new AvlTree();
 
@@ -33,13 +35,13 @@ public class MainActivity extends AppCompatActivity {
         Log.i("Places", "App started");
         Campus c = new Campus("besiktas","south");
 
-        Place p1 = new Place("the Best" ,c,500,5);
-        Place p2 = new Place("nitz",c,500,4);
-        Place p3 = new Place("upperdeck",c,600,5);
-        Place p6 = new Place("atara",c,700,3);
-        Place p7 = new Place("Green Salad",c,500,3);
-        Place p8 = new Place("cajun",c,300,3);
-        Place p9 = new Place("idk",c,200,2);
+        Place p1 = new Place("the Best" ,c,"Food",500,5);
+        Place p2 = new Place("nitz",c,"Food",500,4);
+        Place p3 = new Place("upperdeck",c,"Cafes",600,5);
+        Place p6 = new Place("atara",c,"Food",700,3);
+        Place p7 = new Place("Green Salad",c,"Food",500,3);
+        Place p8 = new Place("cajun",c,"Food",300,3);
+        Place p9 = new Place("idk",c,"Food",200,2);
         places.insert(p1);
         places.insert(p2);
         places.insert(p3);

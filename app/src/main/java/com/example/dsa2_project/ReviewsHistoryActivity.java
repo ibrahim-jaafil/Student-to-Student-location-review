@@ -62,6 +62,7 @@ public class ReviewsHistoryActivity extends AppCompatActivity {
                 View reviewItem = LayoutInflater.from(this).inflate(R.layout.item_review, reviewsContainer, false);
                 TextView placeName = reviewItem.findViewById(R.id.reviewerName);
                 TextView reviewComment = reviewItem.findViewById(R.id.reviewComment);
+                TextView reviewDate = reviewItem.findViewById(R.id.reviewDate);
                 LinearLayout reviewStarsContainer = reviewItem.findViewById(R.id.reviewStarsContainer);
 
                 if (review.getPlace() != null) {
@@ -69,6 +70,7 @@ public class ReviewsHistoryActivity extends AppCompatActivity {
                 } else {
                     placeName.setText("Unknown Location");
                 }
+                reviewDate.setText(review.getDate());
                 reviewComment.setText(review.getReview());
                 starsFunc(review.getStars(), reviewStarsContainer);
 
