@@ -1,4 +1,4 @@
-package com.example.dsa2_project;
+package com.example.dsa2_project.Search;
 
 import static com.example.dsa2_project.MainActivity.lookupByName;
 import static com.example.dsa2_project.MainActivity.places;
@@ -17,6 +17,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.dsa2_project.Location.Place;
+import com.example.dsa2_project.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

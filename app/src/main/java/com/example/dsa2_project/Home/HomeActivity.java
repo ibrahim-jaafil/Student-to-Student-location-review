@@ -1,15 +1,24 @@
-package com.example.dsa2_project;
+package com.example.dsa2_project.Home;
 
-import static com.example.dsa2_project.MainActivity.campus;
+import static android.view.View.VISIBLE;
+import static com.example.dsa2_project.MainActivity.HomePageList;
+import static com.example.dsa2_project.MainActivity.places;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -20,7 +29,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.dsa2_project.Location.Campus;
 import com.example.dsa2_project.Location.Place;
-import com.example.dsa2_project.Location.Reviews;
+import com.example.dsa2_project.MainActivity;
+import com.example.dsa2_project.Profile.ProfileActivity;
+import com.example.dsa2_project.R;
+import com.example.dsa2_project.Search.SearchActivity;
 import com.example.dsa2_project.login_sys.User;
 
 import java.util.ArrayList;
@@ -31,6 +43,8 @@ public class HomeActivity extends AppCompatActivity {
     private LinearLayout itemsContainer;
 
     public static ArrayList<Place> favoriteList = new ArrayList<>();
+
+    private boolean isAdmin;
     Campus South;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +62,11 @@ public class HomeActivity extends AppCompatActivity {
 
 
         User bob = MainActivity.users.get(123);
-      South = new Campus("south",campus);
-        South.addLocation(new Place("the Best" ,South,"Food",500,4));
-        South.addLocation( new Place("nitz",South,"Food",400,3));
-        Place p1 = new Place("upperdeck",South,"Cafes",600,5);
-        p1.addReview(new Reviews("so good",5,bob,p1));
-        South.addLocation(p1);
-        Place p2 = new Place("atara",South,"Food",700,2);
-        p2.addReview(new Reviews("so bad",1,bob,p2 ));
-        South.addLocation(p2);
 
+
+
+        isAdmin= getIntent().getBooleanExtra("admin",false);
+        ifAdmin(isAdmin);
         loadPlaces("All");
 
         findViewById(R.id.navSearch).setOnClickListener(v -> {
@@ -88,12 +97,24 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    private void ifAdmin(boolean isAdmin){
+        if(isAdmin){
+            findViewById(R.id.addPlace).setVisibility(VISIBLE);
+            findViewById(R.id.addPlace).setOnClickListener(v->{
+                showAddPlaceDialog();
+            });
+
+
+        }
+
+    }
+
 
     private void loadPlaces(String orderByType) {
 
         itemsContainer.removeAllViews();
 
-        Collections.sort(South.getPlaces(), (a, b) -> Double.compare(b.getStars(), a.getStars()));
+        Collections.sort(HomePageList, (a, b) -> Double.compare(b.getStars(), a.getStars()));
 
         View topSpacer = new View(this);
         int topHeight = (int) (320 * getResources().getDisplayMetrics().density);
@@ -102,7 +123,7 @@ public class HomeActivity extends AppCompatActivity {
 
         if(orderByType.equalsIgnoreCase("Food")){
 
-            for (Place p: South.getPlaces()) {
+            for (Place p: HomePageList) {
                 if (p.getLocation_type().equalsIgnoreCase("Food")){
                 addPlaceItem(p);
                 }
@@ -111,7 +132,7 @@ public class HomeActivity extends AppCompatActivity {
         }
         else if(orderByType.equalsIgnoreCase("Cafes")){
 
-            for (Place p: South.getPlaces()) {
+            for (Place p: HomePageList) {
                 if(p.getLocation_type().equalsIgnoreCase("Cafes")) {
                     addPlaceItem(p);
                 }
@@ -119,7 +140,7 @@ public class HomeActivity extends AppCompatActivity {
         }
         else if(orderByType.equalsIgnoreCase("All")){
 
-            for (Place p: South.getPlaces()) {
+            for (Place p: HomePageList) {
                 addPlaceItem(p);
             }
         }
@@ -192,6 +213,56 @@ public class HomeActivity extends AppCompatActivity {
 
         itemsContainer.addView(itemView);
 
+    }
+
+    private void showAddPlaceDialog() {
+        // Create the dialog
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_add_place);
+
+        Window window = dialog.getWindow();
+        if (window != null) {
+            // This makes the dialog background transparent so the rounded corners of your layout show
+            window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+            WindowManager.LayoutParams lp = window.getAttributes();
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            lp.gravity = Gravity.CENTER;
+
+
+            // This dims everything behind the dialog
+            lp.dimAmount = 0.7f;
+            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
+            window.setAttributes(lp);
+        }
+
+        EditText placeName = dialog.findViewById(R.id.etPlaceName);
+        EditText campus = dialog.findViewById(R.id.etCampus);
+        EditText locationType = dialog.findViewById(R.id.etLocationType);
+        EditText priceRange = dialog.findViewById(R.id.etPriceRange);
+        RatingBar rating = dialog.findViewById(R.id.dialogRatingBar);
+
+        Button btnSubmit = dialog.findViewById(R.id.btnSubmitPlace);
+        btnSubmit.setOnClickListener(v -> {
+            String Name = placeName.getText().toString();
+            //String campusName = campus.getText().toString();
+            String type = campus.getText().toString();
+            int price = Integer.parseInt(priceRange.getText().toString());
+
+            Place p = new Place(Name,South,type,price,(int)rating.getRating());
+            HomePageList.add(p);
+            places.insert(p);
+            MainActivity.lookupByName.put(p.getName().trim().toLowerCase(),p);
+
+            dialog.dismiss();
+            loadPlaces("All");
+                // have to make safeguards for the add if like no comment or no stars
+        });
+
+        dialog.show();
     }
 
 }

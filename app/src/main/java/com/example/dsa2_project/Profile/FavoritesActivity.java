@@ -1,6 +1,6 @@
-package com.example.dsa2_project;
+package com.example.dsa2_project.Profile;
 
-import static com.example.dsa2_project.HomeActivity.favoriteList;
+import static com.example.dsa2_project.Home.HomeActivity.favoriteList;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +18,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.dsa2_project.Location.Place;
+import com.example.dsa2_project.Home.PlaceDetailsActivity;
+import com.example.dsa2_project.R;
 
 public class FavoritesActivity extends AppCompatActivity {
     private LinearLayout favoritesContainer;

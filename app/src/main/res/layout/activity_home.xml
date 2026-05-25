@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/LightDarkSlate"
-    tools:context=".HomeActivity">
+    tools:context=".Home.HomeActivity">
 
     <!-- The Scrollable Area -->
     <androidx.core.widget.NestedScrollView
@@ -83,6 +83,25 @@
             android:textSize="24sp"
             android:textStyle="bold" />
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/addPlace"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/dark_pill_bg"
+        android:foreground="?attr/selectableItemBackground"
+        android:contentDescription="Add Place"
+        android:elevation="10dp"
+        android:padding="12dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/back_button_tint"
+        android:visibility="gone"
+        />
 
     <LinearLayout
         android:id="@+id/categoriesRow"

@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static AvlTree places = new AvlTree();
 
+    public static ArrayList<Place> HomePageList = new ArrayList<>();
     public static HashMap<String, Place> lookupByName = new HashMap<>();
 
 
@@ -49,6 +50,16 @@ public class MainActivity extends AppCompatActivity {
         places.insert(p7);
         places.insert(p8);
         places.insert(p9);
+
+        HomePageList.add(p1);
+        HomePageList.add(p2);
+        HomePageList.add(p3);
+        HomePageList.add(p6);
+        HomePageList.add(p7);
+        HomePageList.add(p8);
+        HomePageList.add(p9);
+
+
         lookupByName.put(p1.getName().toLowerCase(),p1);
         lookupByName.put(p2.getName().toLowerCase(),p2);
         lookupByName.put(p3.getName().toLowerCase(),p3);

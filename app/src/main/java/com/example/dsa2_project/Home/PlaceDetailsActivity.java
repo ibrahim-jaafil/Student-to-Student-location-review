@@ -1,10 +1,10 @@
-package com.example.dsa2_project;
+package com.example.dsa2_project.Home;
+
+import static com.example.dsa2_project.MainActivity.HomePageList;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dsa2_project.Location.Place;
 import com.example.dsa2_project.Location.Reviews;
+import com.example.dsa2_project.MainActivity;
+import com.example.dsa2_project.R;
 import com.example.dsa2_project.login_sys.User;
 
 
@@ -85,6 +87,7 @@ public class PlaceDetailsActivity extends AppCompatActivity {
     }
 
     private void loadReviews() {
+
         addReviewItem(place.getReviewList().outputReviewInfo());
     }
 
@@ -118,8 +121,12 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         detailItemsContainer.addView(reviewItem);
     }
 
+
+
     public void addReviewButton(View v){
+
         showAddReviewDialog();
+
     }
 
     private void showAddReviewDialog() {
@@ -151,8 +158,13 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         Button btnSubmit = dialog.findViewById(R.id.btnSubmitReview);
         btnSubmit.setOnClickListener(v -> {
             //Dialog dialog = new Dialog(this);
+            ArrayList<User> users = new ArrayList<>();
+            for (Place p:HomePageList) {
+                if(p.getName().equalsIgnoreCase(place.getName())){
+                    users = p.getReviewList().outputUsers();
 
-            ArrayList<User> users = place.getReviewList().outputUsers();
+                }
+            }
             if(users.contains(MainActivity.currentUser)){
                 btnSubmit.setError("You have already reviewed this place!");
             }
@@ -162,8 +174,13 @@ public class PlaceDetailsActivity extends AppCompatActivity {
                 String comment = reviewComment.getText().toString();
                 Reviews r = new Reviews(comment, (int) ratingPutIn, MainActivity.currentUser, place);
                 place.addReview(r);
-                MainActivity.currentUser.addReviewToStack(r);
 
+                for (Place p:HomePageList) {
+                    if(p.getName().equalsIgnoreCase(place.getName())){
+                        p.addReview(r);
+                    }
+                }
+                //MainActivity.currentUser.getReviews().add(r);
 
                 // have to make safeguards for the add if like no comment or no stars
 

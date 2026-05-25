@@ -1,4 +1,4 @@
-package com.example.dsa2_project;
+package com.example.dsa2_project.Profile;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.dsa2_project.Location.Reviews;
+import com.example.dsa2_project.MainActivity;
+import com.example.dsa2_project.R;
 
 import java.util.ArrayList;
 
@@ -40,7 +42,7 @@ public class ReviewsHistoryActivity extends AppCompatActivity {
         backButton = findViewById(R.id.backButton);
 
         backButton.setOnClickListener(v -> {
-            Intent i = new Intent(this,ProfileActivity.class);
+            Intent i = new Intent(this, ProfileActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(i);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

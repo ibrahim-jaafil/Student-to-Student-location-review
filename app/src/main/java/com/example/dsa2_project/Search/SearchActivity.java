@@ -1,4 +1,4 @@
-package com.example.dsa2_project;
+package com.example.dsa2_project.Search;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,10 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.dsa2_project.Home.HomeActivity;
+import com.example.dsa2_project.Profile.ProfileActivity;
+import com.example.dsa2_project.R;
 
 public class SearchActivity extends AppCompatActivity {
 
