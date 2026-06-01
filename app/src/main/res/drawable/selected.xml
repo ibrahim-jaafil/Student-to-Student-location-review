@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#F0F0F0" /> <!-- Light grey fill -->
+    <corners android:radius="25dp" />
+    <!-- This is the border that appears when pressed -->
+    <stroke
+        android:width="2dp"
+        android:color="@color/LightDarkSlate" />
+</shape>

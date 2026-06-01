@@ -1,4 +1,4 @@
-package com.example.dsa2_project;
+package com.example.dsa2_project.Profile;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +11,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.dsa2_project.Location.Reviews;
+import com.example.dsa2_project.Home.HomeActivity;
+import com.example.dsa2_project.MainActivity;
+import com.example.dsa2_project.R;
+import com.example.dsa2_project.Search.SearchActivity;
 import com.example.dsa2_project.login_sys.User;
-
-import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity {
 

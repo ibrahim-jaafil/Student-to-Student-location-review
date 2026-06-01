@@ -1,4 +1,4 @@
-package com.example.dsa2_project;
+package com.example.dsa2_project.Search;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.dsa2_project.Home.HomeActivity;
+import com.example.dsa2_project.Profile.ProfileActivity;
+import com.example.dsa2_project.R;
+
 public class SearchActivity extends AppCompatActivity {
 
     private EditText etSearch;
@@ -23,6 +27,7 @@ public class SearchActivity extends AppCompatActivity {
     private LinearLayout filterChipsContainer;
 
     private int selectedPrice = 0;
+    private String category ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,12 +100,14 @@ public class SearchActivity extends AppCompatActivity {
             selectedPrice = intent.getIntExtra("price",0);
             checkFilters();
         }
+        if (intent.hasExtra("category")) {
+            category = intent.getStringExtra("category");
+
+        }
+
     }
 
     private void performSearch() {
-
-        String priceRange = getIntent().getStringExtra("price");
-
 
        String query = etSearch.getText().toString().trim();
            addRecentSearch(query);
@@ -108,6 +115,7 @@ public class SearchActivity extends AppCompatActivity {
             Intent i = new Intent(this, SearchResults.class);
             i.putExtra("price",selectedPrice);
             i.putExtra("QUERY", query);
+            i.putExtra("category",category);
             startActivity(i);
 
 

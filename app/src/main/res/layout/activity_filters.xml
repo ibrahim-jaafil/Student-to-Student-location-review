@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/LightDarkSlate"
-    tools:context=".FiltersActivity">
+    tools:context=".Search.FiltersActivity">
 
     <!-- Top Card (Search Area) -->
     <View
@@ -85,34 +85,43 @@
         app:layout_constraintTop_toTopOf="@id/bottomCard">
 
         <TextView
+            android:id="@+id/tvAll"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginHorizontal="4dp"
             android:layout_weight="1"
             android:background="@drawable/dark_pill_bg"
+            android:gravity="center"
+            android:text="All"
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/tvFood"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginHorizontal="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/filter_chip_bg"
             android:gravity="center"
             android:text="Food"
-            android:textColor="@color/white" />
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="#49454F" />
 
         <TextView
+            android:id="@+id/tvCafes"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginHorizontal="4dp"
             android:layout_weight="1"
-            android:background="@drawable/dark_pill_bg"
+            android:background="@drawable/filter_chip_bg"
             android:gravity="center"
             android:text="Cafes"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginHorizontal="4dp"
-            android:layout_weight="1"
-            android:background="@drawable/dark_pill_bg"
-            android:gravity="center"
-            android:text="others"
-            android:textColor="@color/white" />
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="#49454F" />
     </LinearLayout>
 
     <TextView
@@ -141,6 +150,22 @@
         app:thumbColor="#516062"
         app:trackColorActive="#516062"
         app:trackColorInactive="#E0E0E0" />
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="96dp"
+        android:backgroundTint="@color/LightDarkSlate"
+        android:text="Cancel"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:cornerRadius="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:onClick="Cancel"
+        />
 
     <Button
         android:id="@+id/btnDone"
