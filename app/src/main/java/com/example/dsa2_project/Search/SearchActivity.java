@@ -27,6 +27,7 @@ public class SearchActivity extends AppCompatActivity {
     private LinearLayout filterChipsContainer;
 
     private int selectedPrice = 0;
+    private String category ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,12 +100,14 @@ public class SearchActivity extends AppCompatActivity {
             selectedPrice = intent.getIntExtra("price",0);
             checkFilters();
         }
+        if (intent.hasExtra("category")) {
+            category = intent.getStringExtra("category");
+
+        }
+
     }
 
     private void performSearch() {
-
-        String priceRange = getIntent().getStringExtra("price");
-
 
        String query = etSearch.getText().toString().trim();
            addRecentSearch(query);
@@ -112,6 +115,7 @@ public class SearchActivity extends AppCompatActivity {
             Intent i = new Intent(this, SearchResults.class);
             i.putExtra("price",selectedPrice);
             i.putExtra("QUERY", query);
+            i.putExtra("category",category);
             startActivity(i);
 
 

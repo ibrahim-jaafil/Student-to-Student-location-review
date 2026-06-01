@@ -10,6 +10,7 @@ public class Place implements Serializable {
     private String name;
     private  Campus campus;
 
+    private String Location_Link;
     private int stars;
 
     private int price_range;
@@ -76,6 +77,13 @@ public class Place implements Serializable {
     }
 
 
+    public String getLocation_Link() {
+        return Location_Link;
+    }
+
+    public void setLocation_Link(String location_Link) {
+        Location_Link = location_Link;
+    }
 
     @NonNull
     @Override

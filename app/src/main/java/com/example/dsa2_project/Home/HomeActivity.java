@@ -33,7 +33,6 @@ import com.example.dsa2_project.MainActivity;
 import com.example.dsa2_project.Profile.ProfileActivity;
 import com.example.dsa2_project.R;
 import com.example.dsa2_project.Search.SearchActivity;
-import com.example.dsa2_project.login_sys.User;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,7 +43,6 @@ public class HomeActivity extends AppCompatActivity {
 
     public static ArrayList<Place> favoriteList = new ArrayList<>();
 
-    private boolean isAdmin;
     Campus South;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +59,10 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
-        User bob = MainActivity.users.get(123);
+        //User bob = MainActivity.users.get(123);
 
 
+         boolean isAdmin;
 
         isAdmin= getIntent().getBooleanExtra("admin",false);
         ifAdmin(isAdmin);
@@ -87,12 +86,9 @@ public class HomeActivity extends AppCompatActivity {
         tvUserName.setText(MainActivity.currentUser.getUsername());
 
 
-        findViewById(R.id.btnFood).setOnClickListener(v->{ loadPlaces("Food");
-        });
-        findViewById(R.id.btnCafes).setOnClickListener(v->{ loadPlaces("Cafes");
-        });
-        findViewById(R.id.btnAll).setOnClickListener(v->{ loadPlaces("All");
-        });
+        findViewById(R.id.btnFood).setOnClickListener(v-> loadPlaces("Food"));
+        findViewById(R.id.btnCafes).setOnClickListener(v-> loadPlaces("Cafes"));
+        findViewById(R.id.btnAll).setOnClickListener(v-> loadPlaces("All"));
 
 
     }
@@ -100,9 +96,7 @@ public class HomeActivity extends AppCompatActivity {
     private void ifAdmin(boolean isAdmin){
         if(isAdmin){
             findViewById(R.id.addPlace).setVisibility(VISIBLE);
-            findViewById(R.id.addPlace).setOnClickListener(v->{
-                showAddPlaceDialog();
-            });
+            findViewById(R.id.addPlace).setOnClickListener(v-> showAddPlaceDialog());
 
 
         }
@@ -201,16 +195,6 @@ public class HomeActivity extends AppCompatActivity {
 
             startActivity(intent);
         });
-
-        // We add the item before the last view (the bottom spacer)
-      /*  int count = itemsContainer.getChildCount();
-        if (count > 0) {
-            // count - 1 is the index of the bottom spacer
-            itemsContainer.addView(itemView, count - 1);
-        } else {
-            itemsContainer.addView(itemView);
-        }*/
-
         itemsContainer.addView(itemView);
 
     }

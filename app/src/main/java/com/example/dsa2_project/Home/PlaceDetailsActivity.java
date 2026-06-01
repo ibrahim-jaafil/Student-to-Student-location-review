@@ -3,7 +3,9 @@ package com.example.dsa2_project.Home;
 import static com.example.dsa2_project.MainActivity.HomePageList;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -51,9 +53,21 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         LinearLayout starsContainer = findViewById(R.id.starsContainer);
         detailItemsContainer = findViewById(R.id.detailItemsContainer);
 
+        TextView websiteLink = findViewById(R.id.detailWebsiteLink);
+
+// 2. Edit the "Link" behavior
+
 
         if (placeName != null) {
+
             nameTextView.setText(placeName);
+            websiteLink.setOnClickListener(v -> {
+                // This creates the intent to open a web browser
+                String url = place.getLocation_Link() ;
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                startActivity(intent);
+            });
         }
 
 
@@ -74,14 +88,14 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         }
 
         findViewById(R.id.backButton).setOnClickListener(v -> finish());
+
             if(!place.getReviewList().isEmpty()) {
-            loadReviews();
+
+                loadReviews();
 }
             else{
-               /* TextView NoReviews = findViewById(R.id.NoReviews);
-                NoReviews.setVisibility(View.VISIBLE);*/
-
-                //Have to fix it since the scoll cant have two children
+               TextView NoReviews = findViewById(R.id.NoReviews);
+                NoReviews.setVisibility(View.VISIBLE);
             }
 
     }
@@ -102,6 +116,8 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         reviewerName.setText(a.get(0));
         reviewComment.setText(a.get(1));
         reviewDate.setText(a.get(3));
+
+
 
         // Add stars to the review item
         for (int i = 0; i < Integer.parseInt(a.get(2)); i++) {
@@ -186,7 +202,13 @@ public class PlaceDetailsActivity extends AppCompatActivity {
 
 
                 dialog.dismiss();
+                if(!place.getReviewList().isEmpty()) {
+                    TextView NoReviews = findViewById(R.id.NoReviews);
+                    NoReviews.setVisibility(View.GONE);
+
+                }
                 loadReviews();
+
             }
         });
 

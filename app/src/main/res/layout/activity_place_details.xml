@@ -19,16 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/NoReviews"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="150dp"
-                android:text="No Reviews Found"
-                android:textColor="#49454F"
-                android:textSize="18sp"
-                android:visibility="gone" />
+
 
             <LinearLayout
                 android:id="@+id/detailItemsContainer"
@@ -36,6 +27,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingHorizontal="24dp">
+
+                <TextView
+                    android:id="@+id/NoReviews"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="150dp"
+                    android:text="No Reviews Found"
+                    android:textColor="#49454F"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
 
                 <!-- Initial spacer for the back button area -->
                 <View
@@ -77,6 +79,17 @@
             <!-- Dynamic stars added here in Activity -->
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/detailWebsiteLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="How To Reach"
+            android:textColor="#0000EE"
+            android:textSize="16sp"
+            android:autoLink="web"
+            android:linksClickable="true"
+            android:padding="8dp"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

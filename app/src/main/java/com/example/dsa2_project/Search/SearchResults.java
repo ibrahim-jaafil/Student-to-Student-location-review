@@ -1,12 +1,15 @@
 package com.example.dsa2_project.Search;
 
+import static com.example.dsa2_project.Home.HomeActivity.favoriteList;
 import static com.example.dsa2_project.MainActivity.lookupByName;
 import static com.example.dsa2_project.MainActivity.places;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,6 +19,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.dsa2_project.Home.HomeActivity;
+import com.example.dsa2_project.Home.PlaceDetailsActivity;
 import com.example.dsa2_project.Location.Place;
 import com.example.dsa2_project.R;
 
@@ -32,6 +37,7 @@ public class SearchResults extends AppCompatActivity {
 
     private String query;
     int priceRange ;
+    private String category;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +58,7 @@ public class SearchResults extends AppCompatActivity {
 
         backButton.setOnClickListener(v -> finish());
 
-        // Get the search query from the Intent
+        category= getIntent().getStringExtra("category");
          query = getIntent().getStringExtra("QUERY");
      /*   if (query != null && !query.isEmpty()) {
             tvSearchHint.setText(query);
@@ -75,6 +81,7 @@ if(priceRange != 0 ) {
             Collections.sort(list, (a, b) -> Double.compare(b.getPrice_range(), a.getPrice_range()));
 
             if(list.contains(lookupByName.get((query).toLowerCase()))){
+
                 additems(lookupByName.get((query).toLowerCase()));
             }
             else{
@@ -86,22 +93,23 @@ if(priceRange != 0 ) {
         }
 
         else if(priceRange!=0) {
-
-
-            if(places.SimpleSearch(priceRange)!=null) {
+            if(!list.isEmpty()) {
                 Collections.sort(list, (a, b) -> Double.compare(b.getPrice_range(), a.getPrice_range()));
 
-// if the filter is applied but no value for it in the tree put no ressults
                 for (Place item : list) {
-                    additems(item);
+                    if (!category.equalsIgnoreCase("All") && item.getLocation_type().equalsIgnoreCase(category)) {
+                        additems(item);
+                    } else if (category.equalsIgnoreCase("All")) {
+                        additems(item);
+                    }
+
                 }
             }
+
             else{
                 ResultsContainer.removeAllViews();
                 TextView NoResults = findViewById(R.id.NoResults);
                 NoResults.setVisibility(View.VISIBLE);
-
-
             }
         }
        else if(query!=null &&!query.isEmpty() ) {
@@ -120,16 +128,55 @@ if(priceRange != 0 ) {
 
     private void additems(Place p){
 
-        View resultItem = LayoutInflater.from(this).inflate(R.layout.item_review, ResultsContainer, false);
-        TextView placeName = resultItem.findViewById(R.id.reviewerName);
-        TextView price = resultItem.findViewById(R.id.reviewComment);
-        TextView reviewDate = resultItem.findViewById(R.id.reviewDate);
-       // LinearLayout reviewStarsContainer = resultItem.findViewById(R.id.reviewStarsContainer);
+        View resultItem = LayoutInflater.from(this).inflate(R.layout.item_place, ResultsContainer, false);
+        TextView placeName = resultItem.findViewById(R.id.placeName);
+        TextView price = resultItem.findViewById(R.id.placeLocation);
+        LinearLayout placeStarsContainer = resultItem.findViewById(R.id.itemStarsContainer);
 
 
         placeName.setText(p.getName());
         price.setText(String.valueOf(p.getPrice_range()));
-        reviewDate.setText("");
+
+        for (int i = 0; i < p.getStars(); i++) {
+            ImageView star = new ImageView(this);
+            star.setImageResource(R.drawable.ic_star);
+
+            int sizeInPx = (int) (20 * getResources().getDisplayMetrics().density);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(sizeInPx, sizeInPx);
+
+            if (i > 0) {
+                params.setMarginStart((int) (4 * getResources().getDisplayMetrics().density));
+            }
+
+            star.setLayoutParams(params);
+            placeStarsContainer.addView(star);
+        }
+
+        ImageButton btnFavorite = resultItem.findViewById(R.id.btnFavorite);
+
+        placeName.setText(p.getName());
+
+        btnFavorite.setOnClickListener(v -> {
+            v.setSelected(!v.isSelected());
+            if(v.isSelected()) {
+                if (!favoriteList.contains(p)) {
+                    favoriteList.add(p);
+                }
+            }
+            else if(!v.isSelected()){
+                favoriteList.remove(p);
+            }
+        });
+
+        resultItem.setOnClickListener(v -> {
+            Intent intent = new Intent(this, PlaceDetailsActivity.class);
+            intent.putExtra("PLACE_NAME", p.getName());
+            intent.putExtra("PLACE_STARS", p.getStars());
+            intent.putExtra("PLACE", p);
+
+
+            startActivity(intent);
+        });
 
         ResultsContainer.addView(resultItem);
     }

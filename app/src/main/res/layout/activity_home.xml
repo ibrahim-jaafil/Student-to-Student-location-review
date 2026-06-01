@@ -120,12 +120,14 @@
             android:layout_height="48dp"
             android:layout_marginHorizontal="4dp"
             android:layout_weight="1"
-            android:background="@drawable/dark_pill_bg"
+            android:background="@drawable/selected_dark_pill"
             android:gravity="center"
             android:text="All"
             android:textColor="@color/white"
             android:clickable="true"
-            android:focusable="true"/>
+            android:focusable="true"
+
+            />
 
         <TextView
             android:id="@+id/btnFood"
@@ -133,7 +135,7 @@
             android:layout_height="48dp"
             android:layout_marginHorizontal="4dp"
             android:layout_weight="1"
-            android:background="@drawable/dark_pill_bg"
+            android:background="@drawable/selected_dark_pill"
             android:gravity="center"
             android:text="Food"
             android:textColor="@color/white"
@@ -146,7 +148,7 @@
             android:layout_height="48dp"
             android:layout_marginHorizontal="4dp"
             android:layout_weight="1"
-            android:background="@drawable/dark_pill_bg"
+            android:background="@drawable/selected_dark_pill"
             android:gravity="center"
             android:text="Cafes"
             android:textColor="@color/white"
