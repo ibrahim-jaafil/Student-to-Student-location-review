@@ -83,7 +83,11 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         TextView tvUserName = findViewById(R.id.tvUserName);
-        tvUserName.setText(MainActivity.currentUser.getUsername());
+        if (MainActivity.currentUser != null) {
+            tvUserName.setText(MainActivity.currentUser.getUsername());
+        } else {
+            tvUserName.setText("Guest");
+        }
 
 
         findViewById(R.id.btnFood).setOnClickListener(v-> loadPlaces("Food"));
@@ -111,7 +115,7 @@ public class HomeActivity extends AppCompatActivity {
         Collections.sort(HomePageList, (a, b) -> Double.compare(b.getStars(), a.getStars()));
 
         View topSpacer = new View(this);
-        int topHeight = (int) (320 * getResources().getDisplayMetrics().density);
+        int topHeight = (int) (240 * getResources().getDisplayMetrics().density);
         topSpacer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, topHeight));
         itemsContainer.addView(topSpacer);
 

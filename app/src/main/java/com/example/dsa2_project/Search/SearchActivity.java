@@ -1,5 +1,8 @@
 package com.example.dsa2_project.Search;
 
+import static com.example.dsa2_project.MainActivity.currentUser;
+import static com.example.dsa2_project.MainActivity.favoriteList;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -10,13 +13,19 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.dsa2_project.Home.HomeActivity;
+import com.example.dsa2_project.Home.PlaceDetailsActivity;
+import com.example.dsa2_project.Location.Place;
+import com.example.dsa2_project.MainActivity;
 import com.example.dsa2_project.Profile.ProfileActivity;
 import com.example.dsa2_project.R;
 
@@ -88,8 +97,62 @@ public class SearchActivity extends AppCompatActivity {
 
         });
 
+        loadRecentPlaces();
     }
 
+    private void loadRecentPlaces() {
+        if (currentUser == null || currentUser.getLastViewedPlaces() == null) return;
+
+        recentSearchesContainer.removeAllViews();
+
+        if(!currentUser.getLastViewedPlaces().isEmpty()){
+            for (Place p : currentUser.getLastViewedPlaces().outputStack()) {
+                View placeItem = LayoutInflater.from(this).inflate(R.layout.item_place, recentSearchesContainer, false);
+
+                TextView placeName = placeItem.findViewById(R.id.placeName);
+                LinearLayout starsContainer = placeItem.findViewById(R.id.itemStarsContainer);
+                ImageButton btnFavorite = placeItem.findViewById(R.id.btnFavorite);
+
+                placeName.setText(p.getName());
+
+                btnFavorite.setOnClickListener(v -> {
+                    v.setSelected(!v.isSelected());
+                    if(v.isSelected()) {
+                        if (!favoriteList.contains(p)) {
+                            favoriteList.add(p);
+                        }
+                    }
+                    else {
+                        favoriteList.remove(p);
+                    }
+                });
+
+                for (int i = 0; i < p.getStars(); i++) {
+                    ImageView star = new ImageView(this);
+                    star.setImageResource(R.drawable.ic_star);
+
+                    int sizeInPx = (int) (20 * getResources().getDisplayMetrics().density);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(sizeInPx, sizeInPx);
+
+                    if (i > 0) {
+                        params.setMarginStart((int) (4 * getResources().getDisplayMetrics().density));
+                    }
+
+                    star.setLayoutParams(params);
+                    starsContainer.addView(star);
+                }
+
+                placeItem.setOnClickListener(v -> {
+                    Intent intent = new Intent(this, PlaceDetailsActivity.class);
+                    intent.putExtra("PLACE_NAME", p.getName());
+                    intent.putExtra("PLACE_STARS", p.getStars());
+                    intent.putExtra("PLACE", p);
+                    startActivity(intent);
+                });
+                recentSearchesContainer.addView(placeItem);
+            }
+        }
+    }
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -110,7 +173,6 @@ public class SearchActivity extends AppCompatActivity {
     private void performSearch() {
 
        String query = etSearch.getText().toString().trim();
-           addRecentSearch(query);
            etSearch.setText("");
             Intent i = new Intent(this, SearchResults.class);
             i.putExtra("price",selectedPrice);
@@ -126,6 +188,7 @@ public class SearchActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         checkFilters();
+        loadRecentPlaces();
     }
 
     private void checkFilters() {
@@ -149,15 +212,5 @@ public class SearchActivity extends AppCompatActivity {
         filterChipsContainer.addView(chipView);
     }
 
-    private void addRecentSearch(String text) {
-        TextView textView = new TextView(this);
-        textView.setText(text);
-        textView.setTextColor(getResources().getColor(android.R.color.black));
-        textView.setTextSize(16);
-        textView.setPadding(0, 8, 0, 8);
-        
-        // Add at the top of the list
-        recentSearchesContainer.addView(textView, 0);
-    }
 
 }

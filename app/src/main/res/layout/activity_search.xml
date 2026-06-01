@@ -89,23 +89,33 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
-        android:text="Recent Searches:"
+        android:text="Recent Viewed:"
         android:textColor="#1D1B20"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filterChipsScroll" />
 
-    <LinearLayout
-        android:id="@+id/recentSearchesContainer"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/recentSearchesScroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:paddingHorizontal="32dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="24dp"
+        android:clipToPadding="false"
+        android:paddingBottom="24dp"
         app:layout_constraintBottom_toBottomOf="@id/topCard"
-        app:layout_constraintTop_toBottomOf="@id/recentSearches" />
+        app:layout_constraintTop_toBottomOf="@id/recentSearches">
+
+        <LinearLayout
+            android:id="@+id/recentSearchesContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="32dp">
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <!-- Simplified Floating Bottom Navigation -->
     <LinearLayout

@@ -57,7 +57,8 @@ public class ReviewsHistoryActivity extends AppCompatActivity {
         if (MainActivity.currentUser != null && !MainActivity.currentUser.getReviews().isEmpty()) {
 
 
-            ArrayList<Reviews> reviewsList = MainActivity.currentUser.getReviews().outputStack();
+           // ArrayList<Reviews> reviewsList = MainActivity.currentUser.getReviews().outputStack();
+            ArrayList<Reviews> reviewsList = MainActivity.currentUser.getReviews().outputReviewInfo();
 
             for (Reviews review : reviewsList) {
 

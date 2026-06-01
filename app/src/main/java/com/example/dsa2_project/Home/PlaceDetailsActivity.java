@@ -46,6 +46,11 @@ public class PlaceDetailsActivity extends AppCompatActivity {
             return;
         }
 
+        // Push to last viewed stack
+        if (MainActivity.currentUser != null) {
+            MainActivity.currentUser.getLastViewedPlaces().add(place);
+        }
+
         String placeName = getIntent().getStringExtra("PLACE_NAME");
         int stars = getIntent().getIntExtra("PLACE_STARS", 0);
 
@@ -101,11 +106,32 @@ public class PlaceDetailsActivity extends AppCompatActivity {
     }
 
     private void loadReviews() {
+        detailItemsContainer.removeAllViews();
 
-        addReviewItem(place.getReviewList().outputReviewInfo());
+        // 2. Re-add the TOP SPACER (320dp)
+        // This prevents the reviews from being hidden behind your blue header card
+        View topSpacer = new View(this);
+        int topHeight = (int) (80 * getResources().getDisplayMetrics().density);
+        topSpacer.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, topHeight));
+        detailItemsContainer.addView(topSpacer);
+
+        TextView noReviewsText = findViewById(R.id.NoReviews);
+
+        if (place.getReviewList().isEmpty()) {
+            if (noReviewsText != null) noReviewsText.setVisibility(View.VISIBLE);
+        }
+        else {
+            if (noReviewsText != null) noReviewsText.setVisibility(View.GONE);
+
+            // 4. Re-draw the reviews
+            for (Reviews r : place.getReviewList().outputReviewInfo()) {
+                addReviewItem(r);
+            }
+        }
     }
 
-    private void addReviewItem(ArrayList<String> a) {
+    private void addReviewItem(Reviews r) {
         View reviewItem = LayoutInflater.from(this).inflate(R.layout.item_review, detailItemsContainer, false);
 
         TextView reviewerName = reviewItem.findViewById(R.id.reviewerName);
@@ -113,14 +139,33 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         TextView reviewDate = reviewItem.findViewById(R.id.reviewDate);
         LinearLayout reviewStarsContainer = reviewItem.findViewById(R.id.reviewStarsContainer);
 
-        reviewerName.setText(a.get(0));
-        reviewComment.setText(a.get(1));
-        reviewDate.setText(a.get(3));
+        reviewerName.setText(r.getUser().getUsername());
+        reviewComment.setText(r.getReview());
+        reviewDate.setText(r.getDate());
 
+        if(r.getUser().getUsername().equalsIgnoreCase(MainActivity.currentUser.getUsername())){
+            ImageView trash = reviewItem.findViewById(R.id.btnDeleteReview);
+            trash.setVisibility(View.VISIBLE);
+        }
+
+        reviewItem.findViewById(R.id.btnDeleteReview).setOnClickListener(v->{
+            // 1. Remove from the local copy (for immediate UI update)
+            place.getReviewList().remove(r);
+
+            for (Place p:HomePageList) {
+                if(p.getName().equalsIgnoreCase(place.getName())){
+                   p.getReviewList().remove(r);
+
+            }}
+                MainActivity.currentUser.getReviews().remove(r);
+
+
+            loadReviews();
+        });
 
 
         // Add stars to the review item
-        for (int i = 0; i < Integer.parseInt(a.get(2)); i++) {
+        for (int i = 0; i < r.getStars(); i++) {
             ImageView star = new ImageView(this);
             star.setImageResource(R.drawable.ic_star);
 
@@ -202,11 +247,7 @@ public class PlaceDetailsActivity extends AppCompatActivity {
 
 
                 dialog.dismiss();
-                if(!place.getReviewList().isEmpty()) {
-                    TextView NoReviews = findViewById(R.id.NoReviews);
-                    NoReviews.setVisibility(View.GONE);
 
-                }
                 loadReviews();
 
             }
@@ -214,6 +255,8 @@ public class PlaceDetailsActivity extends AppCompatActivity {
 
         dialog.show();
     }
+
+
 
 
 

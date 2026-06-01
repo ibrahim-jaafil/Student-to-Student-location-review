@@ -22,6 +22,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.dsa2_project.Home.HomeActivity;
 import com.example.dsa2_project.Home.PlaceDetailsActivity;
 import com.example.dsa2_project.Location.Place;
+import com.example.dsa2_project.MainActivity;
 import com.example.dsa2_project.R;
 
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class SearchResults extends AppCompatActivity {
             return insets;
         });
 
-        tvSearchHint = findViewById(R.id.tvSearchHint);
+        //tvSearchHint = findViewById(R.id.tvSearchHint);
         ResultsContainer = findViewById(R.id.ResultsContainer);
         backButton = findViewById(R.id.backButton);
 

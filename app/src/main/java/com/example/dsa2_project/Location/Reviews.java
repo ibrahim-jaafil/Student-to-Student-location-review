@@ -28,7 +28,7 @@ public class Reviews implements Serializable {
          this.review=review;
          this.stars=stars;
          this.user=user;
-         user.addReviewToStack(this);
+         user.getReviews().insertAtFront(this);
          date=LocalDate.now();
         // past = LocalDate.of(2026, 5, 22);
      }

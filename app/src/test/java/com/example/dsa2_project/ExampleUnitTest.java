@@ -103,7 +103,7 @@ public class ExampleUnitTest {
         Place p3 = new Place("upperdeck",c,600,5);
         Reviews r4 = new Reviews("wow" , 1,u1,p3);
 
-        System.out.println(u1.getReviews().outputStack().toString());
+      //  System.out.println(u1.getReviews().outputStack().toString());
 
 
 
