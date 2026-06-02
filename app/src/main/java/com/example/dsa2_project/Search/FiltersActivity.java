@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -18,7 +18,7 @@ import com.google.android.material.slider.Slider;
 
 public class FiltersActivity extends AppCompatActivity {
 
-    private TextView tvAll, tvFood, tvCafes;
+    private View tvAll, tvFood, tvCafes;
     private String selectedCategory = "All";
 
     @Override
@@ -46,24 +46,36 @@ public class FiltersActivity extends AppCompatActivity {
 
         // Reset all to unselected style
         tvAll.setBackgroundResource(R.drawable.filter_chip_bg);
-        tvAll.setTextColor(Color.parseColor("#49454F"));
+        if (tvAll instanceof TextView) {
+            ((TextView) tvAll).setTextColor(Color.parseColor("#49454F"));
+        }
 
         tvFood.setBackgroundResource(R.drawable.filter_chip_bg);
-        tvFood.setTextColor(Color.parseColor("#49454F"));
+        if (tvFood instanceof ImageView) {
+            ((ImageView) tvFood).setColorFilter(Color.parseColor("#49454F"));
+        }
 
         tvCafes.setBackgroundResource(R.drawable.filter_chip_bg);
-        tvCafes.setTextColor(Color.parseColor("#49454F"));
+        if (tvCafes instanceof ImageView) {
+            ((ImageView) tvCafes).setColorFilter(Color.parseColor("#49454F"));
+        }
 
         // Set selected style
         if (category.equals("All")) {
             tvAll.setBackgroundResource(R.drawable.dark_pill_bg);
-            tvAll.setTextColor(Color.WHITE);
+            if (tvAll instanceof TextView) {
+                ((TextView) tvAll).setTextColor(Color.WHITE);
+            }
         } else if (category.equals("Food")) {
             tvFood.setBackgroundResource(R.drawable.dark_pill_bg);
-            tvFood.setTextColor(Color.WHITE);
+            if (tvFood instanceof ImageView) {
+                ((ImageView) tvFood).setColorFilter(Color.WHITE);
+            }
         } else if (category.equals("Cafes")) {
             tvCafes.setBackgroundResource(R.drawable.dark_pill_bg);
-            tvCafes.setTextColor(Color.WHITE);
+            if (tvCafes instanceof ImageView) {
+                ((ImageView) tvCafes).setColorFilter(Color.WHITE);
+            }
         }
     }
 

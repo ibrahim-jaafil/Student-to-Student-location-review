@@ -1,6 +1,6 @@
 package com.example.dsa2_project.Profile;
 
-import static com.example.dsa2_project.Home.HomeActivity.favoriteList;
+import static com.example.dsa2_project.MainActivity.favoriteList;
 
 import android.content.Intent;
 import android.os.Bundle;

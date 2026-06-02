@@ -21,6 +21,7 @@ import com.example.dsa2_project.login_sys.User;
 
 public class LoginActivity extends AppCompatActivity {
 
+   // private String campusName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -35,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         users.put(123,new User("bob","bob","123",123));
         users.put(000,new User("admin","admin","000",000));
 
+       // campusName= getIntent().getStringExtra("campus");
     }
 
     public void GetInfo(View view){
@@ -68,12 +70,14 @@ public class LoginActivity extends AppCompatActivity {
                     if(users.get(idnb).getSTUid()==000 && users.get(idnb).getUsername().equals("admin")){
                         Intent i = new Intent(this, HomeActivity.class);
                         i.putExtra("admin",true);
+                        //i.putExtra("campus",campusName);
                         startActivity(i);
                         finish(); // Finish LoginActivity so user can't "go back" to a login screen with errors
                     }
                     else {
                         Intent i = new Intent(this, HomeActivity.class);
                         i.putExtra("admin",false);
+                      //  i.putExtra("campus",campusName);
 
                         startActivity(i);
                         finish();// Finish LoginActivity so user can't "go back" to a login screen with errors

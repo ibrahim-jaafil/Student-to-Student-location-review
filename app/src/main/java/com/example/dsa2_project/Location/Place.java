@@ -85,6 +85,12 @@ public class Place implements Serializable {
         Location_Link = location_Link;
     }
 
+    public Campus getCampus() {
+        return campus;
+    }
+
+
+
     @NonNull
     @Override
     public String toString() {

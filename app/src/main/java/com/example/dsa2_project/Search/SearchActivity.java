@@ -25,7 +25,6 @@ import android.widget.TextView;
 import com.example.dsa2_project.Home.HomeActivity;
 import com.example.dsa2_project.Home.PlaceDetailsActivity;
 import com.example.dsa2_project.Location.Place;
-import com.example.dsa2_project.MainActivity;
 import com.example.dsa2_project.Profile.ProfileActivity;
 import com.example.dsa2_project.R;
 
@@ -100,6 +99,8 @@ public class SearchActivity extends AppCompatActivity {
         loadRecentPlaces();
     }
 
+
+
     private void loadRecentPlaces() {
         if (currentUser == null || currentUser.getLastViewedPlaces() == null) return;
 
@@ -114,19 +115,24 @@ public class SearchActivity extends AppCompatActivity {
                 ImageButton btnFavorite = placeItem.findViewById(R.id.btnFavorite);
 
                 placeName.setText(p.getName());
-
+                if (isPlaceFavorited(p)) {
+                    btnFavorite.setSelected(true);
+                }
+                else {
+                    btnFavorite.setSelected(false);
+                }
                 btnFavorite.setOnClickListener(v -> {
-                    v.setSelected(!v.isSelected());
-                    if(v.isSelected()) {
-                        if (!favoriteList.contains(p)) {
+                    boolean newState = !v.isSelected();
+                    v.setSelected(newState);
+
+                    if(newState) {
+                        if (!isPlaceFavorited(p)) {
                             favoriteList.add(p);
                         }
                     }
                     else {
-                        favoriteList.remove(p);
-                    }
+                        favoriteList.removeIf(fav -> fav.getName().equalsIgnoreCase(p.getName()));                    }
                 });
-
                 for (int i = 0; i < p.getStars(); i++) {
                     ImageView star = new ImageView(this);
                     star.setImageResource(R.drawable.ic_star);
@@ -152,6 +158,18 @@ public class SearchActivity extends AppCompatActivity {
                 recentSearchesContainer.addView(placeItem);
             }
         }
+    }
+
+    // due to Intent serialization
+    private boolean isPlaceFavorited(Place p) {
+        if (favoriteList == null) return false;
+        for (Place fav : favoriteList) {
+            // Compare by name because the objects might be different instances
+            if (fav.getName().equalsIgnoreCase(p.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

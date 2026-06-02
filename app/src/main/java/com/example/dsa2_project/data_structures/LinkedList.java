@@ -43,7 +43,8 @@ public class LinkedList implements Serializable {
             // Compare fields because serialization creates copies with different memory addresses
             boolean match = r.getReview().equals(review.getReview()) &&
                     r.getStars() == review.getStars() &&
-                    r.getUser().getUsername().equals(review.getUser().getUsername());
+                    r.getUser().getUsername().equals(review.getUser().getUsername())
+                    && r.getPlace().getName().equals(review.getPlace().getName());
 
             if (match) {
                 if (prev == null) {
