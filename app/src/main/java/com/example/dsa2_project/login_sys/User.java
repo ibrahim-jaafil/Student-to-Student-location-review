@@ -62,7 +62,11 @@ public User(String username,String email, String password, int STUid){
         return lastViewedPlaces;
     }
 
-    public void setLastViewedPlaces(Stack lastViewedPlaces) {
-        this.lastViewedPlaces = lastViewedPlaces;
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

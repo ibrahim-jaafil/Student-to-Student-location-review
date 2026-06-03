@@ -42,8 +42,8 @@ public class LoginActivity extends AppCompatActivity {
     public void GetInfo(View view){
         Button btn = (Button) view;
 
-        EditText nameInput = findViewById(R.id.etName);
-        String name = nameInput.getText().toString().trim();
+        EditText passwordInput = findViewById(R.id.etPassword);
+        String password = passwordInput.getText().toString().trim();
 
         EditText idInput = findViewById(R.id.etIdNumber);
         String id = idInput.getText().toString().trim();
@@ -51,11 +51,11 @@ public class LoginActivity extends AppCompatActivity {
         TextView tvError = findViewById(R.id.tvError);
         tvError.setVisibility(View.GONE);
 
-        nameInput.setError(null);
+       passwordInput.setError(null);
         idInput.setError(null);
 
-        if(name.isEmpty()){
-            nameInput.setError("Please enter your name");
+        if(password.isEmpty()){
+            passwordInput.setError("Please enter your password");
         }
         else if(id.isEmpty()){
             idInput.setError("Please enter your id number");
@@ -64,10 +64,10 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 int idnb = Integer.parseInt(id);
 
-                if (users.containsKey(idnb) && name.equalsIgnoreCase(users.get(idnb).getUsername())) {
+                if (users.containsKey(idnb) && password.equalsIgnoreCase(users.get(idnb).getPassword())) {
                     MainActivity.currentUser = users.get(idnb);
 
-                    if(users.get(idnb).getSTUid()==000 && users.get(idnb).getUsername().equals("admin")){
+                    if(users.get(idnb).getSTUid()==000 && users.get(idnb).getPassword().equals("000")){
                         Intent i = new Intent(this, HomeActivity.class);
                         i.putExtra("admin",true);
                         //i.putExtra("campus",campusName);
@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                         finish();// Finish LoginActivity so user can't "go back" to a login screen with errors
                     }
                     } else {
-                    nameInput.setError("Username or id is wrong");
+                    passwordInput.setError("Username or id is wrong");
                     idInput.setError("Username or id is wrong");
 
 

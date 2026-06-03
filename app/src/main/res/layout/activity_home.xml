@@ -164,6 +164,7 @@
         android:layout_height="80dp"
         android:layout_margin="16dp"
         android:background="@drawable/white_pill_bg"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Light"
         android:elevation="8dp"
         android:gravity="center"
         android:orientation="horizontal"

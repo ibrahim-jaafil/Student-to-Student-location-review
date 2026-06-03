@@ -228,7 +228,7 @@ public class HomeActivity extends AppCompatActivity {
         btnFavorite.setSelected(isFav);
 
         placeName.setText(p.getName());
-
+        placeLocation.setText(String.valueOf(p.getPrice_range())+" "+"tl");
         btnFavorite.setOnClickListener(v -> {
             boolean newState = !v.isSelected();
             v.setSelected(newState);

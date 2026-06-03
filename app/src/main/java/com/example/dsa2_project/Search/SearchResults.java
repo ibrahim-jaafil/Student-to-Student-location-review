@@ -138,7 +138,7 @@ if(priceRange != 0 ) {
 
 
         placeName.setText(p.getName());
-        price.setText(String.valueOf(p.getPrice_range()));
+        price.setText(String.valueOf(p.getPrice_range())+" "+"tl");
 
         for (int i = 0; i < p.getStars(); i++) {
             ImageView star = new ImageView(this);
@@ -159,7 +159,7 @@ if(priceRange != 0 ) {
 
         placeName.setText(p.getName());
 
-        if (favoriteList.contains(p)) {
+        if (isPlaceFavorited(p)) {
             btnFavorite.setSelected(true);
         }
         else {
@@ -170,13 +170,12 @@ if(priceRange != 0 ) {
             v.setSelected(newState);
 
             if(newState) {
-                if (!favoriteList.contains(p)) {
+                if (!isPlaceFavorited(p)) {
                     favoriteList.add(p);
                 }
             }
             else {
-                favoriteList.remove(p);
-            }
+                favoriteList.removeIf(fav -> fav.getName().equalsIgnoreCase(p.getName()));                    }
         });
 
         resultItem.setOnClickListener(v -> {
@@ -190,6 +189,17 @@ if(priceRange != 0 ) {
         });
 
         ResultsContainer.addView(resultItem);
+    }
+
+    private boolean isPlaceFavorited(Place p) {
+        if (favoriteList == null) return false;
+        for (Place fav : favoriteList) {
+            // Compare by name because the objects might be different instances
+            if (fav.getName().equalsIgnoreCase(p.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void addFilterChip(int text) {
