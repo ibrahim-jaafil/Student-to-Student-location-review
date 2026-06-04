@@ -98,11 +98,11 @@ public class LoginActivity extends AppCompatActivity {
 
     public void OpenRegister(View view) {
         // Clear errors before leaving the screen
-        EditText nameInput = findViewById(R.id.etName);
+        EditText passwordInput = findViewById(R.id.etPassword);
         EditText idInput = findViewById(R.id.etIdNumber);
         TextView tvError = findViewById(R.id.tvError);
         
-        nameInput.setError(null);
+        passwordInput.setError(null);
         idInput.setError(null);
         tvError.setVisibility(View.GONE);
 

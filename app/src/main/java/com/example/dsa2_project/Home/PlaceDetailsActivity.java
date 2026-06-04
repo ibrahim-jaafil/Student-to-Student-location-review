@@ -217,41 +217,50 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         RatingBar rating = dialog.findViewById(R.id.dialogRatingBar);
         EditText reviewComment= dialog.findViewById(R.id.etReviewComment);
         Button btnSubmit = dialog.findViewById(R.id.btnSubmitReview);
-        btnSubmit.setOnClickListener(v -> {
-            //Dialog dialog = new Dialog(this);
-            ArrayList<User> users = new ArrayList<>();
-            for (Place p:HomePageList) {
-                if(p.getName().equalsIgnoreCase(place.getName())){
-                    users = p.getReviewList().outputUsers();
+            btnSubmit.setOnClickListener(v -> {
+                if(rating.getRating()!=0 && !reviewComment.getText().toString().isEmpty()) {
 
-                }
-            }
-            if(users.contains(MainActivity.currentUser)){
-                btnSubmit.setError("You have already reviewed this place!");
-            }
-            else {
+                    //Dialog dialog = new Dialog(this);
+                    ArrayList<User> users = new ArrayList<>();
+                    for (Place p : HomePageList) {
+                        if (p.getName().equalsIgnoreCase(place.getName())) {
+                            users = p.getReviewList().outputUsers();
 
-                double ratingPutIn = rating.getRating();
-                String comment = reviewComment.getText().toString();
-                Reviews r = new Reviews(comment, (int) ratingPutIn, MainActivity.currentUser, place);
-                place.addReview(r);
-
-                for (Place p:HomePageList) {
-                    if(p.getName().equalsIgnoreCase(place.getName())){
-                        p.addReview(r);
+                        }
                     }
+                    if (users.contains(MainActivity.currentUser)) {
+                        btnSubmit.setError("You have already reviewed this place!");
+                    } else {
+
+                        double ratingPutIn = rating.getRating();
+                        String comment = reviewComment.getText().toString();
+                        Reviews r = new Reviews(comment, (int) ratingPutIn, MainActivity.currentUser, place);
+                        place.addReview(r);
+
+                        for (Place p : HomePageList) {
+                            if (p.getName().equalsIgnoreCase(place.getName())) {
+                                p.addReview(r);
+                            }
+                        }
+                        //MainActivity.currentUser.getReviews().add(r);
+
+                        // have to make safeguards for the add if like no comment or no stars
+
+
+                        dialog.dismiss();
+
+                        loadReviews();
+
+                    }
+
+
                 }
-                //MainActivity.currentUser.getReviews().add(r);
+                else{
+                    btnSubmit.setError("You have a missing field");
+                }
+            });
 
-                // have to make safeguards for the add if like no comment or no stars
 
-
-                dialog.dismiss();
-
-                loadReviews();
-
-            }
-        });
 
         dialog.show();
     }

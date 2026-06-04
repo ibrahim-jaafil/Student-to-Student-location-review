@@ -34,7 +34,7 @@
         android:numStars="5"
         android:stepSize="1"
         android:progressTint="@color/stars_color"
-        android:progressBackgroundTint="@color/black"
+        android:progressBackgroundTint="#757575"
         android:secondaryProgressTint="@android:color/transparent"
         />
 
@@ -48,6 +48,7 @@
         android:hint="Write your review here..."
         android:padding="12dp"
         android:textColor="#1D1B20"
+        android:textColorHint="#757575"
         android:textSize="14sp"
         android:inputType="textMultiLine" />
 

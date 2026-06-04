@@ -1,5 +1,7 @@
 package com.example.dsa2_project.Profile;
 
+import static com.example.dsa2_project.MainActivity.HomePageList;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.dsa2_project.Location.Place;
 import com.example.dsa2_project.Location.Reviews;
 import com.example.dsa2_project.MainActivity;
 import com.example.dsa2_project.R;
@@ -68,6 +71,27 @@ public class ReviewsHistoryActivity extends AppCompatActivity {
                 TextView reviewDate = reviewItem.findViewById(R.id.reviewDate);
                 LinearLayout reviewStarsContainer = reviewItem.findViewById(R.id.reviewStarsContainer);
 
+
+
+                if(review.getUser().getUsername().equalsIgnoreCase(MainActivity.currentUser.getUsername())){
+                    ImageView trash = reviewItem.findViewById(R.id.btnDeleteReview);
+                    trash.setVisibility(View.VISIBLE);
+                }
+
+                reviewItem.findViewById(R.id.btnDeleteReview).setOnClickListener(v-> {
+                    // 1. Remove from the local copy (for immediate UI update)
+                    review.getPlace().getReviewList().remove(review);
+
+                    for (Place p : HomePageList) {
+                        if (p.getName().equalsIgnoreCase(review.getPlace().getName())) {
+                            p.getReviewList().remove(review);
+
+                        }
+                    }
+                    MainActivity.currentUser.getReviews().remove(review);
+                    loadReviews();
+
+                });
                 if (review.getPlace() != null) {
                     placeName.setText(review.getPlace().getName());
                 } else {
@@ -82,7 +106,10 @@ public class ReviewsHistoryActivity extends AppCompatActivity {
             }
         }
 
+
     }
+
+
 
     public void starsFunc(int starsCount, LinearLayout reviewStarsContainer){
         for (int i = 0; i < starsCount; i++) {
