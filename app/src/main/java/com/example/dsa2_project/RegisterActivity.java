@@ -50,12 +50,15 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
+
 try {
     int stuIdnb= Integer.parseInt(stuId);
 
         // Logic for creating account would go here (e.g., adding to your User HashMap)
 
+
         users.put(stuIdnb,new User(name,email,password,stuIdnb));
+        MainActivity.currentUser= users.get(stuIdnb);
         Toast.makeText(this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this, HomeActivity.class);

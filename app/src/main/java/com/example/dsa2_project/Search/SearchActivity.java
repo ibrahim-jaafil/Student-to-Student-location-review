@@ -68,7 +68,7 @@ public class SearchActivity extends AppCompatActivity {
         // Listen for search icon click
         findViewById(R.id.ivSearchIcon).setOnClickListener(v ->
         {
-            if(!etSearch.getText().toString().isEmpty() || selectedPrice!=0){
+            if(!etSearch.getText().toString().isEmpty() || selectedPrice!=0 ){
             performSearch();
         }
 
@@ -179,12 +179,13 @@ public class SearchActivity extends AppCompatActivity {
 
         if (intent.hasExtra("price")) {
             selectedPrice = intent.getIntExtra("price",0);
-            checkFilters();
         }
         if (intent.hasExtra("category")) {
             category = intent.getStringExtra("category");
 
         }
+        checkFilters();
+
 
     }
 
@@ -212,19 +213,33 @@ public class SearchActivity extends AppCompatActivity {
     private void checkFilters() {
         filterChipsContainer.removeAllViews();
         if (selectedPrice != 0) {
-            addFilterChip(selectedPrice);
+            addFilterChip(String.valueOf(selectedPrice), "price");
         }
+
+        // Check for Category Filter
+        if (category != null && !category.isEmpty() && !category.equalsIgnoreCase("All")) {
+            addFilterChip(category, "category");
+        }
+
     }
 
-    private void addFilterChip(int text) {
+    private void addFilterChip(String text , String type) {
         View chipView = getLayoutInflater().inflate(R.layout.item_filter_chip, filterChipsContainer, false);
         TextView chipText = chipView.findViewById(R.id.chipText);
         View chipClose = chipView.findViewById(R.id.chipClose);
 
-        chipText.setText(String.valueOf(text));
+
+
+        chipText.setText(text);
+
         chipClose.setOnClickListener(v -> {
             filterChipsContainer.removeView(chipView);
-            selectedPrice = 0;
+            if (type.equals("price")) {
+                selectedPrice = 0;
+            } else if (type.equals("category")) {
+                category = null;
+            }
+            checkFilters();
         });
 
         filterChipsContainer.addView(chipView);

@@ -31,7 +31,7 @@ public class Stack implements Serializable {
         }
     }
 
-    private void remove(Place p) {
+    public void remove(Place p) {
         if (isEmpty()) return;
 
         if (front.getLastViewed().getName().equalsIgnoreCase(p.getName())) {

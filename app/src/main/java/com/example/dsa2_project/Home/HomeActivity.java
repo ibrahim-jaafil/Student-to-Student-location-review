@@ -3,6 +3,7 @@ package com.example.dsa2_project.Home;
 import static android.view.View.VISIBLE;
 import static com.example.dsa2_project.MainActivity.HomePageList;
 import static com.example.dsa2_project.MainActivity.campus;
+import static com.example.dsa2_project.MainActivity.campuses;
 import static com.example.dsa2_project.MainActivity.favoriteList;
 import static com.example.dsa2_project.MainActivity.places;
 
@@ -311,11 +312,21 @@ public class HomeActivity extends AppCompatActivity {
         Button btnSubmit = dialog.findViewById(R.id.btnSubmitPlace);
         btnSubmit.setOnClickListener(v -> {
             String Name = placeName.getText().toString();
-            //String campusName = campus.getText().toString();
+            String campusName = campus.getText().toString();
             String type = campus.getText().toString();
             int price = Integer.parseInt(priceRange.getText().toString());
+            Place p= new Place();
 
-            Place p = new Place(Name,South,type,price,(int)rating.getRating());
+            for (Campus c : campuses) {
+                if (c.getName().equalsIgnoreCase(campusName)) {
+                     p = new Place(Name,c,type,price,(int)rating.getRating());
+                     c.addLocation(p);
+                }
+            }
+
+
+
+
             HomePageList.add(p);
             places.insert(p);
             MainActivity.lookupByName.put(p.getName().trim().toLowerCase(),p);

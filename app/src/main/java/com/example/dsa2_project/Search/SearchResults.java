@@ -63,7 +63,10 @@ public class SearchResults extends AppCompatActivity {
 
         priceRange=getIntent().getIntExtra("price",0);
 if(priceRange != 0 ) {
-    addFilterChip(priceRange);
+    addFilterChip(String.valueOf(priceRange));
+}
+if(category!=null){
+            addFilterChip(category);
 }
 
         loadResults();
@@ -120,6 +123,7 @@ if(priceRange != 0 ) {
                 foundAny = true;
             }
         }
+
 
         // FINAL CHECK: Toggle "No Results" based on our flag
         if (foundAny) {
@@ -202,13 +206,13 @@ if(priceRange != 0 ) {
         return false;
     }
 
-    private void addFilterChip(int text) {
+    private void addFilterChip(String text) {
 
         View chipView = getLayoutInflater().inflate(R.layout.item_filter_chip, filterChipsContainer, false);
         TextView chipText = chipView.findViewById(R.id.chipText);
         View chipClose = chipView.findViewById(R.id.chipClose);
 
-        chipText.setText(String.valueOf(text));
+        chipText.setText(text);
         chipClose.setOnClickListener(v -> {
             filterChipsContainer.removeView(chipView);
             // Here you would also update your search results

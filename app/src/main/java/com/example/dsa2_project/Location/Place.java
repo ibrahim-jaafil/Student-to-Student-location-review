@@ -19,6 +19,10 @@ public class Place implements Serializable {
 
     private LinkedList reviewList; //make a method to calc stars from reviews
 
+    public Place(){
+
+    }
+
     public Place(String name,Campus campus,String location_type, int price_range,int stars){
        this.location_type=location_type;
         this.stars=stars;

@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<Place> HomePageList = new ArrayList<>();
     public static HashMap<String, Place> lookupByName = new HashMap<>();
 
-
+    public static ArrayList<Campus> campuses = new ArrayList<>();
 
 
 
@@ -41,6 +41,14 @@ public class MainActivity extends AppCompatActivity {
         Campus c2 = new Campus("north","Besiktas");
         Campus c3 = new Campus("galata","Beyoglu");
         Campus c4 = new Campus("Dental","Balmumcu");
+
+        campuses.add(c);
+        campuses.add(c2);
+        campuses.add(c3);
+        campuses.add(c4);
+
+
+
 
 
         Place p1 = new Place("the Best" ,c,"Food",500,5);
