@@ -94,7 +94,7 @@ public class FavoritesActivity extends AppCompatActivity {
             Intent intent = new Intent(FavoritesActivity.this, PlaceDetailsActivity.class);
             intent.putExtra("PLACE_NAME", p.getName());
             intent.putExtra("PLACE_STARS", p.getStars());
-            intent.putExtra("PLACE", p);
+            intent.putExtra("PLACE", p.getPid());
             startActivity(intent);
         });
 

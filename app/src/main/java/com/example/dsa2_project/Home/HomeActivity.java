@@ -3,8 +3,11 @@ package com.example.dsa2_project.Home;
 import static android.view.View.VISIBLE;
 import static com.example.dsa2_project.MainActivity.HomePageList;
 import static com.example.dsa2_project.MainActivity.campus;
+import static com.example.dsa2_project.MainActivity.campusTable;
 import static com.example.dsa2_project.MainActivity.campuses;
+import static com.example.dsa2_project.MainActivity.dbHelper;
 import static com.example.dsa2_project.MainActivity.favoriteList;
+import static com.example.dsa2_project.MainActivity.favoritesTable;
 import static com.example.dsa2_project.MainActivity.places;
 
 import android.app.Dialog;
@@ -37,6 +40,7 @@ import com.example.dsa2_project.MainActivity;
 import com.example.dsa2_project.Profile.ProfileActivity;
 import com.example.dsa2_project.R;
 import com.example.dsa2_project.Search.SearchActivity;
+import com.example.dsa2_project.data_structures.Database.Tables.PlaceTable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -244,9 +248,15 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 if (!alreadyExists) {
                     favoriteList.add(p);
+                    if (MainActivity.currentUser != null) {
+                        favoritesTable.addFavorite(MainActivity.currentUser.getSTUid(), p.getPid());
+                    }
                 }
             } else {
                 favoriteList.removeIf(fav -> fav.getName().equalsIgnoreCase(p.getName()));
+                if (MainActivity.currentUser != null) {
+                    favoritesTable.removeFavorite(MainActivity.currentUser.getSTUid(), p.getPid());
+                }
             }
         });
 
@@ -270,7 +280,7 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent = new Intent(HomeActivity.this, PlaceDetailsActivity.class);
             intent.putExtra("PLACE_NAME", p.getName());
             intent.putExtra("PLACE_STARS", p.getStars());
-            intent.putExtra("PLACE", p);
+            intent.putExtra("PLACE", p.getPid());
 
 
             startActivity(intent);
@@ -313,19 +323,23 @@ public class HomeActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(v -> {
             String Name = placeName.getText().toString();
             String campusName = campus.getText().toString();
-            String type = campus.getText().toString();
+            String type = locationType.getText().toString();
             int price = Integer.parseInt(priceRange.getText().toString());
-            Place p= new Place();
+            double ratingPutIn = rating.getRating();
+
+
+            String Location_Link="";
+            Place p = new Place();
 
             for (Campus c : campuses) {
                 if (c.getName().equalsIgnoreCase(campusName)) {
                      p = new Place(Name,c,type,price,(int)rating.getRating());
-                     c.addLocation(p);
+                    PlaceTable placeTable = new PlaceTable(dbHelper);
+                  int newID=  placeTable.insert(Name,campusTable.getCidByName(c.getName()),type,price,(int)ratingPutIn,Location_Link);
+                    p.setPid( newID);
+                    c.addLocation(p);
                 }
             }
-
-
-
 
             HomePageList.add(p);
             places.insert(p);
@@ -335,7 +349,6 @@ public class HomeActivity extends AppCompatActivity {
             loadPlaces("All");
                 // have to make safeguards for the add if like no comment or no stars
         });
-
         dialog.show();
     }
 

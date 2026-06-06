@@ -19,6 +19,7 @@ public class Place implements Serializable {
 
     private LinkedList reviewList; //make a method to calc stars from reviews
 
+    private int Pid;
     public Place(){
 
     }
@@ -80,6 +81,9 @@ public class Place implements Serializable {
         return campus;
     }
 
+
+    public int getPid() { return Pid; }
+    public void setPid(int id) { this.Pid = id; }
 
     @NonNull
     @Override

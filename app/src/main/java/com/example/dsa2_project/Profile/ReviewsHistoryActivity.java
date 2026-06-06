@@ -57,10 +57,29 @@ public class ReviewsHistoryActivity extends AppCompatActivity {
 
     private void loadReviews() {
         reviewsContainer.removeAllViews();
-        if (MainActivity.currentUser != null && !MainActivity.currentUser.getReviews().isEmpty()) {
+        if (MainActivity.currentUser != null) {
+            // Re-load reviews from Database to ensure persistence sync
+            MainActivity.currentUser.getReviews().clear();
+            android.database.Cursor revCursor = MainActivity.reviewTable.getByUser(MainActivity.currentUser.getSTUid());
+            while (revCursor.moveToNext()) {
+                String revText = revCursor.getString(revCursor.getColumnIndexOrThrow("review"));
+                int stars = revCursor.getInt(revCursor.getColumnIndexOrThrow("rating"));
+                int pid = revCursor.getInt(revCursor.getColumnIndexOrThrow("pid"));
+                
+                Place place = null;
+                for (Place p : MainActivity.HomePageList) {
+                    if (p.getPid() == pid) {
+                        place = p;
+                        break;
+                    }
+                }
+                
+                if (place != null) {
+                    new Reviews(revText, stars, MainActivity.currentUser, place);
+                }
+            }
+            revCursor.close();
 
-
-           // ArrayList<Reviews> reviewsList = MainActivity.currentUser.getReviews().outputStack();
             ArrayList<Reviews> reviewsList = MainActivity.currentUser.getReviews().outputReviewInfo();
 
             for (Reviews review : reviewsList) {
@@ -79,7 +98,13 @@ public class ReviewsHistoryActivity extends AppCompatActivity {
                 }
 
                 reviewItem.findViewById(R.id.btnDeleteReview).setOnClickListener(v-> {
-                    // 1. Remove from the local copy (for immediate UI update)
+                    // 1. Remove from Database
+                    MainActivity.reviewTable.deleteReview(
+                            MainActivity.currentUser.getSTUid(),
+                            review.getPlace().getPid(),
+                            review.getReview()
+                    );
+
                     review.getPlace().getReviewList().remove(review);
 
                     for (Place p : HomePageList) {
