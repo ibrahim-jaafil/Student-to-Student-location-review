@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
             int galataid = campusTable.getCidByName("Galata");
             int dentalid = campusTable.getCidByName("Dental");
 
-            userTable.insert("admin",   "admin",   "000", 000);
+            userTable.insert("admin",   "admin",   "111", 111);
             userTable.insert("bob",     "user",    "123", 123);
             userTable.insert("ameen",   "ameen",   "456", 456);
             userTable.insert("ragheed", "ragheed", "789", 789);
