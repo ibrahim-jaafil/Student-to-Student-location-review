@@ -27,15 +27,21 @@ public class UsersTable {
         db.close();
     }
 
-    public Cursor loginVulnerable(String username, String password) {
+    public Cursor loginVulnerable(String STUid, String password) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String query = "SELECT * FROM USERS" +
-                " WHERE username = '" + username +
+                " WHERE STUid = '" + STUid +
                 "' AND password = '" + password + "'";
         return db.rawQuery(query, null);
 
     }
-
+    public Cursor loginSecure(int STUid, String password) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        return db.rawQuery(
+                "SELECT * FROM USERS WHERE STUid = ? AND password = ?",
+                new String[]{String.valueOf(STUid), password}
+        );
+    }
     public Cursor getAll() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         return db.rawQuery("SELECT * FROM USERS", null);
