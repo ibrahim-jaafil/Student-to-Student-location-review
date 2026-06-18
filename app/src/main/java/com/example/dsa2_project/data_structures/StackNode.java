@@ -2,31 +2,32 @@ package com.example.dsa2_project.data_structures;
 
 import androidx.annotation.NonNull;
 
+import com.example.dsa2_project.Location.Place;
 import com.example.dsa2_project.Location.Reviews;
 
 import java.io.Serializable;
 
 public class StackNode implements Serializable {
 
-    private Reviews reviewInStack;
+    private Place lastViewed;
     private StackNode next;
 
     public StackNode(){
         next=null;
 
     }
-    public StackNode(Reviews reviewInStack ){
+    public StackNode(Place lastviewed ){
         next=null;
-        this.reviewInStack=reviewInStack;
+        this.lastViewed=lastviewed;
 
     }
 
-    public Reviews getReviewInStack() {
-        return reviewInStack;
+    public Place getLastViewed() {
+        return lastViewed;
     }
 
-    public void setReviewInStack(Reviews reviewInStack) {
-        this.reviewInStack = reviewInStack;
+    public void setLastViewed(Place lastViewed) {
+        this.lastViewed = lastViewed;
     }
 
     public StackNode getNext() {
@@ -35,11 +36,5 @@ public class StackNode implements Serializable {
 
     public void setNext(StackNode next) {
         this.next = next;
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return reviewInStack.getReview();
     }
 }

@@ -17,7 +17,7 @@ public class Reviews implements Serializable {
      private int stars;
      private LocalDate date;
 
-     private LocalDate past;
+     //private LocalDate past;
      private User user;
 
      private   Place place;
@@ -28,24 +28,25 @@ public class Reviews implements Serializable {
          this.review=review;
          this.stars=stars;
          this.user=user;
-         user.addReviewToStack(this);
+         user.getReviews().insertAtFront(this);
          date=LocalDate.now();
         // past = LocalDate.of(2026, 5, 22);
      }
      public String getReview() {
          return review;
      }
-     public void setReview(String review) {
+     /*public void setReview(String review) {
+
          this.review = review;
-     }
+     }*/
 
     public int getStars() {
         return stars;
     }
 
-    public void setStars(int stars) {
+    /*public void setStars(int stars) {
         this.stars = stars;
-    }
+    }*/
 
     public User getUser() {
         return user;

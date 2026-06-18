@@ -26,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<Place> HomePageList = new ArrayList<>();
     public static HashMap<String, Place> lookupByName = new HashMap<>();
 
+    public static ArrayList<Campus> campuses = new ArrayList<>();
+
+
 
 
 
@@ -34,7 +37,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i("Places", "App started");
-        Campus c = new Campus("besiktas","south");
+        Campus c = new Campus("South","Besiktas");
+        Campus c2 = new Campus("north","Besiktas");
+        Campus c3 = new Campus("galata","Beyoglu");
+        Campus c4 = new Campus("Dental","Balmumcu");
+
+        campuses.add(c);
+        campuses.add(c2);
+        campuses.add(c3);
+        campuses.add(c4);
+
+
+
+
 
         Place p1 = new Place("the Best" ,c,"Food",500,5);
         p1.setLocation_Link("https://www.google.com/maps/place/The+Best+Kitchen/@41.0447984,29.0028072,17z/data=!3m1!4b1!4m6!3m5!1s0x14cab7a3a8e4a05f:0x620efe9ba31609e0!8m2!3d41.0447985!4d29.0076781!16s%2Fg%2F1tdj7ncy?entry=ttu&g_ep=EgoyMDI2MDUyNy4wIKXMDSoASAFQAw%3D%3D");
@@ -51,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         Place p9 = new Place("Espresso Lab",c,"Cafes",250,4);
         Place p10 = new Place("Mikel Coffee",c,"Cafes",300,4);
         Place p11 = new Place("Cafe Nero",c,"Cafes",250,4);
+
         places.insert(p1);
         places.insert(p2);
         places.insert(p3);
@@ -82,7 +98,10 @@ public class MainActivity extends AppCompatActivity {
         lookupByName.put(p10.getName().toLowerCase(),p10);
         lookupByName.put(p11.getName().toLowerCase(),p11);
 
-
+        findViewById(R.id.SouthLoc).setOnClickListener(this::PickCampus);
+        findViewById(R.id.NorthLoc).setOnClickListener(this::PickCampus);
+        findViewById(R.id.GalataLoc).setOnClickListener(this::PickCampus);
+        findViewById(R.id.DentalLoc).setOnClickListener(this::PickCampus);
 
     }
 
@@ -93,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
          campus= b.getText().toString();
 
         Intent i = new Intent(MainActivity.this, LoginActivity.class);
+        //i.putExtra("campus",campus);
         startActivity(i);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 

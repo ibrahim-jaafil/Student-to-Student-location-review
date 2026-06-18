@@ -129,7 +129,7 @@
         android:src="@drawable/ic_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/back_button_tint"
+        app:tint="@color/black"
         android:onClick="addReviewButton"
         />
 

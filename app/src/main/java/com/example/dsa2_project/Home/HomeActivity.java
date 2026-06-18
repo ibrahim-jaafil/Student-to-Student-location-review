@@ -2,10 +2,14 @@ package com.example.dsa2_project.Home;
 
 import static android.view.View.VISIBLE;
 import static com.example.dsa2_project.MainActivity.HomePageList;
+import static com.example.dsa2_project.MainActivity.campus;
+import static com.example.dsa2_project.MainActivity.campuses;
+import static com.example.dsa2_project.MainActivity.favoriteList;
 import static com.example.dsa2_project.MainActivity.places;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -41,7 +45,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private LinearLayout itemsContainer;
 
-    public static ArrayList<Place> favoriteList = new ArrayList<>();
+
+    private String campusName;
 
     Campus South;
     @Override
@@ -63,9 +68,11 @@ public class HomeActivity extends AppCompatActivity {
 
 
          boolean isAdmin;
-
+         campusName= campus;
         isAdmin= getIntent().getBooleanExtra("admin",false);
         ifAdmin(isAdmin);
+
+
         loadPlaces("All");
 
         findViewById(R.id.navSearch).setOnClickListener(v -> {
@@ -83,14 +90,54 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         TextView tvUserName = findViewById(R.id.tvUserName);
-        tvUserName.setText(MainActivity.currentUser.getUsername());
+        if (MainActivity.currentUser != null) {
+            tvUserName.setText(MainActivity.currentUser.getUsername());
+        } else {
+            tvUserName.setText("Guest");
+        }
 
 
-        findViewById(R.id.btnFood).setOnClickListener(v-> loadPlaces("Food"));
-        findViewById(R.id.btnCafes).setOnClickListener(v-> loadPlaces("Cafes"));
-        findViewById(R.id.btnAll).setOnClickListener(v-> loadPlaces("All"));
 
+        findViewById(R.id.btnFood).setOnClickListener(v-> {
+            loadPlaces("Food");
+            updateCategorySelection("Food");
+        });
+        findViewById(R.id.btnCafes).setOnClickListener(v-> {
+            loadPlaces("Cafes");
+            updateCategorySelection("Cafes");
+        });
+        findViewById(R.id.btnAll).setOnClickListener(v-> {
+            loadPlaces("All");
+            updateCategorySelection("All");
+        });
+    }
 
+    private void updateCategorySelection(String category) {
+        TextView btnAll = findViewById(R.id.btnAll);
+        ImageView btnFood = findViewById(R.id.btnFood);
+        ImageView btnCafes = findViewById(R.id.btnCafes);
+
+        // Reset all to unselected (light gray)
+        btnAll.setBackgroundResource(R.drawable.filter_chip_bg);
+        btnAll.setTextColor(Color.parseColor("#49454F"));
+
+        btnFood.setBackgroundResource(R.drawable.filter_chip_bg);
+        btnFood.setColorFilter(Color.parseColor("#49454F"));
+
+        btnCafes.setBackgroundResource(R.drawable.filter_chip_bg);
+        btnCafes.setColorFilter(Color.parseColor("#49454F"));
+
+        // Set selected (dark slate)
+        if (category.equalsIgnoreCase("All")) {
+            btnAll.setBackgroundResource(R.drawable.dark_pill_bg);
+            btnAll.setTextColor(Color.WHITE);
+        } else if (category.equalsIgnoreCase("Food")) {
+            btnFood.setBackgroundResource(R.drawable.dark_pill_bg);
+            btnFood.setColorFilter(Color.WHITE);
+        } else if (category.equalsIgnoreCase("Cafes")) {
+            btnCafes.setBackgroundResource(R.drawable.dark_pill_bg);
+            btnCafes.setColorFilter(Color.WHITE);
+        }
     }
 
     private void ifAdmin(boolean isAdmin){
@@ -103,6 +150,12 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    protected void onResume() {
+        super.onResume();
+        // This ensures that if you favorite/unfavorite on another page,
+        // the hearts on the Home screen update when you return.
+        loadPlaces("All");
+    }
 
     private void loadPlaces(String orderByType) {
 
@@ -111,7 +164,7 @@ public class HomeActivity extends AppCompatActivity {
         Collections.sort(HomePageList, (a, b) -> Double.compare(b.getStars(), a.getStars()));
 
         View topSpacer = new View(this);
-        int topHeight = (int) (320 * getResources().getDisplayMetrics().density);
+        int topHeight = (int) (240 * getResources().getDisplayMetrics().density);
         topSpacer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, topHeight));
         itemsContainer.addView(topSpacer);
 
@@ -119,25 +172,34 @@ public class HomeActivity extends AppCompatActivity {
 
             for (Place p: HomePageList) {
                 if (p.getLocation_type().equalsIgnoreCase("Food")){
-                addPlaceItem(p);
+                    if(p.getCampus().getName().equalsIgnoreCase(campusName)) {
+                        addPlaceItem(p);
+                    }
                 }
             }
 
         }
+
         else if(orderByType.equalsIgnoreCase("Cafes")){
 
             for (Place p: HomePageList) {
                 if(p.getLocation_type().equalsIgnoreCase("Cafes")) {
+                    if(p.getCampus().getName().equalsIgnoreCase(campusName)) {
+                        addPlaceItem(p);
+                    }
+                }
+            }
+        }
+
+        else if(orderByType.equalsIgnoreCase("All")){
+
+            for (Place p: HomePageList) {
+                if(p.getCampus().getName().equalsIgnoreCase(campusName)) {
                     addPlaceItem(p);
                 }
             }
         }
-        else if(orderByType.equalsIgnoreCase("All")){
 
-            for (Place p: HomePageList) {
-                addPlaceItem(p);
-            }
-        }
         View bottomSpacer = new View(this);
         int bottomHeight = (int) (120 * getResources().getDisplayMetrics().density);
         bottomSpacer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, bottomHeight));
@@ -155,18 +217,36 @@ public class HomeActivity extends AppCompatActivity {
         TextView placeLocation = itemView.findViewById(R.id.placeLocation);
         LinearLayout starsContainer = itemView.findViewById(R.id.itemStarsContainer);
         ImageButton btnFavorite = itemView.findViewById(R.id.btnFavorite);
-        
-        placeName.setText(p.getName());
 
+
+        boolean isFav = false;
+        for (Place fav : favoriteList) {
+            if (fav.getName().equalsIgnoreCase(p.getName())) {
+                isFav = true;
+                break;
+            }
+        }
+        btnFavorite.setSelected(isFav);
+
+        placeName.setText(p.getName());
+        placeLocation.setText(String.valueOf(p.getPrice_range())+" "+"tl");
         btnFavorite.setOnClickListener(v -> {
-            v.setSelected(!v.isSelected());
-            if(v.isSelected()) {
-                if (!favoriteList.contains(p)) {
+            boolean newState = !v.isSelected();
+            v.setSelected(newState);
+
+            if (newState) {
+                boolean alreadyExists = false;
+                for (Place fav : favoriteList) {
+                    if (fav.getName().equalsIgnoreCase(p.getName())) {
+                        alreadyExists = true;
+                        break;
+                    }
+                }
+                if (!alreadyExists) {
                     favoriteList.add(p);
                 }
-            }
-            else if(!v.isSelected()){
-             favoriteList.remove(p);
+            } else {
+                favoriteList.removeIf(fav -> fav.getName().equalsIgnoreCase(p.getName()));
             }
         });
 
@@ -232,11 +312,21 @@ public class HomeActivity extends AppCompatActivity {
         Button btnSubmit = dialog.findViewById(R.id.btnSubmitPlace);
         btnSubmit.setOnClickListener(v -> {
             String Name = placeName.getText().toString();
-            //String campusName = campus.getText().toString();
+            String campusName = campus.getText().toString();
             String type = campus.getText().toString();
             int price = Integer.parseInt(priceRange.getText().toString());
+            Place p= new Place();
 
-            Place p = new Place(Name,South,type,price,(int)rating.getRating());
+            for (Campus c : campuses) {
+                if (c.getName().equalsIgnoreCase(campusName)) {
+                     p = new Place(Name,c,type,price,(int)rating.getRating());
+                     c.addLocation(p);
+                }
+            }
+
+
+
+
             HomePageList.add(p);
             places.insert(p);
             MainActivity.lookupByName.put(p.getName().trim().toLowerCase(),p);

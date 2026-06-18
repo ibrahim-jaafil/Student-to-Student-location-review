@@ -1,6 +1,6 @@
 package com.example.dsa2_project.data_structures;
 
-import com.example.dsa2_project.Location.Reviews;
+import com.example.dsa2_project.Location.Place;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,25 +18,45 @@ public class Stack implements Serializable {
         return (front==null);
     }
 
-    public void add(Reviews r){
-        StackNode n = new StackNode(r);
-        if(isEmpty() ) {
-            front=n;
-        }
-        else {
+    public void add(Place p){
+        // Remove duplicate if it exists to keep the list unique
+        remove(p);
+
+        StackNode n = new StackNode(p);
+        if(isEmpty()) {
+            front = n;
+        } else {
             n.setNext(front);
-            front=n;
-
+            front = n;
         }
-
     }
 
-    public ArrayList<Reviews> outputStack(){
+    public void remove(Place p) {
+        if (isEmpty()) return;
+
+        if (front.getLastViewed().getName().equalsIgnoreCase(p.getName())) {
+            front = front.getNext();
+            return;
+        }
+
+        StackNode curr = front;
+        while (curr.getNext() != null) {
+            if (curr.getNext().getLastViewed().getName().equalsIgnoreCase(p.getName())) {
+                curr.setNext(curr.getNext().getNext());
+                return;
+            }
+            curr = curr.getNext();
+        }
+    }
+
+    public ArrayList<Place> outputStack(){
         StackNode curr=front;
-        ArrayList<Reviews> r =new ArrayList<>();
-        while(curr!=null){
-            r.add(curr.getReviewInStack());
+        ArrayList<Place> r =new ArrayList<>();
+        int counter =0;
+        while(curr!=null && counter<=4){
+            r.add(curr.getLastViewed());
             curr=curr.getNext();
+            counter++;
         }
 
         return r;

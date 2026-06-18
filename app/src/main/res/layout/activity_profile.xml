@@ -15,7 +15,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginBottom="120dp"
         android:background="@drawable/profile_card_bg"
-        android:padding="32dp"
+        android:padding="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,22 +47,24 @@
             android:id="@+id/divider1"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="120dp"
+            android:layout_marginTop="32dp"
             android:background="#CCCCCC"
             app:layout_constraintTop_toBottomOf="@id/profileId" />
 
         <Button
             android:id="@+id/btnFavorites"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="0dp"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/LightDarkSlate"
             android:text="Favorites"
             android:textAllCaps="false"
-            android:textColor="#444444"
-            android:textSize="18sp"
+            android:textColor="@color/profile_button_text"
+            android:textSize="22sp"
             app:cornerRadius="20dp"
+            app:layout_constraintBottom_toTopOf="@id/divider2"
             app:layout_constraintTop_toBottomOf="@id/divider1"
+            app:layout_constraintVertical_weight="1"
             android:onClick="FavoritesButton"
             />
 
@@ -72,20 +74,23 @@
             android:layout_height="1dp"
             android:layout_marginTop="16dp"
             android:background="#CCCCCC"
+            app:layout_constraintBottom_toTopOf="@id/btnReviews"
             app:layout_constraintTop_toBottomOf="@id/btnFavorites" />
 
         <Button
             android:id="@+id/btnReviews"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="0dp"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/LightDarkSlate"
             android:text="Reviews"
             android:textAllCaps="false"
-            android:textColor="#444444"
-            android:textSize="18sp"
+            android:textColor="@color/profile_button_text"
+            android:textSize="22sp"
             app:cornerRadius="20dp"
+            app:layout_constraintBottom_toTopOf="@id/divider3"
             app:layout_constraintTop_toBottomOf="@id/divider2"
+            app:layout_constraintVertical_weight="1"
             android:onClick="ReviewsButton"
             />
 
@@ -95,20 +100,24 @@
             android:layout_height="1dp"
             android:layout_marginTop="16dp"
             android:background="#CCCCCC"
+            app:layout_constraintBottom_toTopOf="@id/btnContact"
             app:layout_constraintTop_toBottomOf="@id/btnReviews" />
 
         <Button
             android:id="@+id/btnContact"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="0dp"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:backgroundTint="@color/LightDarkSlate"
             android:text="Contact"
             android:textAllCaps="false"
-            android:textColor="#444444"
-            android:textSize="18sp"
+            android:textColor="@color/profile_button_text"
+            android:textSize="22sp"
             app:cornerRadius="20dp"
-            app:layout_constraintTop_toBottomOf="@id/divider3" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider3"
+            app:layout_constraintVertical_weight="1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -119,6 +128,7 @@
         android:layout_height="80dp"
         android:layout_margin="16dp"
         android:background="@drawable/white_pill_bg"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Light"
         android:elevation="8dp"
         android:gravity="center"
         android:orientation="horizontal"
@@ -181,11 +191,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:gravity="center"
             android:orientation="vertical">
-            <View
-                android:layout_width="48dp"
-                android:layout_height="32dp"
-                android:background="@drawable/nav_selected_bg"
-                android:layout_marginBottom="-28dp" />
+
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"

@@ -1,6 +1,7 @@
 package com.example.dsa2_project.Search;
 
-import static com.example.dsa2_project.Home.HomeActivity.favoriteList;
+import static com.example.dsa2_project.MainActivity.favoriteList;
+import static com.example.dsa2_project.MainActivity.campus;
 import static com.example.dsa2_project.MainActivity.lookupByName;
 import static com.example.dsa2_project.MainActivity.places;
 
@@ -19,7 +20,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.dsa2_project.Home.HomeActivity;
 import com.example.dsa2_project.Home.PlaceDetailsActivity;
 import com.example.dsa2_project.Location.Place;
 import com.example.dsa2_project.R;
@@ -29,7 +29,6 @@ import java.util.Collections;
 
 public class SearchResults extends AppCompatActivity {
 
-    private TextView tvSearchHint;
     private LinearLayout ResultsContainer;
     private ImageButton backButton;
 
@@ -50,7 +49,7 @@ public class SearchResults extends AppCompatActivity {
             return insets;
         });
 
-        tvSearchHint = findViewById(R.id.tvSearchHint);
+        //tvSearchHint = findViewById(R.id.tvSearchHint);
         ResultsContainer = findViewById(R.id.ResultsContainer);
         backButton = findViewById(R.id.backButton);
 
@@ -60,69 +59,77 @@ public class SearchResults extends AppCompatActivity {
 
         category= getIntent().getStringExtra("category");
          query = getIntent().getStringExtra("QUERY");
-     /*   if (query != null && !query.isEmpty()) {
-            tvSearchHint.setText(query);
-        }*/
+
 
         priceRange=getIntent().getIntExtra("price",0);
 if(priceRange != 0 ) {
-    addFilterChip(priceRange);
+    addFilterChip(String.valueOf(priceRange));
+}
+if(category!=null){
+            addFilterChip(category);
 }
 
         loadResults();
+
     }
+
 
     private void loadResults() {
         ResultsContainer.removeAllViews();
+        TextView noResults = findViewById(R.id.NoResults);
+        boolean foundAny = false; // The safest way to track if we added anything
 
-        ArrayList<Place> list = places.search(priceRange);
+        View topSpacer = new View(this);
+        int topHeight = (int) (20 * getResources().getDisplayMetrics().density);
+        topSpacer.setLayoutParams(new LinearLayout.LayoutParams(1, topHeight));
+        ResultsContainer.addView(topSpacer);
 
-          if (priceRange!=0 && query!=null &&!query.isEmpty() ) {
-            Collections.sort(list, (a, b) -> Double.compare(b.getPrice_range(), a.getPrice_range()));
-
-            if(list.contains(lookupByName.get((query).toLowerCase()))){
-
-                additems(lookupByName.get((query).toLowerCase()));
-            }
-            else{
-                ResultsContainer.removeAllViews();
-                TextView NoResults = findViewById(R.id.NoResults);
-                NoResults.setVisibility(View.VISIBLE);
-            }
-
+        String cleanQuery="";
+        if(query!=null){
+            cleanQuery=query.toLowerCase().trim();
         }
+        // CASE 1: Both Price and Name Search
+        if (priceRange != 0 && !cleanQuery.isEmpty()) {
+            ArrayList<Place> priceList = places.search(priceRange);
+            Place namedPlace = lookupByName.get(cleanQuery);
 
-        else if(priceRange!=0) {
-            if(!list.isEmpty()) {
-                Collections.sort(list, (a, b) -> Double.compare(b.getPrice_range(), a.getPrice_range()));
-
-                for (Place item : list) {
-                    if (!category.equalsIgnoreCase("All") && item.getLocation_type().equalsIgnoreCase(category)) {
-                        additems(item);
-                    } else if (category.equalsIgnoreCase("All")) {
-                        additems(item);
-                    }
-
+            if (namedPlace != null && priceList.contains(namedPlace)) {
+                if (namedPlace.getCampus().getName().equals(campus)) {
+                    additems(namedPlace);
+                    foundAny = true;
                 }
             }
-
-            else{
-                ResultsContainer.removeAllViews();
-                TextView NoResults = findViewById(R.id.NoResults);
-                NoResults.setVisibility(View.VISIBLE);
+        }
+        // CASE 2: Price Range (and optional Category)
+        else if (priceRange != 0) {
+            ArrayList<Place> list = places.search(priceRange);
+            if (!list.isEmpty()) {
+                Collections.sort(list, (a, b) -> Double.compare(b.getPrice_range(), a.getPrice_range()));
+                for (Place item : list) {
+                    if (item.getCampus().getName().equals(campus)) {
+                        if (category == null || category.equalsIgnoreCase("All") || item.getLocation_type().equalsIgnoreCase(category)) {
+                            additems(item);
+                            foundAny = true;
+                        }
+                    }
+                }
             }
         }
-       else if(query!=null &&!query.isEmpty() ) {
-                additems(lookupByName.get(query.toLowerCase()));
-
+        // CASE 3: Name Search only
+        else if (!cleanQuery.isEmpty()) {
+            Place p = lookupByName.get(cleanQuery);
+            if (p != null && p.getCampus().getName().equals(campus)) {
+                additems(p);
+                foundAny = true;
             }
-
-       else {
-            ResultsContainer.removeAllViews();
-            TextView NoResults = findViewById(R.id.NoResults);
-            NoResults.setVisibility(View.VISIBLE);
+        }
 
 
+        // FINAL CHECK: Toggle "No Results" based on our flag
+        if (foundAny) {
+            noResults.setVisibility(View.GONE);
+        } else {
+            noResults.setVisibility(View.VISIBLE);
         }
     }
 
@@ -135,7 +142,7 @@ if(priceRange != 0 ) {
 
 
         placeName.setText(p.getName());
-        price.setText(String.valueOf(p.getPrice_range()));
+        price.setText(String.valueOf(p.getPrice_range())+" "+"tl");
 
         for (int i = 0; i < p.getStars(); i++) {
             ImageView star = new ImageView(this);
@@ -156,16 +163,23 @@ if(priceRange != 0 ) {
 
         placeName.setText(p.getName());
 
+        if (isPlaceFavorited(p)) {
+            btnFavorite.setSelected(true);
+        }
+        else {
+            btnFavorite.setSelected(false);
+        }
         btnFavorite.setOnClickListener(v -> {
-            v.setSelected(!v.isSelected());
-            if(v.isSelected()) {
-                if (!favoriteList.contains(p)) {
+            boolean newState = !v.isSelected();
+            v.setSelected(newState);
+
+            if(newState) {
+                if (!isPlaceFavorited(p)) {
                     favoriteList.add(p);
                 }
             }
-            else if(!v.isSelected()){
-                favoriteList.remove(p);
-            }
+            else {
+                favoriteList.removeIf(fav -> fav.getName().equalsIgnoreCase(p.getName()));                    }
         });
 
         resultItem.setOnClickListener(v -> {
@@ -181,13 +195,24 @@ if(priceRange != 0 ) {
         ResultsContainer.addView(resultItem);
     }
 
-    private void addFilterChip(int text) {
+    private boolean isPlaceFavorited(Place p) {
+        if (favoriteList == null) return false;
+        for (Place fav : favoriteList) {
+            // Compare by name because the objects might be different instances
+            if (fav.getName().equalsIgnoreCase(p.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void addFilterChip(String text) {
 
         View chipView = getLayoutInflater().inflate(R.layout.item_filter_chip, filterChipsContainer, false);
         TextView chipText = chipView.findViewById(R.id.chipText);
         View chipClose = chipView.findViewById(R.id.chipClose);
 
-        chipText.setText(String.valueOf(text));
+        chipText.setText(text);
         chipClose.setOnClickListener(v -> {
             filterChipsContainer.removeView(chipView);
             // Here you would also update your search results

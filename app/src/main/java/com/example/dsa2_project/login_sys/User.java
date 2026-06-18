@@ -1,6 +1,7 @@
 package com.example.dsa2_project.login_sys;
 
 import com.example.dsa2_project.Location.Reviews;
+import com.example.dsa2_project.data_structures.LinkedList;
 import com.example.dsa2_project.data_structures.Stack;
 
 import java.io.Serializable;
@@ -16,14 +17,18 @@ public class User implements Serializable {
 
     private String password;
 
-    private Stack reviews;
+    private Stack lastViewedPlaces;
+
+    private LinkedList reviews;
 
 public User(String username,String email, String password, int STUid){
     this.email=email;
     this.password=password;
     this.username=username;
     this.STUid=STUid;
-    reviews= new Stack();
+    reviews= new LinkedList();
+    lastViewedPlaces = new Stack();
+
 }
 
 
@@ -43,18 +48,25 @@ public User(String username,String email, String password, int STUid){
         this.STUid = STUid;
     }
 
-    public Stack getReviews() {
+
+
+    public LinkedList getReviews() {
         return reviews;
     }
 
-    public void setReviews(Stack reviews) {
+    public void setReviews(LinkedList reviews) {
         this.reviews = reviews;
     }
 
-    // want to limit 1 review per place
-    public void addReviewToStack(Reviews r){
-    reviews.add(r);
-
+    public Stack getLastViewedPlaces() {
+        return lastViewedPlaces;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

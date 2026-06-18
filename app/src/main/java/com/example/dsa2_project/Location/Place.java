@@ -19,6 +19,10 @@ public class Place implements Serializable {
 
     private LinkedList reviewList; //make a method to calc stars from reviews
 
+    public Place(){
+
+    }
+
     public Place(String name,Campus campus,String location_type, int price_range,int stars){
        this.location_type=location_type;
         this.stars=stars;
@@ -28,6 +32,7 @@ public class Place implements Serializable {
         reviewList= new LinkedList();
 
     }
+
     public String getName() {
         return name;
     }
@@ -40,27 +45,18 @@ public class Place implements Serializable {
         return location_type;
     }
 
-    public void setLocation_type(String location_type) {
-        this.location_type = location_type;
-    }
 
 
     public int getPrice_range() {
         return price_range;
     }
 
-    public void setPrice_range(int price_range) {
-        this.price_range = price_range;
-    }
 
 
     public int getStars() {
         return stars;
     }
 
-    public void setStars(int stars) {
-        this.stars = stars;
-    }
 
     public void addReview(Reviews reviews) {
         reviewList.insertAtFront(reviews);
@@ -72,11 +68,6 @@ public class Place implements Serializable {
         return reviewList;
     }
 
-    public void setReviewList(LinkedList reviewList) {
-        this.reviewList = reviewList;
-    }
-
-
     public String getLocation_Link() {
         return Location_Link;
     }
@@ -84,6 +75,11 @@ public class Place implements Serializable {
     public void setLocation_Link(String location_Link) {
         Location_Link = location_Link;
     }
+
+    public Campus getCampus() {
+        return campus;
+    }
+
 
     @NonNull
     @Override

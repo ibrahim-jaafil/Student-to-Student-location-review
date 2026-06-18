@@ -179,7 +179,9 @@ public void inorder(AvlNode root){
             inorder(root.getRight());
         }
 
-        public ArrayList<Place> SimpleSearch(int price){
+
+
+       /* public ArrayList<Place> SimpleSearch(int price){
 
         AvlNode n = root;
         while(n!=null){
@@ -203,7 +205,7 @@ public void inorder(AvlNode root){
 
         }
         return null;
-        }
+        }*/
 
     public ArrayList<Place> search(int price){
         ArrayList<Place> results = new ArrayList<>();

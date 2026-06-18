@@ -20,10 +20,10 @@
         android:src="@drawable/ic_arrow_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/black" />
+        app:tint="@color/back_button_tint" />
 
     <!-- Search Bar -->
-    <LinearLayout
+    <!--<LinearLayout
         android:id="@+id/searchBar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -57,17 +57,17 @@
             android:layout_height="24dp"
             android:src="@drawable/ic_search"
             app:tint="#49454F" />
-    </LinearLayout>
+    </LinearLayout>-->
 
     <HorizontalScrollView
         android:id="@+id/filterChipsScroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:clipToPadding="false"
         android:paddingHorizontal="24dp"
         android:scrollbars="none"
-        app:layout_constraintTop_toBottomOf="@id/searchBar">
+        app:layout_constraintTop_toBottomOf="@id/backButton">
 
         <LinearLayout
             android:id="@+id/filterChipsContainer"
@@ -94,24 +94,17 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filterChipsScroll">
-
-
-
-            <!-- Placeholder items to match the design image -->
 
         <LinearLayout
             android:id="@+id/ResultsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="24dp">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="120dp" />
+            android:paddingHorizontal="24dp"
+            android:paddingTop="8dp">
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
