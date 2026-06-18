@@ -41,9 +41,8 @@ import com.example.dsa2_project.MainActivity;
 import com.example.dsa2_project.Profile.ProfileActivity;
 import com.example.dsa2_project.R;
 import com.example.dsa2_project.Search.SearchActivity;
-import com.example.dsa2_project.data_structures.Database.Tables.PlaceTable;
+import com.example.dsa2_project.Database.Tables.PlaceTable;
 
-import java.util.ArrayList;
 import java.util.Collections;
 
 public class HomeActivity extends AppCompatActivity {

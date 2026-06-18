@@ -1,19 +1,15 @@
 package com.example.dsa2_project;
 
-import static com.example.dsa2_project.MainActivity.campus;
 import static com.example.dsa2_project.MainActivity.currentUser;
 import static com.example.dsa2_project.MainActivity.favoriteList;
 import static com.example.dsa2_project.MainActivity.favoritesTable;
 import static com.example.dsa2_project.MainActivity.lookupByName;
-import static com.example.dsa2_project.MainActivity.users;
 
 import android.database.Cursor;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -24,11 +20,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.dsa2_project.Database.InputValidator;
 import com.example.dsa2_project.Home.HomeActivity;
 import com.example.dsa2_project.Location.Place;
 import com.example.dsa2_project.Location.Reviews;
-import com.example.dsa2_project.data_structures.InputValidator;
-import com.example.dsa2_project.login_sys.User;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -56,10 +51,9 @@ public class LoginActivity extends AppCompatActivity {
 
         int id = Integer.parseInt(IDInput.getText().toString().trim());
         String password = passwordInput.getText().toString().trim();
-
         //for vulnerable version
         //Cursor c = MainActivity.userTable.loginVulnerable(id, password);
-
+        //without the input validator for the vulnerable version
         InputValidator validator = new InputValidator();
         if(validator.isSafe(password) && validator.isValidLength(password, 10) && validator.isValidPassword(password)) {
             Cursor c = MainActivity.userTable.loginSecure(id, password);
@@ -77,12 +71,10 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     i.putExtra("admin", false);
                 }
-
                 startActivity(i);
                 finish();
             }
             c.close();
-
         }
         else {
             passwordInput.setError("id or password is wrong");

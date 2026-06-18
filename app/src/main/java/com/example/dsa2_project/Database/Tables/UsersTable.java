@@ -1,10 +1,10 @@
-package com.example.dsa2_project.data_structures.Database.Tables;
+package com.example.dsa2_project.Database.Tables;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.dsa2_project.data_structures.Database.DatabaseHelper;
+import com.example.dsa2_project.Database.DatabaseHelper;
 import com.example.dsa2_project.login_sys.User;
 
 public class UsersTable {
@@ -27,7 +27,7 @@ public class UsersTable {
         db.close();
     }
 
-    public Cursor loginVulnerable(String STUid, String password) {
+    public Cursor loginVulnerable(int STUid, String password) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String query = "SELECT * FROM USERS" +
                 " WHERE STUid = '" + STUid +

@@ -1,4 +1,4 @@
-package com.example.dsa2_project.data_structures.Database;
+package com.example.dsa2_project.Database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

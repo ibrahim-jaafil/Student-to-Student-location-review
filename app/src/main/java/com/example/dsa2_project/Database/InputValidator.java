@@ -1,4 +1,4 @@
-package com.example.dsa2_project.data_structures;
+package com.example.dsa2_project.Database;
 
 public class InputValidator {
 

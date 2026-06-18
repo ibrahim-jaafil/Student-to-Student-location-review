@@ -26,9 +26,7 @@ import com.example.dsa2_project.Location.Place;
 import com.example.dsa2_project.Location.Reviews;
 import com.example.dsa2_project.MainActivity;
 import com.example.dsa2_project.R;
-import com.example.dsa2_project.data_structures.Database.DatabaseHelper;
-import com.example.dsa2_project.data_structures.Database.Tables.PlaceTable;
-import com.example.dsa2_project.data_structures.Database.Tables.ReviewTable;
+import com.example.dsa2_project.Database.Tables.PlaceTable;
 import com.example.dsa2_project.login_sys.User;
 
 

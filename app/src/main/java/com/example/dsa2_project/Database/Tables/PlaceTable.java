@@ -1,4 +1,4 @@
-package com.example.dsa2_project.data_structures.Database.Tables;
+package com.example.dsa2_project.Database.Tables;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.dsa2_project.Location.Campus;
 import com.example.dsa2_project.Location.Place;
 import com.example.dsa2_project.MainActivity;
-import com.example.dsa2_project.data_structures.Database.DatabaseHelper;
+import com.example.dsa2_project.Database.DatabaseHelper;
 
 public class PlaceTable {
 
