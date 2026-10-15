@@ -97,6 +97,10 @@ public class LinkedList implements Serializable {
         return a;
         }
 
+        public void clear() {
+            root = null;
+        }
+
         public ArrayList<User> outputUsers(){
             ArrayList<User> a = new ArrayList<>();
             Node curr =root;

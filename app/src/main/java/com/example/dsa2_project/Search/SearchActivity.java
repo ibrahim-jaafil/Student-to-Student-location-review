@@ -152,7 +152,7 @@ public class SearchActivity extends AppCompatActivity {
                     Intent intent = new Intent(this, PlaceDetailsActivity.class);
                     intent.putExtra("PLACE_NAME", p.getName());
                     intent.putExtra("PLACE_STARS", p.getStars());
-                    intent.putExtra("PLACE", p);
+                    intent.putExtra("PLACE", p.getPid());
                     startActivity(intent);
                 });
                 recentSearchesContainer.addView(placeItem);

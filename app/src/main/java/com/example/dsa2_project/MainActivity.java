@@ -3,14 +3,22 @@ package com.example.dsa2_project;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.dsa2_project.Database.DatabaseHelper;
 import com.example.dsa2_project.Location.Campus;
 import com.example.dsa2_project.Location.Place;
+import com.example.dsa2_project.Location.Reviews;
 import com.example.dsa2_project.data_structures.AvlTree;
+import com.example.dsa2_project.Database.Tables.CampusTable;
+import com.example.dsa2_project.Database.Tables.FavoritesTable;
+import com.example.dsa2_project.Database.Tables.PlaceTable;
+import com.example.dsa2_project.Database.Tables.ReviewTable;
+import com.example.dsa2_project.Database.Tables.UsersTable;
 import com.example.dsa2_project.login_sys.User;
 
 import java.util.ArrayList;
@@ -30,73 +38,93 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    public static DatabaseHelper dbHelper;
+    public static UsersTable   userTable;
+    public static PlaceTable  placeTable;
+    public static ReviewTable reviewTable;
+    public static CampusTable campusTable;
+    public static FavoritesTable favoritesTable;
+
+
+
+
+
+
+
 
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.i("Places", "App started");
-        Campus c = new Campus("South","Besiktas");
-        Campus c2 = new Campus("north","Besiktas");
-        Campus c3 = new Campus("galata","Beyoglu");
-        Campus c4 = new Campus("Dental","Balmumcu");
-
-        campuses.add(c);
-        campuses.add(c2);
-        campuses.add(c3);
-        campuses.add(c4);
 
 
+        dbHelper       = new DatabaseHelper(this);
+        campusTable    = new CampusTable(dbHelper);
+        userTable      = new UsersTable(dbHelper);
+        placeTable     = new PlaceTable(dbHelper);
+        reviewTable    = new ReviewTable(dbHelper);
+        favoritesTable = new FavoritesTable(dbHelper);
 
+        if (campusTable.getCount() == 0) {
 
+            campusTable.insert("South",  "Besiktas");
+            campusTable.insert("North",  "Besiktas");
+            campusTable.insert("Galata", "Beyoglu");
+            campusTable.insert("Dental", "Balmumcu");
 
-        Place p1 = new Place("the Best" ,c,"Food",500,5);
-        p1.setLocation_Link("https://www.google.com/maps/place/The+Best+Kitchen/@41.0447984,29.0028072,17z/data=!3m1!4b1!4m6!3m5!1s0x14cab7a3a8e4a05f:0x620efe9ba31609e0!8m2!3d41.0447985!4d29.0076781!16s%2Fg%2F1tdj7ncy?entry=ttu&g_ep=EgoyMDI2MDUyNy4wIKXMDSoASAFQAw%3D%3D");
-        Place p2 = new Place("nitz",c,"Food",500,4);
-        p2.setLocation_Link("https://www.google.com/maps/place/Nitz+Schnitzel+%26+More+Be%C5%9Fikta%C5%9F/@41.0438759,28.9977981,17z/data=!3m1!4b1!4m6!3m5!1s0x14cab7a18b9ba017:0x70baeff69cb98995!8m2!3d41.043876!4d29.002669!16s%2Fg%2F11zkc7z86q?entry=ttu&g_ep=EgoyMDI2MDUyNy4wIKXMDSoASAFQAw%3D%3D");
-        Place p3 = new Place("upperdeck",c,"Food",550,5);
-        p3.setLocation_Link("https://www.google.com/maps/place/Upperdeck+American+Diner/@41.0431745,29.0036335,17z/data=!3m1!4b1!4m6!3m5!1s0x14cab7ee7c772355:0xedc322e05306e618!8m2!3d41.0431745!4d29.0062084!16s%2Fg%2F11t6j886ds?entry=ttu&g_ep=EgoyMDI2MDUyNy4wIKXMDSoASAFQAw%3D%3D");
-        Place p6 = new Place("atara",c,"Food",700,3);
-        p6.setLocation_Link("https://www.google.com/maps/place/ATARA/@41.0429639,29.0055496,17z/data=!3m1!4b1!4m6!3m5!1s0x14cab708edf1d231:0xe732127f886f0a18!8m2!3d41.0429639!4d29.0081245!16s%2Fg%2F11k55_76xs?entry=ttu&g_ep=EgoyMDI2MDUyNy4wIKXMDSoASAFQAw%3D%3D");
-        Place p7 = new Place("Green Salad",c,"Food",500,3);
-        Place p8 = new Place("cajun",c,"Food",300,3);
-        p8.setLocation_Link("https://www.google.com/maps/place/Cajun+Corner+Be%C5%9Fikta%C5%9F/@41.0429026,28.9991897,17z/data=!3m1!4b1!4m6!3m5!1s0x14cab768ddcb1037:0xc8095de7e8727e2!8m2!3d41.0429027!4d29.0040606!16s%2Fg%2F11rhr3cwtl?entry=ttu&g_ep=EgoyMDI2MDUyNy4wIKXMDSoASAFQAw%3D%3D");
+            int southid  = campusTable.getCidByName("South");
+            int northid  = campusTable.getCidByName("North");
+            int galataid = campusTable.getCidByName("Galata");
+            int dentalid = campusTable.getCidByName("Dental");
 
-        Place p9 = new Place("Espresso Lab",c,"Cafes",250,4);
-        Place p10 = new Place("Mikel Coffee",c,"Cafes",300,4);
-        Place p11 = new Place("Cafe Nero",c,"Cafes",250,4);
+            userTable.insert("admin",   "admin",   "111", 111);
+            userTable.insert("bob",     "user",    "123", 123);
+            userTable.insert("ameen",   "ameen",   "456", 456);
+            userTable.insert("ragheed", "ragheed", "789", 789);
 
-        places.insert(p1);
-        places.insert(p2);
-        places.insert(p3);
-        places.insert(p6);
-        places.insert(p7);
-        places.insert(p8);
-        places.insert(p9);
-        places.insert(p10);
-        places.insert(p11);
+            placeTable.insert("The Best",    southid, "Food", 500, 5, "https://www.google.com/maps/place/The+Best+Kitchen/@41.0447984,29.0028072,17z");
+            placeTable.insert("nitz",        southid, "Food", 500, 4, "https://www.google.com/maps/place/Nitz+Schnitzel");
+            placeTable.insert("upperdeck",   southid, "Food", 550, 5, "https://www.google.com/maps/place/Upperdeck+American+Diner");
+            placeTable.insert("atara",       southid, "Food", 700, 3, "https://www.google.com/maps/place/ATARA");
+            placeTable.insert("Green Salad", southid, "Food", 500, 3, "https://www.google.com/maps/place/Green+Salad");
+            placeTable.insert("cajun",       southid, "Food", 300, 3, "https://www.google.com/maps/place/Cajun+Corner");
 
-        HomePageList.add(p1);
-        HomePageList.add(p2);
-        HomePageList.add(p3);
-        HomePageList.add(p6);
-        HomePageList.add(p7);
-        HomePageList.add(p8);
-        HomePageList.add(p9);
-        HomePageList.add(p10);
-        HomePageList.add(p11);
+            int p1 = placeTable.getPidByName("The Best");
+            int p2 = placeTable.getPidByName("nitz");
+            int p3 = placeTable.getPidByName("upperdeck");
+            int p4 = placeTable.getPidByName("atara");
 
+            reviewTable.insert(p1, 789, "so good",           5, "05/05/2026");
+            reviewTable.insert(p2, 789, "very good",          4, "05/05/2026");
+            reviewTable.insert(p3, 123, "love this place",    5, "20/05/2026");
+            reviewTable.insert(p4, 456, "I didn't like this", 2, "17/05/2026");
+        }
 
-        lookupByName.put(p1.getName().toLowerCase(),p1);
-        lookupByName.put(p2.getName().toLowerCase(),p2);
-        lookupByName.put(p3.getName().toLowerCase(),p3);
-        lookupByName.put(p6.getName().toLowerCase(),p6);
-        lookupByName.put(p7.getName().toLowerCase(),p7);
-        lookupByName.put(p8.getName().toLowerCase(),p8);
-        lookupByName.put(p9.getName().toLowerCase(),p9);
-        lookupByName.put(p10.getName().toLowerCase(),p10);
-        lookupByName.put(p11.getName().toLowerCase(),p11);
+        //  EVERY LAUNCH — load campuses and users
+
+        campuses.clear();
+        Cursor campusCursor = campusTable.getAll();
+        while (campusCursor.moveToNext()) {
+            int    cid      = campusCursor.getInt(campusCursor.getColumnIndexOrThrow("cid"));
+            String cname    = campusCursor.getString(campusCursor.getColumnIndexOrThrow("Cname"));
+            String location = campusCursor.getString(campusCursor.getColumnIndexOrThrow("Location"));
+            campuses.add(new Campus(cname, location));
+        }
+        campusCursor.close();
+
+        users.clear();
+        Cursor userCursor = userTable.getAll();
+        while (userCursor.moveToNext()) {
+            int    id    = userCursor.getInt(userCursor.getColumnIndexOrThrow("STUid"));
+            String name  = userCursor.getString(userCursor.getColumnIndexOrThrow("username"));
+            String email = userCursor.getString(userCursor.getColumnIndexOrThrow("email"));
+            String pass  = userCursor.getString(userCursor.getColumnIndexOrThrow("password"));
+            users.put(id, new User(name, email, pass, id));
+        }
+        userCursor.close();
+
 
         findViewById(R.id.SouthLoc).setOnClickListener(this::PickCampus);
         findViewById(R.id.NorthLoc).setOnClickListener(this::PickCampus);
@@ -105,17 +133,80 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     public static String campus;
-    public void PickCampus(View view){
+    public static int campusid;
+
+    public void PickCampus(View view) {
         Button b = (Button) view;
-         campus= b.getText().toString();
+        campus = b.getText().toString();  // e.g. "South"
+
+        HomePageList.clear();
+        places     = new AvlTree();
+        lookupByName.clear();
+
+        // match campus name case-insensitively
+        campusid = -1;
+        for (Campus c : campuses) {
+            if (c.getName().equalsIgnoreCase(campus)) {
+                campusid = campusTable.getCidByName(c.getName());
+                break;
+            }
+        }
+
+        if (campusid == -1) {
+            Log.e("PickCampus", "Campus not found: " + campus);
+            return; // stop here so app doesn't crash
+        }
+
+        Cursor c = placeTable.getAll();
+        while (c.moveToNext()) {
+            int cid = c.getInt(c.getColumnIndexOrThrow("cid"));
+            if (cid != campusid) continue;  // skip other campuses
+
+            String name  = c.getString(c.getColumnIndexOrThrow("Pname"));
+            int    price = c.getInt(c.getColumnIndexOrThrow("price_range"));
+            String type  = c.getString(c.getColumnIndexOrThrow("location_type"));
+            int    stars = c.getInt(c.getColumnIndexOrThrow("starsRating"));
+            String link  = c.getString(c.getColumnIndexOrThrow("Location_Link"));
+            int    pid   = c.getInt(c.getColumnIndexOrThrow("pid"));
+
+            Campus camp = campusTable.getByCid(cid);
+            if (camp == null) continue;
+
+            Place p = new Place(name, camp, type, price, stars);
+            p.setPid(pid);
+            p.setLocation_Link(link);
+
+            // load reviews for this place
+            Cursor revCursor = reviewTable.getByPid(pid);
+            while (revCursor.moveToNext()) {
+                int    stuid   = revCursor.getInt(revCursor.getColumnIndexOrThrow("STUid"));
+                String revText = revCursor.getString(revCursor.getColumnIndexOrThrow("review"));
+                int    rating  = revCursor.getInt(revCursor.getColumnIndexOrThrow("rating"));
+
+                User reviewer = users.get(stuid);
+                if (reviewer == null) {
+                    reviewer = userTable.getByUid(stuid);
+                    if (reviewer != null) users.put(stuid, reviewer);
+                }
+
+                if (reviewer != null) {
+                    Reviews r = new Reviews(revText, rating, reviewer, p);
+                    p.addReview(r);
+                }
+            }
+            revCursor.close();
+
+            places.insert(p);
+            HomePageList.add(p);
+            lookupByName.put(name.toLowerCase(), p);
+        }
+        c.close();
 
         Intent i = new Intent(MainActivity.this, LoginActivity.class);
-        //i.putExtra("campus",campus);
         startActivity(i);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-
+        finish();
     }
 
 }

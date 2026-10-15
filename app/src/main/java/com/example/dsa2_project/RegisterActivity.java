@@ -58,6 +58,8 @@ try {
 
 
         users.put(stuIdnb,new User(name,email,password,stuIdnb));
+
+        MainActivity.userTable.insert(name, email, password, stuIdnb);
         MainActivity.currentUser= users.get(stuIdnb);
         Toast.makeText(this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
 

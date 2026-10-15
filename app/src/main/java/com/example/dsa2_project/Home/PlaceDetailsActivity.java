@@ -1,9 +1,11 @@
 package com.example.dsa2_project.Home;
 
 import static com.example.dsa2_project.MainActivity.HomePageList;
+import static com.example.dsa2_project.MainActivity.dbHelper;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import com.example.dsa2_project.Location.Place;
 import com.example.dsa2_project.Location.Reviews;
 import com.example.dsa2_project.MainActivity;
 import com.example.dsa2_project.R;
+import com.example.dsa2_project.Database.Tables.PlaceTable;
 import com.example.dsa2_project.login_sys.User;
 
 
@@ -39,7 +42,41 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_details);
 
-        place = (Place) getIntent().getSerializableExtra("PLACE");
+        // place = (Place) getIntent().getSerializableExtra("PLACE");
+        int pid = getIntent().getIntExtra("PLACE", -1);
+        if (pid != -1) {
+            PlaceTable placeTable = new PlaceTable(dbHelper);
+            place = placeTable.getByPid(pid);
+            // load reviews into this place object
+            if (this.place != null) {
+                Cursor revCursor = MainActivity.reviewTable.getByPid(pid);
+                while (revCursor.moveToNext()) {
+                    int stuid = revCursor.getInt(revCursor.getColumnIndexOrThrow("STUid"));
+                    String revText = revCursor.getString(revCursor.getColumnIndexOrThrow("review"));
+                    int rating = revCursor.getInt(revCursor.getColumnIndexOrThrow("rating"));
+                    String date = revCursor.getString(revCursor.getColumnIndexOrThrow("date"));
+
+                    User reviewer = MainActivity.users.get(stuid);
+                    if (reviewer == null) {
+                        reviewer = MainActivity.userTable.getByUid(stuid);
+                        if (reviewer != null) MainActivity.users.put(stuid, reviewer);
+                    }
+
+                    if (reviewer != null) {
+                        Reviews r = new Reviews(revText, rating, reviewer, this.place);
+                        this.place.addReview(r);
+                    }
+                }
+                revCursor.close();
+            }
+        }
+
+
+
+
+
+
+
 
         if (place == null) {
             finish();
@@ -60,7 +97,6 @@ public class PlaceDetailsActivity extends AppCompatActivity {
 
         TextView websiteLink = findViewById(R.id.detailWebsiteLink);
 
-// 2. Edit the "Link" behavior
 
 
         if (placeName != null) {
@@ -99,8 +135,9 @@ public class PlaceDetailsActivity extends AppCompatActivity {
                 loadReviews();
 }
             else{
-               TextView NoReviews = findViewById(R.id.NoReviews);
-                NoReviews.setVisibility(View.VISIBLE);
+                if (findViewById(R.id.NoReviews) != null) {
+                    findViewById(R.id.NoReviews).setVisibility(View.VISIBLE);
+                }
             }
 
     }
@@ -149,7 +186,14 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         }
 
         reviewItem.findViewById(R.id.btnDeleteReview).setOnClickListener(v->{
-            // 1. Remove from the local copy (for immediate UI update)
+            // 1. Remove from Database
+            MainActivity.reviewTable.deleteReview(
+                    MainActivity.currentUser.getSTUid(),
+                    place.getPid(),
+                    r.getReview()
+            );
+
+            // 2. Remove from the local copy (for immediate UI update)
             place.getReviewList().remove(r);
 
             for (Place p:HomePageList) {
@@ -235,10 +279,14 @@ public class PlaceDetailsActivity extends AppCompatActivity {
                         double ratingPutIn = rating.getRating();
                         String comment = reviewComment.getText().toString();
                         Reviews r = new Reviews(comment, (int) ratingPutIn, MainActivity.currentUser, place);
+                        
+                        MainActivity.reviewTable.insert(place.getPid(), MainActivity.currentUser.getSTUid(), comment, (int)ratingPutIn, r.getDate());
+
                         place.addReview(r);
 
                         for (Place p : HomePageList) {
                             if (p.getName().equalsIgnoreCase(place.getName())) {
+
                                 p.addReview(r);
                             }
                         }
