@@ -1,0 +1,19 @@
+POST http://localhost:4002/auth/register
+content-Type: application/json
+
+{
+    "STUid":1234,
+    "name":"test",
+    "email":"test@",
+    "password":"test"
+}
+
+### POST LOGIN
+
+POST http://localhost:4002/auth/login
+content-Type: application/json
+
+{
+"STUid": 1234,
+"password": "test"
+}

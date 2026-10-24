@@ -4,6 +4,7 @@ import static com.example.dsa2_project.MainActivity.users;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,8 +15,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.dsa2_project.API.Auth;
+import com.example.dsa2_project.API.Retrofitinstance;
+import com.example.dsa2_project.API.registerApi.registerRequest;
+import com.example.dsa2_project.API.registerApi.registerResponse;
 import com.example.dsa2_project.Home.HomeActivity;
 import com.example.dsa2_project.login_sys.User;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -56,16 +65,44 @@ try {
 
         // Logic for creating account would go here (e.g., adding to your User HashMap)
 
+            Auth api = Retrofitinstance.getservice();
+        api.register(new registerRequest(stuIdnb,name,email,password)).enqueue(new Callback<registerResponse>(){
+            @Override
+            public void onResponse(Call < registerResponse > call, Response< registerResponse > response){
+                if(response.isSuccessful() && response.body()!=null){
+                    String message = response.body().getMessage();
+                    int STUid = response.body().getId();
+                    Log.d("code="," "+response.code());
 
-        users.put(stuIdnb,new User(name,email,password,stuIdnb));
 
-        MainActivity.userTable.insert(name, email, password, stuIdnb);
-        MainActivity.currentUser= users.get(stuIdnb);
-        Toast.makeText(this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
+                    users.put(stuIdnb,new User(name,email,password,stuIdnb));
 
-        Intent intent = new Intent(this, HomeActivity.class);
-        startActivity(intent);
-        finish();
+                    MainActivity.userTable.insert(name, email, password, stuIdnb);
+                    MainActivity.currentUser= users.get(stuIdnb);
+                    //Toast.makeText(this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
+
+                    //Intent intent = new Intent(this, HomeActivity.class);
+                    //startActivity(intent);
+                   // finish();
+                }
+                else{
+                    Log.d("didnt work", "code=" + response.code());
+                }
+
+
+
+    }
+
+    @Override
+    public void onFailure(Call<registerResponse> call, Throwable t) {
+        Toast.makeText(RegisterActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+    }
+    });
+
+
+
+
+
     }
 catch (NumberFormatException e){
     etSTUid.setError("Please enter a valid number");

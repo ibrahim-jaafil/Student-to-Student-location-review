@@ -5,10 +5,12 @@ import static com.example.dsa2_project.MainActivity.favoriteList;
 import static com.example.dsa2_project.MainActivity.favoritesTable;
 import static com.example.dsa2_project.MainActivity.lookupByName;
 
+
 import android.database.Cursor;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,10 +22,17 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.dsa2_project.Database.InputValidator;
-import com.example.dsa2_project.Home.HomeActivity;
+import com.example.dsa2_project.API.Auth;
+import com.example.dsa2_project.API.loginApi.LoginRequest;
+import com.example.dsa2_project.API.loginApi.LoginResponse;
+import com.example.dsa2_project.API.Retrofitinstance;
 import com.example.dsa2_project.Location.Place;
 import com.example.dsa2_project.Location.Reviews;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -45,7 +54,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
     // login button
-    public void login(View view) {
+    //without backend
+
+  /*   public void login(View view) {
         EditText passwordInput = findViewById(R.id.etPassword);
         EditText IDInput = findViewById(R.id.etIdNumber);
 
@@ -80,7 +91,52 @@ public class LoginActivity extends AppCompatActivity {
             passwordInput.setError("id or password is wrong");
             IDInput.setError("id or password is wrong");
         }
-    }
+    }*/
+
+
+        public void login(View view){
+
+             EditText passwordInput = findViewById(R.id.etPassword);
+             EditText IDInput = findViewById(R.id.etIdNumber);
+
+              int id = Integer.parseInt(IDInput.getText().toString().trim());
+              String password = passwordInput.getText().toString().trim();
+
+              Auth api = Retrofitinstance.getservice();
+            Log.d("API_TEST","now");
+              api.login(new LoginRequest(id , password)).enqueue(new Callback<LoginResponse>(){
+
+                 @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if(response.isSuccessful() && response.body()!=null){
+                    String message = response.body().getMessage();
+                    int STUid = response.body().getId();
+                    Log.d("API", "code=" + response.code());
+                    //currentUser = MainActivity.users.get(STUid); have to fix the flow but for now just want to see the requestna nd respons working
+
+                    // Intent i = new Intent(this, HomeActivity.class);
+                    // startActivity(i);
+                    // finish();
+                }
+                else{
+                    Log.d("didnt work", "code=" + response.code());
+                    passwordInput.setError("id or password is wrong");
+                    IDInput.setError("id or password is wrong");
+                }
+            
+            
+            }
+
+                  @Override
+                  public void onFailure(Call<LoginResponse> call, Throwable t) {
+                      Log.e("API_TEST", "request failed: " + t.getMessage(), t);
+                  }
+
+              });
+
+
+
+        }
 
     private void loadUserData(int stuid) {
         // load favorites
