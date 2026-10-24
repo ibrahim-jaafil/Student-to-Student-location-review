@@ -17,3 +17,13 @@ content-Type: application/json
 "STUid": 1234,
 "password": "test"
 }
+
+### load places from specific campus
+
+GET http://localhost:4002/load/loadPlaces
+content-Type: application/json
+
+{
+    "cid":1,
+    "name":"South"
+}
