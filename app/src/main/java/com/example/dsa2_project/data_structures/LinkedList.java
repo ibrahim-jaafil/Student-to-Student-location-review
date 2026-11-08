@@ -68,7 +68,22 @@ public class LinkedList implements Serializable {
         }
 
 
+        public boolean search(int rid){
 
+        Node current = new Node();
+        current=root;
+        while(current!=null){
+            if(current.getReviews().getrid()==rid){
+                current=current.getNext();
+                return true;
+
+            }
+
+        }
+        return false;
+
+
+        }
 
     public void outputList() {
         Node current = new Node();

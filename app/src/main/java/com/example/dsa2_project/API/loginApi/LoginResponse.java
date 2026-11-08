@@ -1,15 +1,25 @@
 package com.example.dsa2_project.API.loginApi;
 
 public class LoginResponse {
-    private String message;
+
+
     private int STUid;
 
+    private String username;
+
+    private String email;
 
 
-    public int getId(){
+
+    public int getSTUid(){
         return STUid;
     }
-    public String getMessage(){
-        return message;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

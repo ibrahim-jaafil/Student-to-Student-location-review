@@ -3,26 +3,29 @@ package com.example.dsa2_project;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.dsa2_project.Database.DatabaseHelper;
+import com.example.dsa2_project.API.Auth;
+import com.example.dsa2_project.API.Retrofitinstance;
+import com.example.dsa2_project.API.load.loadCampusesResponse;
+import com.example.dsa2_project.API.load.loadPlacesRequest;
+import com.example.dsa2_project.API.load.loadPlacesResponse;
+import com.example.dsa2_project.API.load.loadUsersResponse;
 import com.example.dsa2_project.Location.Campus;
 import com.example.dsa2_project.Location.Place;
-import com.example.dsa2_project.Location.Reviews;
 import com.example.dsa2_project.data_structures.AvlTree;
-import com.example.dsa2_project.Database.Tables.CampusTable;
-import com.example.dsa2_project.Database.Tables.FavoritesTable;
-import com.example.dsa2_project.Database.Tables.PlaceTable;
-import com.example.dsa2_project.Database.Tables.ReviewTable;
-import com.example.dsa2_project.Database.Tables.UsersTable;
 import com.example.dsa2_project.login_sys.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     public static HashMap<Integer, User> users = new HashMap<>();
@@ -34,21 +37,10 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<Place> HomePageList = new ArrayList<>();
     public static HashMap<String, Place> lookupByName = new HashMap<>();
 
-    public static ArrayList<Campus> campuses = new ArrayList<>();
+    //public static List<Campus> campuseslist = new ArrayList<>();
+    public static HashMap<Integer , Campus> campuseslist = new HashMap<>();
 
-
-
-    public static DatabaseHelper dbHelper;
-    public static UsersTable   userTable;
-    public static PlaceTable  placeTable;
-    public static ReviewTable reviewTable;
-    public static CampusTable campusTable;
-    public static FavoritesTable favoritesTable;
-
-
-
-
-
+    public static HashMap<Integer , Place> placelistbypid= new HashMap<>();
 
 
 
@@ -60,12 +52,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        dbHelper       = new DatabaseHelper(this);
+   /*     dbHelper       = new DatabaseHelper(this);
         campusTable    = new CampusTable(dbHelper);
         userTable      = new UsersTable(dbHelper);
         placeTable     = new PlaceTable(dbHelper);
         reviewTable    = new ReviewTable(dbHelper);
-        favoritesTable = new FavoritesTable(dbHelper);
+        favoritesTablefavoritesTable = new FavoritesTable(dbHelper);
 
         if (campusTable.getCount() == 0) {
 
@@ -101,112 +93,165 @@ public class MainActivity extends AppCompatActivity {
             reviewTable.insert(p3, 123, "love this place",    5, "20/05/2026");
             reviewTable.insert(p4, 456, "I didn't like this", 2, "17/05/2026");
         }
-
+*/
         //  EVERY LAUNCH — load campuses and users
 
-        campuses.clear();
-        Cursor campusCursor = campusTable.getAll();
-        while (campusCursor.moveToNext()) {
-            int    cid      = campusCursor.getInt(campusCursor.getColumnIndexOrThrow("cid"));
-            String cname    = campusCursor.getString(campusCursor.getColumnIndexOrThrow("Cname"));
-            String location = campusCursor.getString(campusCursor.getColumnIndexOrThrow("Location"));
-            campuses.add(new Campus(cname, location));
-        }
-        campusCursor.close();
-
-        users.clear();
-        Cursor userCursor = userTable.getAll();
-        while (userCursor.moveToNext()) {
-            int    id    = userCursor.getInt(userCursor.getColumnIndexOrThrow("STUid"));
-            String name  = userCursor.getString(userCursor.getColumnIndexOrThrow("username"));
-            String email = userCursor.getString(userCursor.getColumnIndexOrThrow("email"));
-            String pass  = userCursor.getString(userCursor.getColumnIndexOrThrow("password"));
-            users.put(id, new User(name, email, pass, id));
-        }
-        userCursor.close();
 
 
-        findViewById(R.id.SouthLoc).setOnClickListener(this::PickCampus);
+        Auth api = Retrofitinstance.getservice();
+        api.getCampuses().enqueue(new Callback <List<loadCampusesResponse>>(){
+                @Override
+            public void onResponse(Call<List<loadCampusesResponse>> call, Response<List<loadCampusesResponse>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<loadCampusesResponse> campuses = response.body();
+                    for (loadCampusesResponse c : campuses) {
+                        Campus campus = new Campus(c.getCid(),c.getCName(), c.getLocation());
+                        campuseslist.put(c.getCid(),campus);
+                    }
+
+                    Log.d("", ""+response.code());
+                    System.out.println(campuseslist);
+                }
+                else{
+                    Log.d("didnt load campuses", "code=" + response.code());
+
+                }
+            }
+                @Override
+            public void onFailure(Call<List<loadCampusesResponse>> call, Throwable t) {
+                    Log.d("didnt load campuses", "code=" + t.getMessage());
+            }
+        });
+
+        api.loadUsers().enqueue(new Callback <List<loadUsersResponse>>(){
+            @Override
+            public void onResponse(Call <List<loadUsersResponse>> call, Response <List<loadUsersResponse>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<loadUsersResponse> usersresponse = response.body();
+                    for (loadUsersResponse u: usersresponse) {
+                        User user = new User(u.getUsername(),u.getEmail(),u.getSTUid());
+                        users.put(u.getSTUid(),user);
+                    }
+                    Log.d("users loaded", ""+response.code()+" "+users.size());
+                }
+                else{
+                    Log.d("didnt load users", "code=" + response.code());
+
+                                       }
+            }
+            @Override
+            public void onFailure(Call<List<loadUsersResponse>> call, Throwable t) {
+                Log.d("didnt load users", "code=" + t.getMessage());
+            }
+
+        });
+
+
+
+       findViewById(R.id.SouthLoc).setOnClickListener(this::PickCampus);
         findViewById(R.id.NorthLoc).setOnClickListener(this::PickCampus);
         findViewById(R.id.GalataLoc).setOnClickListener(this::PickCampus);
-        findViewById(R.id.DentalLoc).setOnClickListener(this::PickCampus);
+       findViewById(R.id.DentalLoc).setOnClickListener(this::PickCampus);
 
     }
 
     public static String campus;
     public static int campusid;
 
+    //next is this
+
     public void PickCampus(View view) {
         Button b = (Button) view;
-        campus = b.getText().toString();  // e.g. "South"
+            campus = b.getText().toString();  // e.g. "South"
 
-        HomePageList.clear();
-        places     = new AvlTree();
-        lookupByName.clear();
+           HomePageList.clear();
+           places     = new AvlTree();  // have to change it so an avl tree isnt made each time you press a button
+         lookupByName.clear();
 
         // match campus name case-insensitively
-        campusid = -1;
-        for (Campus c : campuses) {
-            if (c.getName().equalsIgnoreCase(campus)) {
-                campusid = campusTable.getCidByName(c.getName());
-                break;
-            }
-        }
+
+
+             campusid = -1;
+
+             campuseslist.forEach((key, value)->{
+                 if (value.getName().equalsIgnoreCase(campus)) {
+                     campusid= value.getCid();
+                     return;
+                 }
+
+
+             });
+             Log.d("id",""+campusid);
 
         if (campusid == -1) {
             Log.e("PickCampus", "Campus not found: " + campus);
             return; // stop here so app doesn't crash
         }
 
-        Cursor c = placeTable.getAll();
-        while (c.moveToNext()) {
-            int cid = c.getInt(c.getColumnIndexOrThrow("cid"));
-            if (cid != campusid) continue;  // skip other campuses
 
-            String name  = c.getString(c.getColumnIndexOrThrow("Pname"));
-            int    price = c.getInt(c.getColumnIndexOrThrow("price_range"));
-            String type  = c.getString(c.getColumnIndexOrThrow("location_type"));
-            int    stars = c.getInt(c.getColumnIndexOrThrow("starsRating"));
-            String link  = c.getString(c.getColumnIndexOrThrow("Location_Link"));
-            int    pid   = c.getInt(c.getColumnIndexOrThrow("pid"));
+        Auth api = Retrofitinstance.getservice();
+        api.loadPlaces(new loadPlacesRequest(campusid)).enqueue(new Callback <List<loadPlacesResponse>>(){
 
-            Campus camp = campusTable.getByCid(cid);
-            if (camp == null) continue;
-
-            Place p = new Place(name, camp, type, price, stars);
-            p.setPid(pid);
-            p.setLocation_Link(link);
-
-            // load reviews for this place
-            Cursor revCursor = reviewTable.getByPid(pid);
-            while (revCursor.moveToNext()) {
-                int    stuid   = revCursor.getInt(revCursor.getColumnIndexOrThrow("STUid"));
-                String revText = revCursor.getString(revCursor.getColumnIndexOrThrow("review"));
-                int    rating  = revCursor.getInt(revCursor.getColumnIndexOrThrow("rating"));
-
-                User reviewer = users.get(stuid);
-                if (reviewer == null) {
-                    reviewer = userTable.getByUid(stuid);
-                    if (reviewer != null) users.put(stuid, reviewer);
+            @Override
+            public void onResponse(Call <List<loadPlacesResponse>> call, Response <List<loadPlacesResponse>> response){
+                if (response.isSuccessful() && response.body() != null) {
+                    List<loadPlacesResponse> place = response.body();
+                    for (loadPlacesResponse r : place){
+                        Place p = new Place(r.getName(), campuseslist.get(r.getCid()), r.getPid(),r.getLocation_type(), r.getPrice_range(), r.getStarsRating());
+                        places.insert(p);
+                        HomePageList.add(p);
+                        lookupByName.put(p.getName().toLowerCase(), p);
+                        placelistbypid.put(r.getPid(),p);
+                    }
+                    Log.d("",""+placelistbypid.size());
+                    Log.d("places are loaded", ""+response.code());
+                }
+                else{
+                    Log.d("didnt load places", "code=" + response.code());
                 }
 
-                if (reviewer != null) {
-                    Reviews r = new Reviews(revText, rating, reviewer, p);
-                    p.addReview(r);
+            }
+            @Override
+            public void onFailure(Call <List<loadPlacesResponse>> call, Throwable t) {
+                Log.d("didnt load places , error", "code=" + t.getMessage());
+            }
+
+        });
+
+
+
+// i dont want to load reviews at launch
+// because i would have to load all users and assign each review to the users and that a security problem
+     /*   api.loadReviews().enqueue(new Callback <List<loadReviewsResponse>>() {
+
+            @Override
+            public void onResponse(Call <List<loadReviewsResponse>> call, Response <List<loadReviewsResponse>> response){
+                if(response.isSuccessful() && response.body()!=null){
+                    List<loadReviewsResponse> reviews = response.body();
+                    for (loadReviewsResponse r : reviews){
+                      //  Log.d("",""+r.getSTUid());
+                        Reviews review = new Reviews(r.getReview(), r.getRating(), users.get(r.getSTUid()), placelistbypid.get(r.getPid()));
+                        placelistbypid.get(r.getPid()).addReview(review);
+                    }
+
+                    Log.d("reviews are loaded", ""+response.code());
+
+                }
+                else{
+                    Log.d("didnt load reviews , unsuccessfull response", "code=" + response.code());
                 }
             }
-            revCursor.close();
+            public void onFailure( Call <List<loadReviewsResponse>> call, Throwable t){
+                Log.d("didnt load reviews , error", "code=" + t.getMessage());
+            }
 
-            places.insert(p);
-            HomePageList.add(p);
-            lookupByName.put(name.toLowerCase(), p);
-        }
-        c.close();
 
-        Intent i = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(i);
+                                  });*/
+
+         Intent i = new Intent(MainActivity.this, LoginActivity.class);
+           startActivity(i);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        finish();
-    }
+           finish();
 
+    }
 }

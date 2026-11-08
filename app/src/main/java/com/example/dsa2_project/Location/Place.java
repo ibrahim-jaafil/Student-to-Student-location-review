@@ -19,18 +19,23 @@ public class Place implements Serializable {
 
     private LinkedList reviewList; //make a method to calc stars from reviews
 
-    private int Pid;
+    private int pid;
+
+    private boolean favorite;
+
     public Place(){
 
     }
 
-    public Place(String name,Campus campus,String location_type, int price_range,int stars){
+    public Place(String name,Campus campus,int pid,String location_type, int price_range,int stars){
        this.location_type=location_type;
+       this.pid=pid;
         this.stars=stars;
         this.campus=campus;
         this.name=name;
         this.price_range=price_range;
         reviewList= new LinkedList();
+        favorite=false;
 
     }
 
@@ -82,8 +87,17 @@ public class Place implements Serializable {
     }
 
 
-    public int getPid() { return Pid; }
-    public void setPid(int id) { this.Pid = id; }
+    public int getPid() { return pid; }
+    public void setPid(int id) { this.pid = id; }
+
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
 
     @NonNull
     @Override

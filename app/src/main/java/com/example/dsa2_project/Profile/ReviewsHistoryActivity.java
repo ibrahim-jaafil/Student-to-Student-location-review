@@ -59,7 +59,7 @@ public class ReviewsHistoryActivity extends AppCompatActivity {
         reviewsContainer.removeAllViews();
         if (MainActivity.currentUser != null) {
             // Re-load reviews from Database to ensure persistence sync
-            MainActivity.currentUser.getReviews().clear();
+          /*  MainActivity.currentUser.getReviews().clear();
             android.database.Cursor revCursor = MainActivity.reviewTable.getByUser(MainActivity.currentUser.getSTUid());
             while (revCursor.moveToNext()) {
                 String revText = revCursor.getString(revCursor.getColumnIndexOrThrow("review"));
@@ -78,7 +78,7 @@ public class ReviewsHistoryActivity extends AppCompatActivity {
                     new Reviews(revText, stars, MainActivity.currentUser, place);
                 }
             }
-            revCursor.close();
+            revCursor.close();*/
 
             ArrayList<Reviews> reviewsList = MainActivity.currentUser.getReviews().outputReviewInfo();
 
@@ -99,11 +99,11 @@ public class ReviewsHistoryActivity extends AppCompatActivity {
 
                 reviewItem.findViewById(R.id.btnDeleteReview).setOnClickListener(v-> {
                     // 1. Remove from Database
-                    MainActivity.reviewTable.deleteReview(
+                   /* MainActivity.reviewTable.deleteReview(
                             MainActivity.currentUser.getSTUid(),
                             review.getPlace().getPid(),
                             review.getReview()
-                    );
+                    );*/
 
                     review.getPlace().getReviewList().remove(review);
 

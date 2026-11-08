@@ -2,8 +2,8 @@ package com.example.dsa2_project;
 
 import static com.example.dsa2_project.MainActivity.currentUser;
 import static com.example.dsa2_project.MainActivity.favoriteList;
-import static com.example.dsa2_project.MainActivity.favoritesTable;
 import static com.example.dsa2_project.MainActivity.lookupByName;
+import static com.example.dsa2_project.MainActivity.placelistbypid;
 
 
 import android.database.Cursor;
@@ -23,11 +23,17 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.dsa2_project.API.Auth;
+import com.example.dsa2_project.API.load.loadFavsRequest;
+import com.example.dsa2_project.API.load.loadFavsResponse;
 import com.example.dsa2_project.API.loginApi.LoginRequest;
 import com.example.dsa2_project.API.loginApi.LoginResponse;
 import com.example.dsa2_project.API.Retrofitinstance;
+import com.example.dsa2_project.Home.HomeActivity;
 import com.example.dsa2_project.Location.Place;
 import com.example.dsa2_project.Location.Reviews;
+import com.example.dsa2_project.login_sys.User;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -109,14 +115,16 @@ public class LoginActivity extends AppCompatActivity {
                  @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if(response.isSuccessful() && response.body()!=null){
-                    String message = response.body().getMessage();
-                    int STUid = response.body().getId();
+                    LoginResponse r = response.body();
+                    currentUser = new User(r.getUsername(),r.getEmail(),r.getSTUid());
+
+
                     Log.d("API", "code=" + response.code());
                     //currentUser = MainActivity.users.get(STUid); have to fix the flow but for now just want to see the requestna nd respons working
-
-                    // Intent i = new Intent(this, HomeActivity.class);
-                    // startActivity(i);
-                    // finish();
+                     loadFavorites();
+                     Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                     startActivity(i);
+                     finish();
                 }
                 else{
                     Log.d("didnt work", "code=" + response.code());
@@ -138,7 +146,32 @@ public class LoginActivity extends AppCompatActivity {
 
         }
 
-    private void loadUserData(int stuid) {
+        public void loadFavorites() {
+           Auth api = Retrofitinstance.getservice();
+            api.loadfavs(new loadFavsRequest(currentUser.getSTUid())).enqueue(new Callback<List<loadFavsResponse>>() {
+                @Override
+                public void onResponse(Call<List<loadFavsResponse>> call, Response<List<loadFavsResponse>> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        List<loadFavsResponse> favs = response.body();
+
+                        for (loadFavsResponse r : favs) {
+                            Log.d(" loaded favs", "code=" + ""+placelistbypid.get(r.getPid()));
+                            placelistbypid.get(r.getPid()).setFavorite(true);
+                        }
+
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<loadFavsResponse>> call, Throwable t) {
+                    Log.d("didnt load favs", "code=" + t.getMessage());
+                }
+
+            });
+        }
+        //have to do this also
+/*    private void loadUserData(int stuid) {
         // load favorites
         favoriteList.clear();
         Cursor favCursor = favoritesTable.getFavoritesForUser(stuid);
@@ -153,29 +186,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         favCursor.close();
 
-        // load reviews
-        currentUser.getReviews().clear();
-        Cursor revCursor = MainActivity.reviewTable.getByUser(stuid);
-        while (revCursor.moveToNext()) {
-            String revText = revCursor.getString(revCursor.getColumnIndexOrThrow("review"));
-            int    stars   = revCursor.getInt(revCursor.getColumnIndexOrThrow("rating"));
-            String date    = revCursor.getString(revCursor.getColumnIndexOrThrow("date"));
-            int    pid     = revCursor.getInt(revCursor.getColumnIndexOrThrow("pid"));
 
-            Place place = null;
-            for (Place p : MainActivity.HomePageList) {
-                if (p.getPid() == pid) {
-                    place = p;
-                    break;
-                }
-            }
-
-            if (place != null) {
-                new Reviews(revText, stars, currentUser, place);
-            }
-        }
-        revCursor.close();
-    }
     public void OpenRegister(View view) {
         // Clear errors before leaving the screen
         EditText passwordInput = findViewById(R.id.etPassword);
@@ -187,6 +198,6 @@ public class LoginActivity extends AppCompatActivity {
         tvError.setVisibility(View.GONE);
 
         Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
-    }
+        startActivity(intent);*/
+    
 }

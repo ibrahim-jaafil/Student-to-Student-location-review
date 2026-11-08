@@ -18,12 +18,39 @@ content-Type: application/json
 "password": "test"
 }
 
+
+### load Campuses
+GET http://localhost:4002/load/loadCampuses
+content-Type: application/json
+
+
+
+
 ### load places from specific campus
 
 GET http://localhost:4002/load/loadPlaces
 content-Type: application/json
 
 {
-    "cid":1,
-    "name":"South"
+    "cid":1
+
+}
+###LOAD REVIEWS
+POST http://localhost:4002/load/loadReviews
+content-Type: application/json
+
+{
+    "pid":1
+}
+
+###LOAD USERS
+GET http://localhost:4002/load/loadUsers
+content-Type: application/json
+
+###LOAD favs
+POST http://localhost:4002/load/loadfavs
+content-Type: application/json
+
+{
+    "STUid":1234
 }

@@ -38,14 +38,14 @@ router.post('/login', (req,res) =>{
     const {STUid , password} = req.body
 
     try{
-         const SelectUser = db.prepare('SELECT STUid , password FROM USERS WHERE STUid = ?')
+         const SelectUser = db.prepare('SELECT STUid ,username, email ,password FROM USERS WHERE STUid = ?')
               
          const user = SelectUser.get(STUid)
         console.log(user)
 
          if(user!=undefined ){
             if(bcrypt.compareSync(password, user.password)){
-                res.status(200).json({message: 'Login successful', STUid: user.STUid})
+                res.status(200).json({ STUid: user.STUid, username: user.username, email: user.email })
             }
         
             else{

@@ -1,5 +1,7 @@
 package com.example.dsa2_project.login_sys;
 
+import androidx.annotation.NonNull;
+
 import com.example.dsa2_project.Location.Reviews;
 import com.example.dsa2_project.data_structures.LinkedList;
 import com.example.dsa2_project.data_structures.Stack;
@@ -15,15 +17,15 @@ public class User implements Serializable {
 
     private String email;
 
-    private String password;
+ //   private String password;
 
     private Stack lastViewedPlaces;
 
     private LinkedList reviews;
 
-public User(String username,String email, String password, int STUid){
+public User(String username,String email, int STUid){
     this.email=email;
-    this.password=password;
+    //this.password=password;
     this.username=username;
     this.STUid=STUid;
     reviews= new LinkedList();
@@ -62,11 +64,19 @@ public User(String username,String email, String password, int STUid){
         return lastViewedPlaces;
     }
 
-    public String getPassword() {
-        return password;
+
+    public String getEmail() {
+        return email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEmail(String email) {
+        this.email = email;
+
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return STUid +" "+ username;
     }
 }

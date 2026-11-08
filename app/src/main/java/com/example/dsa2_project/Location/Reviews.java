@@ -13,6 +13,7 @@ import java.time.temporal.ChronoUnit;
 
 public class Reviews implements Serializable {
 
+    private int rid;
      private String review;
      private int stars;
      private LocalDate date;
@@ -28,7 +29,9 @@ public class Reviews implements Serializable {
          this.review=review;
          this.stars=stars;
          this.user=user;
-         user.getReviews().insertAtFront(this);
+         if(!user.getReviews().isEmpty()) {
+             user.getReviews().insertAtFront(this);
+         }
          date=LocalDate.now();
         // past = LocalDate.of(2026, 5, 22);
      }
@@ -67,7 +70,13 @@ public class Reviews implements Serializable {
         return date.format(format);
     }
 
+    public int getrid() {
+        return rid;
+    }
 
+    public void setrid(int rid) {
+        this.rid = rid;
+    }
 
     @NonNull
     @Override

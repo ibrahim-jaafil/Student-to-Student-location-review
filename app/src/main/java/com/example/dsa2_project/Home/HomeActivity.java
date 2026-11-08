@@ -3,18 +3,17 @@ package com.example.dsa2_project.Home;
 import static android.view.View.VISIBLE;
 import static com.example.dsa2_project.MainActivity.HomePageList;
 import static com.example.dsa2_project.MainActivity.campus;
-import static com.example.dsa2_project.MainActivity.campusTable;
-import static com.example.dsa2_project.MainActivity.campuses;
-import static com.example.dsa2_project.MainActivity.dbHelper;
 import static com.example.dsa2_project.MainActivity.favoriteList;
-import static com.example.dsa2_project.MainActivity.favoritesTable;
-import static com.example.dsa2_project.MainActivity.places;
+import static com.example.dsa2_project.MainActivity.placelistbypid;
+import static com.example.dsa2_project.MainActivity.users;
 
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -35,15 +34,27 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.dsa2_project.API.Auth;
+import com.example.dsa2_project.API.Retrofitinstance;
+import com.example.dsa2_project.API.load.loadReviewRequest;
+import com.example.dsa2_project.API.load.loadReviewsResponse;
 import com.example.dsa2_project.Location.Campus;
 import com.example.dsa2_project.Location.Place;
+import com.example.dsa2_project.Location.Reviews;
 import com.example.dsa2_project.MainActivity;
 import com.example.dsa2_project.Profile.ProfileActivity;
 import com.example.dsa2_project.R;
 import com.example.dsa2_project.Search.SearchActivity;
-import com.example.dsa2_project.Database.Tables.PlaceTable;
+
+
+
 
 import java.util.Collections;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -52,6 +63,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private String campusName;
 
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private Runnable pending;
     Campus South;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -226,13 +239,10 @@ public class HomeActivity extends AppCompatActivity {
 
 
         boolean isFav = false;
-        for (Place fav : favoriteList) {
-            if (fav.getName().equalsIgnoreCase(p.getName())) {
-                isFav = true;
-                break;
-            }
-        }
-        btnFavorite.setSelected(isFav);
+
+
+
+        btnFavorite.setSelected(p.isFavorite());
 
         placeName.setText(p.getName());
         placeLocation.setText(String.valueOf(p.getPrice_range())+" "+"tl");
@@ -241,25 +251,36 @@ public class HomeActivity extends AppCompatActivity {
             v.setSelected(newState);
 
             if (newState) {
-                boolean alreadyExists = false;
-                for (Place fav : favoriteList) {
+             //   boolean alreadyExists = false;
+               /* for (Place fav : favoriteList) {
                     if (fav.getName().equalsIgnoreCase(p.getName())) {
                         alreadyExists = true;
                         break;
-                    }
+                    */
+                if(!p.isFavorite()) {
+                    p.setFavorite(newState);
                 }
-                if (!alreadyExists) {
+                }
+               /* if (!alreadyExists) {
                     favoriteList.add(p);
                     if (MainActivity.currentUser != null) {
-                        favoritesTable.addFavorite(MainActivity.currentUser.getSTUid(), p.getPid());
+                        //favoritesTable.addFavorite(MainActivity.currentUser.getSTUid(), p.getPid());
                     }
                 }
-            } else {
-                favoriteList.removeIf(fav -> fav.getName().equalsIgnoreCase(p.getName()));
+            }*/
+            else {
+                p.setFavorite(newState);
+                /*favoriteList.removeIf(fav -> fav.getName().equalsIgnoreCase(p.getName()));
                 if (MainActivity.currentUser != null) {
                     favoritesTable.removeFavorite(MainActivity.currentUser.getSTUid(), p.getPid());
-                }
+                }*/
             }
+
+
+            if (pending != null) handler.removeCallbacks(pending);
+            pending = () -> sendFavorite(MainActivity.currentUser.getSTUid(),p.getPid(), p.isFavorite());
+            handler.postDelayed(pending, 1000);
+
         });
 
         for (int i = 0; i < p.getStars(); i++) {
@@ -280,10 +301,44 @@ public class HomeActivity extends AppCompatActivity {
         // Make the item clickable and open Details page
         itemView.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, PlaceDetailsActivity.class);
-            intent.putExtra("PLACE_NAME", p.getName());
-            intent.putExtra("PLACE_STARS", p.getStars());
             intent.putExtra("PLACE", p.getPid());
 
+            Place place = placelistbypid.get(p.getPid());
+            int pid = place.getPid();
+            Auth api = Retrofitinstance.getservice();
+            api.loadReviews(new loadReviewRequest(pid)).enqueue(new Callback<List<loadReviewsResponse>>() {
+
+                @Override
+                public void onResponse(Call<List<loadReviewsResponse>> call, Response<List<loadReviewsResponse>> response){
+                    if(response.isSuccessful() && response.body()!=null){
+                        List<loadReviewsResponse> reviews = response.body();
+                        for (loadReviewsResponse r : reviews){
+
+                            //  Log.d("",""+r.getSTUid());
+                            Reviews review = new Reviews(r.getReview(), r.getRating(), users.get(r.getSTUid()), placelistbypid.get(r.getPid()));
+                            review.setrid(r.getRid());
+                            int id = review.getrid();
+                            if(!place.getReviewList().search(id)) {
+                                placelistbypid.get(r.getPid()).addReview(review);
+                            }
+                        }
+
+                        Log.d("reviews are loaded", ""+response.code());
+
+                    }
+                    else{
+                        Log.d("didnt load reviews , unsuccessfull response", "code=" + response.code());
+                    }
+                }
+                public void onFailure( Call <List<loadReviewsResponse>> call, Throwable t){
+                    Log.d("didnt load reviews , error", "code=" + t.getMessage());
+                }
+
+            });
+
+            //intent.putExtra("PLACE_NAME", p.getName());
+           // intent.putExtra("PLACE_STARS", p.getStars());
+                Log.d("pid", " "+p.toString());
 
             startActivity(intent);
         });
@@ -291,6 +346,12 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+
+    public void sendFavorite(int stuid,int Pid, boolean isFavorite){
+
+
+
+    }
     private void showAddPlaceDialog() {
         // Create the dialog
         Dialog dialog = new Dialog(this);
@@ -330,22 +391,23 @@ public class HomeActivity extends AppCompatActivity {
             double ratingPutIn = rating.getRating();
 
 
-            String Location_Link="";
+       /*     String Location_Link=""; for now
             Place p = new Place();
 
-            for (Campus c : campuses) {
-                if (c.getName().equalsIgnoreCase(campusName)) {
-                     p = new Place(Name,c,type,price,(int)rating.getRating());
+            campuseslist.forEach((key,value)->{
+                if (value.getName().equalsIgnoreCase(campusName)) {
+                    p = new Place(Name,value,type,price,(int)rating.getRating());
                     PlaceTable placeTable = new PlaceTable(dbHelper);
-                  int newID=  placeTable.insert(Name,campusTable.getCidByName(c.getName()),type,price,(int)ratingPutIn,Location_Link);
+                    int newID=  placeTable.insert(Name,campusTable.getCidByName(c.getName()),type,price,(int)ratingPutIn,Location_Link);
                     p.setPid( newID);
                     c.addLocation(p);
                 }
-            }
+            });
+           */
 
-            HomePageList.add(p);
-            places.insert(p);
-            MainActivity.lookupByName.put(p.getName().trim().toLowerCase(),p);
+          //  HomePageList.add(p);
+          //  places.insert(p);
+          //  MainActivity.lookupByName.put(p.getName().trim().toLowerCase(),p);
 
             dialog.dismiss();
             loadPlaces("All");
